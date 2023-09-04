@@ -1,29 +1,54 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
+    <ion-split-pane contentId="left-content">
+      <ion-nav [root]="rootPage1" name="panel1">
+        <ion-list>
+          <ion-item>
+            <ion-icon name="star" slot="start"></ion-icon>
+            <ion-label>Facial Expression</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="star" slot="start"></ion-icon>
+            <ion-label>Body Gestures</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="star" slot="start"></ion-icon>
+            <ion-label>Tune of voice</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="star" slot="start"></ion-icon>
+            <ion-label>Speach</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="star" slot="start"></ion-icon>
+            <ion-label>Routines</ion-label>
           </ion-item>
         </ion-list>
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
+      </ion-nav>
+    </ion-split-pane>
+  
+    <ion-split-pane contentId="right-content">
+      <ion-nav [root]="rootPage2" name="panel2">
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let item of expressions; let index">
+              <ion-avatar slot="start">
+                <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+              </ion-avatar>
+              <ion-label>{{ item }}</ion-label>
+            </ion-item>
+          </ion-list>
+          <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-content>
+      </ion-nav>
+      <ion-nav [root]="rootPage3" name="panel3"></ion-nav>
+    </ion-split-pane>
+
+
+    //pagina x
+
   </ion-split-pane>
 </ion-app>
