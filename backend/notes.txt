@@ -1,0 +1,90 @@
+/// ALL THE DETAILS ARE SPECIFIC TO MACOS
+
+** Created Python virtual environment to install Flask
+
+https://python.land/virtual-environments/virtualenv
+python -m venv <directory>
+python -m venv venv
+
+** Activate virtual environment
+
+https://python.land/virtual-environments/virtualenv
+source venv/bin/activate
+
+
+** Install mongob community (MacOS)
+
+Pre-requisite: install brew package
+brew tap mongodb/brew
+brew update
+brew install mongodb-community@7.0 (check official website for latest version available https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/)
+
+** Run mongodb (installed with brew MacOS)
+
+brew services start mongodb-community
+To verify mongodb was starred: brew services list
+
+** Connect and use mongodb
+Open new terminal and run: mongosh
+
+** Stop mongodb (installed with brew MacOS)
+
+brew services stop mongodb-community@7.0
+
+** mongodb commands/helpers
+
+https://www.mongodb.com/developer/products/mongodb/cheat-sheet/
+
+https://stackoverflow.com/questions/24985684/mongodb-show-all-contents-from-all-collections
+
+https://stackoverflow.com/questions/13827915/location-of-the-mongodb-database-on-mac
+
+** Run flask app
+python3 app.py
+
+** Pymongo
+https://stackoverflow.com/questions/22885593/importerror-no-module-named-pymongo
+
+https://www.w3schools.com/python/python_mongodb_insert.asp
+
+https://www.mongodb.com/developer/products/mongodb/cheat-sheet/
+
+https://www.w3schools.com/python/python_mongodb_insert.asp
+
+https://pymongo.readthedocs.io/en/stable/tutorial.html
+
+https://www.shellhacks.com/mongodb-show-collection-data-mongo-shell/
+
+https://pymongo.readthedocs.io/en/stable/examples/datetimes.html
+
+** Angular aid
+https://stackoverflow.com/questions/47848778/parameter-implicitly-has-an-any-type
+
+https://github.com/CODEZ-UP/AngularFlask/blob/master/src/app/app.component.ts
+
+https://codezup.com/integrate-angular-with-flask-python-tutorial/
+
+
+** Upload files to mongodb
+https://www.freecodecamp.org/news/gridfs-making-file-uploading-to-mongodb/
+
+https://stackoverflow.com/questions/13907509/how-do-i-save-a-file-to-mongodb
+
+https://pixijs.download/dev/docs/PIXI.AnimatedSprite.html
+
+https://www.educative.io/blog/yaml-tutorial
+
+https://python.land/data-processing/python-yaml#Writing_or_dumping_YAML_to_a_file
+
+https://zetcode.com/python/yaml/
+
+https://stackoverflow.com/questions/40015103/upload-file-size-16mb-to-mongodb
+
+
+** Backup, export, and rename DB
+https://www.kindacode.com/snippet/mongodb-renaming-a-database-with-command-line/
+
+https://stackoverflow.com/questions/8857276/how-do-i-drop-a-mongodb-database-from-the-command-line
+
+https://onelinerhub.com/mongodb/how-to-export-an-entire-mongodb-database
+
