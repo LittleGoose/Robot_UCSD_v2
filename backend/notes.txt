@@ -11,7 +11,6 @@ python -m venv venv
 https://python.land/virtual-environments/virtualenv
 source venv/bin/activate
 
-
 ** Install mongob community (MacOS)
 
 Pre-requisite: install brew package
@@ -87,4 +86,7 @@ https://www.kindacode.com/snippet/mongodb-renaming-a-database-with-command-line/
 https://stackoverflow.com/questions/8857276/how-do-i-drop-a-mongodb-database-from-the-command-line
 
 https://onelinerhub.com/mongodb/how-to-export-an-entire-mongodb-database
+
+** YAML file creation in python
+https://techinima.com/python/create-a-yaml-file-in-python/
 
