@@ -13,32 +13,40 @@
             <ion-label></ion-label>
           </ion-item>
           <!--Segundo Item-->
-          <ion-item>
+          <ion-item (click)="funcionalidad()" >
+            <ion-button class="f-exp" slot="end" color="light">Body Gestures</ion-button>
             <div class="circulo_morado">
               <ion-icon name="tu-icono" slot="start"></ion-icon>
             </div>
-            <ion-label> Body Gestures</ion-label>
+            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
+            <ion-label></ion-label>
           </ion-item>
           <!--Tercer Item-->
-          <ion-item>
+          <ion-item (click)="funcionalidad()" >
+            <ion-button class="f-exp" slot="end" color="light">Tone of Voice</ion-button>
             <div class="circulo_verde">
               <ion-icon name="tu-icono" slot="start"></ion-icon>
             </div>
-            <ion-label>Tune of voice</ion-label>
+            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
+            <ion-label></ion-label>
           </ion-item>
           <!--Cuarto Item-->
-          <ion-item>
+          <ion-item (click)="funcionalidad()" >
+            <ion-button class="f-exp" slot="end" color="light">Speach</ion-button>
             <div class="circulo_amarillo">
               <ion-icon name="tu-icono" slot="start"></ion-icon>
             </div>
-            <ion-label>Speach</ion-label>
+            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
+            <ion-label></ion-label>
           </ion-item>
           <!--Quinto Item-->
-          <ion-item>
-            <div class="circulo" style="background-color:#ea8d37">
+          <ion-item (click)="funcionalidad()" >
+            <ion-button class="f-exp" slot="end" color="light">Routines</ion-button>
+            <div class="circulo">
               <ion-icon name="tu-icono" slot="start"></ion-icon>
             </div>
-            <ion-label>Routines</ion-label>
+            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
+            <ion-label></ion-label>
           </ion-item>
         </ion-list>
       </ion-nav>
@@ -52,7 +60,7 @@
                       (ionScrollEnd)="handleScrollEnd()"
                       class="side2" >
           <ion-list class="my-componente2">
-            <ion-item *ngFor="let item of expressions; let index">
+            <ion-item *ngFor="let item of options; let index">
               <ion-avatar slot="start">
                 <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
               </ion-avatar>

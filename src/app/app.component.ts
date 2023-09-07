@@ -19,9 +19,13 @@ export class AppComponent implements OnInit {
   rootPage2 = 'Panel2Page';
   rootPage3 = 'Panel3Page';
 
-  names:string[] = ["Happy","Sad","Mad","Angry","Crazy","hola","hola","hola","hola","hola","hola","hola","hola","hola","hola"];
+  facial_expresions:string[] = ["Happy","Sad","Mad","Angry","Crazy"];
+  body_gestures:string[] = ["Nod","Turn","Walk","Side_head","Bow"];
+  tone_of_voice:string[] = ["Excited","Timid","Sad","Slow","Fast"];
+  speach:string[] = ["Listen","Talk","Hum","Scream","Agree"];
+  routines:string[] = ["Dance_1","Conversation_1","Coffe_talk_2","Apologyze","Aggreable_2"];
 
-  expressions:string[] = [];
+  options:string[] = [];
 
   ngOnInit() {
     this.generateItems();
@@ -29,9 +33,29 @@ export class AppComponent implements OnInit {
 
   private generateItems() {
     
-    let totalNames = this.names.length;
-    for (let i = 0; i < totalNames; i++) {
-      this.expressions.push(` ${this.names[i]}`);
+    let totalexpressions = this.facial_expresions.length;
+    for (let i = 0; i < totalexpressions; i++) {
+      this.options.push(` ${this.facial_expresions[i]}`);
+    }
+
+    let totalgestures = this.body_gestures.length;
+    for (let i = 0; i < totalgestures; i++) {
+      this.options.push(` ${this.body_gestures[i]}`);
+    }
+
+    let totalvoices = this.tone_of_voice.length;
+    for (let i = 0; i < totalvoices; i++) {
+      this.options.push(` ${this.tone_of_voice[i]}`);
+    }
+
+    let totalspeach = this.speach.length;
+    for (let i = 0; i < totalspeach; i++) {
+      this.options.push(` ${this.speach[i]}`);
+    }
+
+    let totalroutines = this.routines.length;
+    for (let i = 0; i < totalroutines; i++) {
+      this.options.push(` ${this.routines[i]}`);
     }
     
   }
