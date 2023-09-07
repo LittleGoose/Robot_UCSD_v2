@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { OnInit } from '@angular/core';
+import { ScrollDetail } from '@ionic/angular';
 
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
   rootPage2 = 'Panel2Page';
   rootPage3 = 'Panel3Page';
 
-  names:string[] = ["Happy","Sad","Mad","Angry","Crazy"];
+  names:string[] = ["Happy","Sad","Mad","Angry","Crazy","hola","hola","hola","hola","hola","hola","hola","hola","hola","hola"];
 
   expressions:string[] = [];
 
@@ -42,5 +43,22 @@ export class AppComponent implements OnInit {
     }, 500);
   }
 
+  funcionalidad(){}
+
+  // Aqui inica las funciones para hacer el Scroll
+  handleScrollStart() {
+    console.log('scroll start');
+  }
+
+  handleScroll(ev: CustomEvent<ScrollDetail>) {
+    console.log('scroll', ev.detail);
+  }
+
+  handleScrollEnd() {
+    console.log('scroll end');
+  }
+
+  // Aqui termina las funciones para hacer el scroll
   constructor() {}
+  
 }
