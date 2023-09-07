@@ -1,3 +1,12 @@
+$colors: (
+  Blue:    #488aff,
+  Green:  #32db64,
+  Red:     #f53d3d,
+  White:      #f4f4f4,
+  dark:       #222
+
+);
+
 ion-menu ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #e78bc2));
 }
@@ -103,15 +112,6 @@ ion-icon {
 
 ion-menu.md ion-list {
   padding: 20px 0;
-}
-
-ion-menu.md ion-note {
-  margin-bottom: 30px;
-}
-
-ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
 }
 
 ion-menu.md ion-list#inbox-list {
