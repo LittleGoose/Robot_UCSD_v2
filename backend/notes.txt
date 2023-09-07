@@ -86,6 +86,8 @@ https://stackoverflow.com/questions/8857276/how-do-i-drop-a-mongodb-database-fro
 
 https://onelinerhub.com/mongodb/how-to-export-an-entire-mongodb-database
 
+https://www.kindacode.com/snippet/mongodb-import-export-a-database-with-command-line/
+
 ** YAML file creation in python
 https://techinima.com/python/create-a-yaml-file-in-python/
 
