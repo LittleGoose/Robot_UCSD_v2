@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ScrollDetail } from '@ionic/angular';
 
+import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  selector: 'app-sidebar-second',
+  templateUrl: './sidebar-second.component.html',
+  styleUrls: ['./sidebar-second.component.scss'],
 })
-export class SidebarComponent  implements OnInit {
+export class SidebarSecondComponent  implements OnInit {
 
-  rootPage1 = 'Panel1Page';
   rootPage2 = 'Panel2Page';
   rootPage3 = 'Panel3Page';
 
@@ -64,7 +63,7 @@ export class SidebarComponent  implements OnInit {
     }, 500);
   }
 
-  funcionalidad(){}
+  
 
   // Aqui inica las funciones para hacer el Scroll
   handleScrollStart() {

@@ -1,4 +1,14 @@
 <ion-app>
-  <app-sidebar></app-sidebar>
-  <app-block-component></app-block-component>
+  <ion-split-pane contentId="main-content">
+    <!-- AQUI COMIENZA EL PRIMER SIDEBAR -->
+      <ion-split-pane class="my-componente3" contentId="left-content">
+        <app-sidebar-first></app-sidebar-first>
+      </ion-split-pane>
+      <!-- AQUI COMIENZA EL SEGUNDO SIDEBAR -->
+      <ion-split-pane contentId="right-content">
+        <app-sidebar-second></app-sidebar-second>
+      </ion-split-pane>
+      <!-- AQUI COMIENZA EL AREA DE RUTINA -->
+      <app-block-component></app-block-component>
+    </ion-split-pane>
 </ion-app>

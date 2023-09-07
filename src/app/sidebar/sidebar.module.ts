@@ -2,17 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
-import { SidebarComponent } from './sidebar.component';
+import { SidebarFirstComponent } from '../sidebar-first/sidebar-first.component';
+import { SidebarSecondComponent } from '../sidebar-second/sidebar-second.component';
 
 
 @NgModule({
-  declarations: [SidebarComponent],
+  declarations: [SidebarFirstComponent, SidebarSecondComponent],
   imports: [
     CommonModule,
     IonicModule,
   ],
   exports: [
-    SidebarComponent
+    SidebarFirstComponent,
+    SidebarSecondComponent,
   ],
 })
 export class SidebarModule { }
