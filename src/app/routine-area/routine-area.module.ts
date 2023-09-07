@@ -14,4 +14,4 @@ import { BlockComponentComponent } from '../block-component/block-component.comp
     BlockComponentComponent
   ],
 })
-export class TestModuleModule { }
+export class RoutineAreaModule { }

@@ -39,5 +39,4 @@ export class Speech extends Block {
 export class Routines_Blocks extends Block {
 
   routine_id: number = 0;
-    
 }
