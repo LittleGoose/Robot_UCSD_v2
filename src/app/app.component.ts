@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { RoutineAreaModule } from './routine-area/routine-area.module';
+
 import { OnInit } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 
@@ -12,8 +14,9 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
+  imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule, RoutineAreaModule],
 })
+
 export class AppComponent implements OnInit {
   rootPage1 = 'Panel1Page';
   rootPage2 = 'Panel2Page';
