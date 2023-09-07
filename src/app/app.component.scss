@@ -1,29 +1,121 @@
+$colors: (
+  Blue:    #488aff,
+  Green:  #32db64,
+  Red:     #f53d3d,
+  White:      #f4f4f4,
+  dark:       #222
+
+);
+
 ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --background: var(--ion-item-background, var(--ion-background-color, #e78bc2));
 }
 
 ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
+  --padding-start: 5px;
+  --padding-end: 5px;
   --padding-top: 20px;
   --padding-bottom: 20px;
+}
+
+
+.f-exp ion-button {
+  width: 100%;
+  height: 100px;  /*100%*/
+  font-size: 1rem;
+  
+}
+
+.f-exp{
+  width: 100px; /* Ancho personalizado en píxeles */
+  height: 70px; /* Alto personalizado en píxeles */
+  font-size: 9px; 
+  
+}
+
+.f-exp ion-label {
+  font-size: 1rem; /* Centrar el texto horizontalmente */
+}
+
+
+/*  CSS DEL ICONO DEL CIRCULO*/
+.circulo_azul {
+  width: 30px; /* Ancho del círculo */
+  height: 30px; /* Alto del círculo */
+  background-color: #007bff; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Color del ícono */
+}
+
+.circulo_morado {
+  width: 30px; /* Ancho del círculo */
+  height: 30px; /* Alto del círculo */
+  background-color: #e335dd; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Color del ícono */
+}
+
+.circulo_verde {
+  width: 30px; /* Ancho del círculo */
+  height: 30px; /* Alto del círculo */
+  background-color: #6be765; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Color del ícono */
+}
+
+.circulo_amarillo {
+  width: 30px; /* Ancho del círculo */
+  height: 30px; /* Alto del círculo */
+  background-color: #dfe560; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Color del ícono */
+}
+
+.circulo_naranja {
+  width: 30px; /* Ancho del círculo */
+  height: 30px; /* Alto del círculo */
+  background-color: #eea53f; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Color del ícono */
+}
+
+.circulo {
+  width: 30px; /* Ancho del círculo */
+  height: 30px; /* Alto del círculo */
+  background-color: #ffffff; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Color del ícono */
+  
+}
+
+ion-icon {
+  font-size: 24px; /* Tamaño del ícono */
 }
 
 ion-menu.md ion-list {
   padding: 20px 0;
 }
 
-ion-menu.md ion-note {
-  margin-bottom: 30px;
-}
-
-ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
-}
-
 ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+  border-bottom: 1px solid var(--ion-color-step-150, #b50d80);
 }
 
 ion-menu.md ion-list#inbox-list ion-list-header {
@@ -36,9 +128,9 @@ ion-menu.md ion-list#inbox-list ion-list-header {
 ion-menu.md ion-list#labels-list ion-list-header {
   font-size: 16px;
 
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 
-  color: #757575;
+  color: #2416e6;
 
   min-height: 26px;
 }
@@ -58,7 +150,7 @@ ion-menu.md ion-item.selected ion-icon {
 }
 
 ion-menu.md ion-item ion-icon {
-  color: #616e7e;
+  color: #0fe424;
 }
 
 ion-menu.md ion-item ion-label {
@@ -90,7 +182,7 @@ ion-menu.ios ion-item.selected ion-icon {
 
 ion-menu.ios ion-item ion-icon {
   font-size: 24px;
-  color: #73849a;
+  color: #cfdc1a;
 }
 
 ion-menu.ios ion-list#labels-list ion-list-header {
@@ -104,7 +196,7 @@ ion-menu.ios ion-note {
 }
 
 ion-menu.ios ion-note {
-  margin-bottom: 8px;
+  margin-bottom: 100px;
 }
 
 ion-note {
