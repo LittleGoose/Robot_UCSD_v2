@@ -10,13 +10,13 @@ app = Flask(__name__)
 client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
 db = client["ROBOT_UCSD"] # Access/creation of data base
 
-expressions = db["expressions"] # Creation/Access of table Expressions
+facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
 
 # Dummy entry for Expressions table
 # dummy_expression_post = {
-#     "_id": "E1",
+#     "id_in_robot": "DummyId",
 #     "expression_name": "Happy",
-#        "description": "Expression for happiness",
+#     "description": "Expression for happiness",
 #     "animation": """import { AnimatedSprite, Texture } from 'pixi.js';
 #                     const alienImages = [
 #                         'image_sequence_01.png',
@@ -33,37 +33,37 @@ expressions = db["expressions"] # Creation/Access of table Expressions
 #                     """,
 #         "status": "Active"
 # }
-# expressions.insert_one(dummy_expression_post)
+# facial_expressions.insert_one(dummy_expression_post)
 
-movements = db["movements"] # Creation/Access of table Movements
+body_gestures = db["body_gestures"] # Creation/Access of table Movements
 
 # Dummy entry for Movements table
 # dummy_movements_post = {
-#     "_id": "M1",
+#     "id_in_robot": "DummyId",
 #     "movement_name": "Nod",
 #     "description": "Nod to the user",
 #     "status": "Active"
 # }
-# movements.insert_one(dummy_movements_post)
+# body_gestures.insert_one(dummy_movements_post)
 
 tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
 
 # Dummy entry for Tones of Voice table
 # dummy_tones_post = {
-#     "_id": "V1",
+#     "id_in_robot": "DummyId",
 #     "tone_name": "Energetic",
 #     "description": "Eskeler mode",
 #     "status": "Unactive"
 # }
 # tones_of_voice.insert_one(dummy_tones_post)
 
-speech = db["speech_elements"] # Creation/Access of table Speech
+speech_elements = db["speech_elements"] # Creation/Access of table Speech
 
 # Dummy entry for Speech table
 # dummy_speech_post = {
-#     "_id": "S1",
+#     "id_in_robot": "DummyId",
 #     "element_name": "Talk",
-#     "text": "Lol",
+#     "description": "Lol",
 #     "status": "Active"
 # }
 # speech_elements.insert_one(dummy_speech_post)
@@ -73,19 +73,31 @@ routines = db["routines"] #Creation/Access of table Routines
 # Dummy entry for Routines table
 # users = [{'name': 'John Doe', 'occupation': 'gardener'},
 #          {'name': 'Lucy Black', 'occupation': 'teacher'}]
-# encoded = yaml.dump(users)
+
 # dummy_routine_post = {
-#     "_id": "R1",
 #     "user": "User1",
 #     "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
 #     "name": "Dance_1",
-#     "file": encoded}
+#     "file": str(users)}
+
 # routines.insert_one(dummy_routine_post)
 
 # Main app
 @app.route('/', methods=['GET'])
 def root():
     return "Hello from Flask"
+
+
+@app.route("/create_yaml", methods=['GET'])
+def create_yaml():
+    data = {
+        "Block_1": {"Talk" : 1 , "Walk" : 3, "Energetic" : 2, "Happy": 3},
+        "Block_2": {"Nod" : 1 , "Hum" : 3},
+        "Block_3": {"Talk" : 2 , "Walk" : 2, "Energetic" : 2, "Happy": 2},
+        "Block_4": {"Listen" : 3}
+    }
+
+    yaml = yaml.dump(data)
 
 if __name__== "__main__":
     app.run()
@@ -107,6 +119,3 @@ if __name__== "__main__":
 # def delete(id):
 #     todos.delete_one({"_id": ObjectId(id)})
 #     return redirect(url_for('root'))
-
-if __name__== "__main__":
-    app.run()

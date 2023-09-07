@@ -31,7 +31,6 @@ Open new terminal and run: mongosh
 brew services stop mongodb-community@7.0
 
 ** mongodb commands/helpers
-
 https://www.mongodb.com/developer/products/mongodb/cheat-sheet/
 
 https://stackoverflow.com/questions/24985684/mongodb-show-all-contents-from-all-collections
