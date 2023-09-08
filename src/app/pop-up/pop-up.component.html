@@ -4,9 +4,8 @@
     <img slot="end" class="cross_button" src="../../assets/icon/cross.png" style="display:inline-block" (click)="cancel()"/>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="stacked">Enter your name</ion-label>
-    <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
-  </ion-item>
+<ion-content class="pop-up-content">
+  <ion-text>¿What level would you like “Serious”?</ion-text>
+  <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true" [pinFormatter]="pinFormatter"></ion-range>
+  <ion-img class="face" src="../../assets/face.png"></ion-img>
 </ion-content>

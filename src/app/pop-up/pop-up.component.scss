@@ -23,3 +23,16 @@
     height: 3%;
     margin-right:3%;
   }
+
+  ion-content {
+    --align-items: center;
+    --padding-start: 5%;
+    --padding-end: 5%;
+    --padding-top: 3%;
+  }
+
+  .face{
+    width: 50%;
+    height: 50%;
+    align-content: center;
+  }

@@ -19,4 +19,28 @@ export class PopUpComponent {
     this.modalController.dismiss(null, 'cancel');
   }
 
+  pinFormatter(value: number) {
+
+    let level : string = "";
+
+    switch(value) { 
+      case 0: { 
+         level = "Low";
+         break; 
+      } 
+      case 1: { 
+        level = "Medium";
+         break; 
+      } 
+      case 2: { 
+        level = "High";
+        break; 
+     } 
+      default: { 
+         break; 
+      } 
+   } 
+    return level;
+  }
+
 }
