@@ -1,117 +1,14 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-     <!-- AQUI COMIENZA EL PRIMER SIDE -->
-    <ion-split-pane class="my-componente3" contentId="left-content">
-      <ion-nav [root]="rootPage1" name="panel1">
-        <ion-list class="my-componente1">
-          <ion-item (click)="funcionalidad()" >
-            <ion-button class="f-exp" slot="end" color="light">Facial Expresions</ion-button>
-            <div class="circulo_azul">
-              <ion-icon name="tu-icono" slot="start"></ion-icon>
-            </div>
-            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
-            <ion-label></ion-label>
-          </ion-item>
-          <!--Segundo Item-->
-          <ion-item (click)="funcionalidad()" >
-            <ion-button class="f-exp" slot="end" color="light">Body Gestures</ion-button>
-            <div class="circulo_morado">
-              <ion-icon name="tu-icono" slot="start"></ion-icon>
-            </div>
-            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
-            <ion-label></ion-label>
-          </ion-item>
-          <!--Tercer Item-->
-          <ion-item (click)="funcionalidad()" >
-            <ion-button class="f-exp" slot="end" color="light">Tone of Voice</ion-button>
-            <div class="circulo_verde">
-              <ion-icon name="tu-icono" slot="start"></ion-icon>
-            </div>
-            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
-            <ion-label></ion-label>
-          </ion-item>
-          <!--Cuarto Item-->
-          <ion-item (click)="funcionalidad()" >
-            <ion-button class="f-exp" slot="end" color="light">Speach</ion-button>
-            <div class="circulo_amarillo">
-              <ion-icon name="tu-icono" slot="start"></ion-icon>
-            </div>
-            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
-            <ion-label></ion-label>
-          </ion-item>
-          <!--Quinto Item-->
-          <ion-item (click)="funcionalidad()" >
-            <ion-button class="f-exp" slot="end" color="light">Routines</ion-button>
-            <div class="circulo">
-              <ion-icon name="tu-icono" slot="start"></ion-icon>
-            </div>
-            <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
-            <ion-label></ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-nav>
+    <!-- AQUI COMIENZA EL PRIMER SIDEBAR -->
+      <ion-content contentId="left-content">
+        <app-sidebar-first></app-sidebar-first>
+      </ion-content>
+      <!-- AQUI COMIENZA EL SEGUNDO SIDEBAR -->
+      <ion-content contentId="center-content">
+        <app-sidebar-second></app-sidebar-second>
+      </ion-content>
+      <!-- AQUI COMIENZA EL AREA DE RUTINA -->
+        <app-block-component></app-block-component>
     </ion-split-pane>
-  <!-- AQUI COMIENZA EL SEGUNDO SIDE -->
-    <ion-split-pane contentId="right-content">
-      <ion-nav [root]="rootPage2" name="panel2">
-        <ion-content  [scrollEvents]="true"
-                      (ionScrollStart)="handleScrollStart()"
-                      (ionScroll)="handleScroll($any($event))"
-                      (ionScrollEnd)="handleScrollEnd()"
-                      class="side2" >
-          <ion-list class="my-componente2">
-            <ion-item *ngFor="let item of options; let index">
-              <ion-avatar slot="start">
-                <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
-              </ion-avatar>
-              <ion-label>{{ item }}</ion-label>
-            </ion-item>
-          </ion-list>
-          <!-- (ionInfinite)="onIonInfinite($event)"  -->
-          <ion-infinite-scroll >
-            <ion-infinite-scroll-content></ion-infinite-scroll-content>
-          </ion-infinite-scroll>
-        </ion-content>
-      </ion-nav>
-      <ion-nav [root]="rootPage3" name="panel3"></ion-nav>
-
-       <!-- AQUI COMIENZA EL TERCER SIDE -->
-    </ion-split-pane>
-      <app-block-component></app-block-component>
-      <ion-grid class="ion-text-center ion-align-items-center">
-        <!-- Fila para los botones -->
-        <ion-row>
-          <ion-col size="12">
-            <ion-button size="large" colors="danger">Talk</ion-button>
-            <ion-button size="large" colors="danger">Walk</ion-button>
-            <ion-button size="large" color="tertiary">Energetic</ion-button>
-            <ion-button size="large" color="success">Happy</ion-button>
-
-          </ion-col>
-        </ion-row>
-
-        <!-- Fila para el botón personalizado -->
-        <ion-row>
-          <ion-col size="9.4">
-             <ion-button size="large" color="warning">Nod</ion-button>
-             <ion-button size="large" color="warning">Hum</ion-button>
-          </ion-col>
-        </ion-row>
-
-      <ion-row>
-        <ion-col size="9.5">
-          <ion-button size="large" color="danger">Sub_rutine_1</ion-button>
-
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="8.8">
-          <ion-button size="large" color="danger">Listen</ion-button>
-
-        </ion-col>
-      </ion-row>
-
-      </ion-grid>
-  </ion-split-pane>
 </ion-app>
