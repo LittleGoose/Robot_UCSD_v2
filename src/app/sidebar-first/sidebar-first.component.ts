@@ -13,6 +13,10 @@ export class SidebarFirstComponent  implements OnInit {
 
   ngOnInit() {}
 
-  funcionalidad(){}
+  funcionalidad_1(){}
+  funcionalidad_2(){}
+  funcionalidad_3(){}
+  funcionalidad_4(){}
+  funcionalidad_5(){}
 
 }
