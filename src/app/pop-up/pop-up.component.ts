@@ -10,8 +10,6 @@ import { ModalController } from '@ionic/angular';
 })
 export class PopUpComponent {
 
-  @ViewChild(IonModal) modal: IonModal;
-
   name: string = "";
 
   constructor(private modalController: ModalController){ }
