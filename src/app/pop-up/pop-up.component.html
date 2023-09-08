@@ -5,7 +5,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="pop-up-content">
-  <ion-text>¿What level would you like “Serious”?</ion-text>
-  <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true" [pinFormatter]="pinFormatter"></ion-range>
-  <ion-img class="face" src="../../assets/face.png"></ion-img>
+  <div class="ion-text-center">
+    <ion-text>¿What level would you like “Serious”?</ion-text>
+    <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true" [pinFormatter]="pinFormatter"></ion-range>
+    <ion-img class="face" src="../../assets/face.png"></ion-img>
+    <ion-button class="button_save" colors="success">Save Changes</ion-button>
+  </div>
 </ion-content>

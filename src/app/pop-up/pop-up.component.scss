@@ -15,7 +15,7 @@
   }
   
   ion-toolbar {
-    --background: #c897d8;
+    --background: green;
   }
 
   .cross_button{
@@ -32,7 +32,11 @@
   }
 
   .face{
-    width: 50%;
-    height: 50%;
+    width: 45%;
+    height: 45%;
     align-content: center;
+  }
+
+  .button_save{
+    padding-top: 5%;
   }
