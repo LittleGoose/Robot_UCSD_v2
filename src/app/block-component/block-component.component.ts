@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { PopUpService } from '../pop-up.service';
+import { PopUpComponent } from '../pop-up/pop-up.component';
+
 
 @Component({
   selector: 'app-block-component',
@@ -18,7 +22,9 @@ export class BlockComponentComponent  implements OnInit {
   block2: Send_block = new Send_block();
   block3: Send_block = new Send_block();
 
-  constructor() {
+  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+
+  constructor(private popUpService: PopUpService) {
     // Initialize the routine
     this.block1.name = "Serious";
     this.block1.level = 2;
@@ -30,10 +36,14 @@ export class BlockComponentComponent  implements OnInit {
 
     this.current_routine.array_block = [[this.block1, this.block2], [this.block3]];
 
-    console.log(this.current_routine.array_block);
-    
+    console.log(this.current_routine.array_block); 
   }
-
+  
   ngOnInit() {}
 
+  openPopUp(event: MouseEvent) {
+    if (event.detail === 2) {
+      this.popUpService.openModal();
+    }
+  }
 }

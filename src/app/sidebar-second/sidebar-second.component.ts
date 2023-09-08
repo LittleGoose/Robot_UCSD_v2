@@ -9,25 +9,22 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
   templateUrl: './sidebar-second.component.html',
   styleUrls: ['./sidebar-second.component.scss'],
 })
-export class SidebarSecondComponent  implements OnInit {
+export class SidebarSecondComponent implements OnInit {
 
-  rootPage2 = 'Panel2Page';
-  rootPage3 = 'Panel3Page';
+  facial_expresions: string[] = ["Happy", "Sad", "Mad", "Angry", "Crazy"];
+  body_gestures: string[] = ["Nod", "Turn", "Walk", "Side_head", "Bow"];
+  tone_of_voice: string[] = ["Excited", "Timid", "Sad", "Slow", "Fast"];
+  speach: string[] = ["Listen", "Talk", "Hum", "Scream", "Agree"];
+  routines: string[] = ["Dance_1", "Conversation_1", "Coffe_talk_2", "Apologyze", "Aggreable_2"];
 
-  facial_expresions:string[] = ["Happy","Sad","Mad","Angry","Crazy"];
-  body_gestures:string[] = ["Nod","Turn","Walk","Side_head","Bow"];
-  tone_of_voice:string[] = ["Excited","Timid","Sad","Slow","Fast"];
-  speach:string[] = ["Listen","Talk","Hum","Scream","Agree"];
-  routines:string[] = ["Dance_1","Conversation_1","Coffe_talk_2","Apologyze","Aggreable_2"];
-
-  options:string[] = [];
+  options: string[] = [];
 
   ngOnInit() {
     this.generateItems();
   }
 
   private generateItems() {
-    
+
     let totalexpressions = this.facial_expresions.length;
     for (let i = 0; i < totalexpressions; i++) {
       this.options.push(` ${this.facial_expresions[i]}`);
@@ -52,7 +49,7 @@ export class SidebarSecondComponent  implements OnInit {
     for (let i = 0; i < totalroutines; i++) {
       this.options.push(` ${this.routines[i]}`);
     }
-    
+
   }
 
   onIonInfinite(ev: any) {
