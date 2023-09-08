@@ -1,1 +1,17 @@
+.left-content {
+    max-width: 10%!important;
+}
 
+app-sidebar-second {
+    height: 100%; /* Set an appropriate height */
+    max-width: 50%!important;
+  }
+
+  ion-menu {
+    max-width: 50%!important;
+}
+
+.scrollable-content {
+    overflow: auto; /* Allow scrolling if content overflows */
+    max-height: 100%; /* Ensure content doesn't exceed the available space */
+  }

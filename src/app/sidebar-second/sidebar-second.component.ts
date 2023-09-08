@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
@@ -20,8 +21,6 @@ export class SidebarSecondComponent  implements OnInit {
   routines:string[] = ["Dance_1","Conversation_1","Coffe_talk_2","Apologyze","Aggreable_2"];
 
   options:string[] = [];
-
-  constructor() { }
 
   ngOnInit() {
     this.generateItems();
@@ -63,8 +62,6 @@ export class SidebarSecondComponent  implements OnInit {
     }, 500);
   }
 
-  
-
   // Aqui inica las funciones para hacer el Scroll
   handleScrollStart() {
     console.log('scroll start');
@@ -77,5 +74,7 @@ export class SidebarSecondComponent  implements OnInit {
   handleScrollEnd() {
     console.log('scroll end');
   }
+
+  constructor() { }
 
 }
