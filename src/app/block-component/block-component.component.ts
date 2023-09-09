@@ -14,36 +14,48 @@ import { PopUpComponent } from '../pop-up/pop-up.component';
 
 export class BlockComponentComponent  implements OnInit {
 
-  //currentBlock: Facial_Expression = new Facial_Expression();
-
   current_routine: Routines = new Routines();
 
   block1: Send_block = new Send_block();
   block2: Send_block = new Send_block();
   block3: Send_block = new Send_block();
 
-  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+  current_block: Send_block = new Send_block();
 
   constructor(private popUpService: PopUpService) {
     // Initialize the routine
-    this.block1.name = "Serious";
-    this.block1.level = 2;
+    this.block1.name = "Happy";
+    this.block1.level = 1;
+    this.block1.class = "facial_expression"
 
     this.block2.name = "Talk";
     this.block2.talk = "Hello";
+    this.block2.class = "speach"
 
     this.block3.name = "Hum";
 
     this.current_routine.array_block = [[this.block1, this.block2], [this.block3]];
+
+    this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
+      // Call your component's function or perform necessary actions
+      this.saveNewParameter(newBlock);
+    });
 
     console.log(this.current_routine.array_block); 
   }
   
   ngOnInit() {}
 
-  openPopUp(event: MouseEvent) {
+  openPopUp(event: MouseEvent, block: Send_block) {
     if (event.detail === 2) {
-      this.popUpService.openModal();
+      this.current_block = block;
+      this.popUpService.openModal(block); 
     }
+  }
+
+  saveNewParameter(block: Send_block){
+    this.current_block = block;
+    console.log(this.current_block);
+    console.log(this.block2);
   }
 }
