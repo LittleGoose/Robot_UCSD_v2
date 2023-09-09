@@ -49,8 +49,12 @@ print(speech_elements_entries)
 # print(yaml.dump(data))
 
 # Format
-# Block_1:
-#   Energetic: 2
+# Segment_1:
+#   Block_1:
+#       Type: facial_expression
+#       Level: 2
+
+
 #   Happy: 3
 #   Talk: kjehfsejrg
 #   Walk: 3
