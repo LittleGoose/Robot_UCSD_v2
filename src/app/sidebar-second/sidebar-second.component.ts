@@ -1,16 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-
+import { IonContent } from '@ionic/angular';
+import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { ScrollService } from '../shared.service';
 
 @Component({
   selector: 'app-sidebar-second',
   templateUrl: './sidebar-second.component.html',
   styleUrls: ['./sidebar-second.component.scss'],
 })
-export class SidebarSecondComponent implements OnInit {
+export class SidebarSecondComponent  implements OnInit {
+  @ViewChild('scrollContent', { static: true }) scrollContent!: IonContent;
+  @ViewChild(IonContent) ionContent!: IonContent;
 
+
+  //Esta parte es para hacer que funcione el scroll en dos componentes 
+  constructor(private scrollService: ScrollService) {}
+
+  getScrollPosition(): number {
+    return this.scrollService.getScrollPosition();
+  }
   facial_expresions: string[] = ["Happy", "Sad", "Mad", "Angry", "Crazy"];
   body_gestures: string[] = ["Nod", "Turn", "Walk", "Side_head", "Bow"];
   tone_of_voice: string[] = ["Excited", "Timid", "Sad", "Slow", "Fast"];
@@ -72,6 +83,9 @@ export class SidebarSecondComponent implements OnInit {
     console.log('scroll end');
   }
 
-  constructor() { }
+  
+  }
+  
 
-}
+  
+

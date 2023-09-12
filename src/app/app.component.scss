@@ -10,6 +10,11 @@ app-sidebar-second {
   ion-menu {
     max-width: 50%!important;
 }
+/* Parte que mofifica el Sidebar*/
+.parte_1{
+  width: 40%; /* Ajusta el ancho según tus necesidades */
+  height: 100%; /* Ajusta la altura según tus necesidades */
+}
 
 .scrollable-content {
     overflow: auto; /* Allow scrolling if content overflows */

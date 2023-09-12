@@ -1,5 +1,6 @@
-
-  <ion-content  [scrollEvents]="true"
+<ion-nav [root]="rootPage2" name="panel2">
+  <ion-content  #scrollContent
+                [scrollEvents]="true"
                 (ionScrollStart)="handleScrollStart()"
                 (ionScroll)="handleScroll($any($event))"
                 (ionScrollEnd)="handleScrollEnd()"
@@ -13,7 +14,10 @@
       </ion-item>
     </ion-list>
     <!-- (ionInfinite)="onIonInfinite($event)"  -->
-    <ion-infinite-scroll >
+    
+    <!--ion-infinite-scroll >
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll -->
   </ion-content>
+</ion-nav>
+<!-- ion-nav [root]="rootPage3" name="panel3"></ion-nav -->
