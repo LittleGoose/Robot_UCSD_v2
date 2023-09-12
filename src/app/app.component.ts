@@ -6,6 +6,8 @@ import { RoutineAreaModule } from './routine-area/routine-area.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { PopUpService } from './pop-up.service';
 
 import { OnInit } from '@angular/core';
 
@@ -17,7 +19,9 @@ import { OnInit } from '@angular/core';
   standalone: true,
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule, 
     RoutineAreaModule, 
-    SidebarModule],
+    SidebarModule,
+    FormsModule],
+  providers:[PopUpService],
 })
 
 export class AppComponent implements OnInit {
