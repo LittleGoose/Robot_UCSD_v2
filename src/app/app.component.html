@@ -6,7 +6,9 @@
       </ion-content>
       <!-- AQUI COMIENZA EL SEGUNDO SIDEBAR -->
       <ion-content contentId="center-content">
-        <app-sidebar-second></app-sidebar-second>
+        <ion-nav [root]="rootPage2" name="panel2">
+          <app-sidebar-second></app-sidebar-second>
+        </ion-nav>
       </ion-content>
       <!-- AQUI COMIENZA EL AREA DE RUTINA -->
         <app-block-component></app-block-component>
