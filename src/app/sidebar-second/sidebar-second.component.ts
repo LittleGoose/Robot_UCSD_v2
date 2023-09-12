@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-
+import { IonContent } from '@ionic/angular';
+import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { ScrollService } from '../shared.service';
 
 @Component({
   selector: 'app-sidebar-second',
@@ -10,6 +12,17 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
   styleUrls: ['./sidebar-second.component.scss'],
 })
 export class SidebarSecondComponent  implements OnInit {
+  @ViewChild('scrollContent', { static: true }) scrollContent!: IonContent;
+  @ViewChild(IonContent) ionContent!: IonContent;
+
+
+  //Esta parte es para hacer que funcione el scroll en dos componentes 
+  constructor(private scrollService: ScrollService) {}
+
+  getScrollPosition(): number {
+    return this.scrollService.getScrollPosition();
+  }
+
 
   rootPage2 = 'Panel2Page';
   rootPage3 = 'Panel3Page';
@@ -75,6 +88,9 @@ export class SidebarSecondComponent  implements OnInit {
     console.log('scroll end');
   }
 
-  constructor() { }
+  
+  }
+  
 
-}
+  
+
