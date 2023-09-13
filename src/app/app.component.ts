@@ -8,6 +8,9 @@ import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { PopUpService } from './pop-up.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RestService } from './rest.service';
+
 
 import { OnInit } from '@angular/core';
 
@@ -20,8 +23,9 @@ import { OnInit } from '@angular/core';
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule, 
     RoutineAreaModule, 
     SidebarModule,
-    FormsModule],
-  providers:[PopUpService],
+    FormsModule,
+    HttpClientModule],
+  providers:[PopUpService, RestService],
 })
 
 export class AppComponent implements OnInit {
