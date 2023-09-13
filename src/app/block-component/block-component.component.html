@@ -1,8 +1,7 @@
 <ion-grid class="ion-text-center ion-align-items-center">
 
   <ion-grid class="ion-text-center ion-align-items-center">
-
-
+    
     <ion-row>
       
       <ion-col size="19">
@@ -16,10 +15,10 @@
   <ion-row>
     <ion-col size="20">
 
-      <ion-button size="large" color="danger">Talk</ion-button>   
+      <ion-button size="large" color="danger" (click)="openPopUp($event, current_routine.array_block[0][1])">Talk</ion-button>   
       <ion-button size="large" color="danger">Walk</ion-button>
       <ion-button size="large" color="tertiary">Energetic</ion-button>
-      <ion-button size="large" color="success">Happy</ion-button>
+      <ion-button size="large" color="success" (click)="openPopUp($event, current_routine.array_block[0][0])>Happy</ion-button>
 
     </ion-col>
   </ion-row>

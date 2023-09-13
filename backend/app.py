@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 import datetime
 from bson.binary import Binary
 import yaml
+import json
 
 app = Flask(__name__)
 
@@ -85,6 +86,7 @@ routines = db["routines"] #Creation/Access of table Routines
 # Main app
 @app.route('/', methods=['GET'])
 def root():
+
     return "Hello from Flask"
 
 
@@ -98,6 +100,44 @@ def create_yaml():
     }
 
     yaml = yaml.dump(data)
+
+@app.route("/fetch_from_db", methods=['GET'])
+def create_yaml():
+    data = {}
+
+    facial_expressions_entries = []
+    for entry in facial_expressions.find():
+        facial_expressions_entries.append({"id": entry["_id"], "label": entry["expression_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+
+    data["facial_expressions"] = facial_expressions_entries
+
+    body_gestures_entries = []
+    for entry in body_gestures.find():
+        body_gestures_entries.append({"id": entry["_id"], "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+
+    data["body_gestures"] = body_gestures_entries
+
+    tones_of_voice_entries = []
+    for entry in tones_of_voice.find():
+        tones_of_voice_entries.append({"id": entry["_id"], "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+
+    data["tones_of_voice"] = tones_of_voice_entries
+    
+    speech_elements_entries = []
+    for entry in speech_elements.find():
+        speech_elements_entries.append({"id": entry["_id"], "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+
+    data["speech_elements"] = speech_elements_entries
+
+    # routines_entries = []
+    # for entry in routines.find():
+    #     routines_entries.append({"description": entry["element_name"], "id_in_robot": entry["id_in_robot"], "utterance": entry["description"]})
+
+    return json.dumps(data)
+
+@app.route("/fetch_subroutines", methods=['GET'])
+def create_yaml():
+    return "Here I implement returning subroutine (YAML) file as a JSON object"
 
 if __name__== "__main__":
     app.run()
