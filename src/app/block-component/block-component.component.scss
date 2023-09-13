@@ -1,8 +1,23 @@
+
 $colors: (
   Blue:    #488aff,
   Green:  #32db64,
   Red:     #f53d3d,
   White:      #f4f4f4,
-  dark:       #222
-
+  Orange: #e9982f
 );
+
+
+.start-button {
+  background-color: transparent; /* Hace que el fondo del botón sea transparente */
+  color: var(--ion-color-primary); /* Aplica el color azul definido en variables.scss */
+  padding: 10px 20px; /* Ajusta el espaciado del botón según sea necesario */
+  border: 2px solid var(--ion-color-primary); /* Agrega un borde azul alrededor del botón */
+  border-radius: 8px; /* Añade esquinas redondeadas al botón */
+  cursor: pointer; /* Cambia el cursor al estilo de mano al pasar por encima del botón */
+  max-width: 100%!important;
+}
+
+.padding{
+  max-width: 2%!important;
+}

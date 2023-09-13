@@ -8,6 +8,10 @@ ion-menu ion-content {
     --padding-top: 20px;
     --padding-bottom: 20px;
   }
+
+  ion-content.content::-webkit-scrollbar {
+    width: 2px; /* Ajusta el valor según tu preferencia */
+  }
   
   ion-menu.md ion-list {
     padding: 0px 0;
