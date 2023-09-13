@@ -15,4 +15,9 @@ $colors: (
   border: 2px solid var(--ion-color-primary); /* Agrega un borde azul alrededor del botón */
   border-radius: 8px; /* Añade esquinas redondeadas al botón */
   cursor: pointer; /* Cambia el cursor al estilo de mano al pasar por encima del botón */
+  max-width: 100%!important;
+}
+
+.padding{
+  max-width: 2%!important;
 }
