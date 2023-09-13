@@ -1,35 +1,60 @@
+<ion-grid class="ion-text-center ion-align-items-center">
+
   <ion-grid class="ion-text-center ion-align-items-center">
-    <!-- Fila para los botones -->
+    
     <ion-row>
-      <ion-col size="12">
-        <ion-button size="large" colors="danger"  (click)="openPopUp($event, current_routine.array_block[0][1])">Talk</ion-button>
-        <ion-button size="large" colors="danger">Walk</ion-button>
-        <ion-button size="large" color="tertiary">Energetic</ion-button>
-        <ion-button size="large" color="success"  (click)="openPopUp($event, current_routine.array_block[0][0])">Happy</ion-button>
-
+      
+      <ion-col size="19">
+        <div class="start-button">
+          <ion-title>START</ion-title>
+         
+        </div>
       </ion-col>
     </ion-row>
-
-    <!-- Fila para el botón personalizado -->
-    <ion-row>
-      <ion-col size="9.4">
-          <ion-button size="large" color="warning">Nod</ion-button>
-          <ion-button size="large" color="warning">Hum</ion-button>
-      </ion-col>
-    </ion-row>
-
+  
   <ion-row>
-    <ion-col size="9.5">
-      <ion-button size="large" color="danger">Sub_rutine_1</ion-button>
+    <ion-col size="20">
+
+      <ion-button size="large" color="danger" (click)="openPopUp($event, current_routine.array_block[0][1])">Talk</ion-button>   
+      <ion-button size="large" color="danger">Walk</ion-button>
+      <ion-button size="large" color="tertiary">Energetic</ion-button>
+      <ion-button size="large" color="success" (click)="openPopUp($event, current_routine.array_block[0][0])>Happy</ion-button>
 
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col size="8.8">
-      <ion-button size="large" color="danger">Listen</ion-button>
-
+    <ion-col size="10.8">
+        <ion-button size="large" color="warning">Nod</ion-button>
+        <ion-button size="large" color="warning">Hum</ion-button>
     </ion-col>
   </ion-row>
 
-  </ion-grid>
+<ion-row>
+  <ion-col size="11.3">
+    <ion-button size="large" color="danger">Sub_rutine_1</ion-button>
+
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col size="8.7">
+    <ion-button size="large" color="danger">Listen</ion-button>
+
+  </ion-col>
+</ion-row>
+
+<ion-grid class="ion-text-center ion-align-items-center">
+ 
+  <ion-row>
+    <ion-col size="19">
+      <div class="start-button">
+        <ion-title>END</ion-title>
+      </div>
+    </ion-col>
+  </ion-row>
+
+</ion-grid>
+
+
+
