@@ -22,6 +22,9 @@ export class SidebarSecondComponent  implements OnInit {
   getScrollPosition(): number {
     return this.scrollService.getScrollPosition();
   }
+
+  rootPage2 = 'Panel2Page';
+  
   facial_expresions: string[] = ["Happy", "Sad", "Mad", "Angry", "Crazy"];
   body_gestures: string[] = ["Nod", "Turn", "Walk", "Side_head", "Bow"];
   tone_of_voice: string[] = ["Excited", "Timid", "Sad", "Slow", "Fast"];

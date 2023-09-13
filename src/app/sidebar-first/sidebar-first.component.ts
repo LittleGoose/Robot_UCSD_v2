@@ -11,7 +11,11 @@ import { ScrollService } from '../shared.service';
 export class SidebarFirstComponent  implements OnInit {
   @ViewChild(IonContent) content!: IonContent ;
 
+  
   rootPage1 = 'Panel1Page';
+  rootPage2 = 'Panel2Page';
+  rootPage3 = 'Panel3Page';
+
 
   //Esta parte hace referencia al Scroll con el SERVICIO COMPARTIDO
   constructor(public scrollService: ScrollService) {}
