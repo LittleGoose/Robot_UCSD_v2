@@ -5,6 +5,8 @@ import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { ScrollService } from '../shared.service';
+import { RestService } from '../rest.service';
+import { Facial_Expression } from '../models/blocks.model';
 
 @Component({
   selector: 'app-sidebar-second',
@@ -17,7 +19,9 @@ export class SidebarSecondComponent  implements OnInit {
 
 
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService) {}
+  constructor(private scrollService: ScrollService, private rs: RestService) {}
+
+  facial_list : Facial_Expression[] = [];
 
   getScrollPosition(): number {
     return this.scrollService.getScrollPosition();
@@ -34,6 +38,17 @@ export class SidebarSecondComponent  implements OnInit {
   options: string[] = [];
 
   ngOnInit() {
+    this.rs.read_db()
+    .subscribe(
+      (response) => {
+        this.facial_list = response;
+        console.log(this.facial_list);
+      },
+      (error) => {
+        console.log("No Data Found" + error);
+      }
+    )
+
     this.generateItems();
   }
 
