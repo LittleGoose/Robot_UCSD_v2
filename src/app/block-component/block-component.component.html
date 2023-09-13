@@ -1,35 +1,72 @@
-  <ion-grid class="ion-text-center ion-align-items-center">
-    <!-- Fila para los botones -->
+<ion-grid class="ion-text-center ion-align-items-center">
+    
     <ion-row>
-      <ion-col size="12">
-        <ion-button size="large" colors="danger"  (click)="openPopUp($event, current_routine.array_block[0][1])">Talk</ion-button>
-        <ion-button size="large" colors="danger">Walk</ion-button>
-        <ion-button size="large" color="tertiary">Energetic</ion-button>
-        <ion-button size="large" color="success"  (click)="openPopUp($event, current_routine.array_block[0][0])">Happy</ion-button>
-
+      
+      <ion-col>
+        <div class="start-button">
+          <ion-title>START</ion-title>
+         
+        </div>
       </ion-col>
     </ion-row>
 
-    <!-- Fila para el botón personalizado -->
-    <ion-row>
-      <ion-col size="9.4">
-          <ion-button size="large" color="warning">Nod</ion-button>
-          <ion-button size="large" color="warning">Hum</ion-button>
-      </ion-col>
-    </ion-row>
+</ion-grid>
 
+<ion-grid class="ion-text-left">
+  
   <ion-row>
-    <ion-col size="9.5">
-      <ion-button size="large" color="danger">Sub_rutine_1</ion-button>
-
+    <ion-col class="padding"></ion-col>
+    <ion-col size="auto">
+      <ion-button size="large" color="warning" (click)="openPopUp($event, current_routine.array_block[0][1])">Talk</ion-button>   
     </ion-col>
+    <ion-col size="auto">
+      <ion-button size="large" color="danger">Walk</ion-button>
+    </ion-col>
+    <ion-col size="auto">
+      <ion-button size="large" color="tertiary">Energetic</ion-button>
+    </ion-col>
+    <ion-col size="auto">
+      <ion-button size="large" color="success" (click)="openPopUp($event, current_routine.array_block[0][0])">Happy</ion-button>
+    </ion-col>    
   </ion-row>
 
   <ion-row>
-    <ion-col size="8.8">
-      <ion-button size="large" color="danger">Listen</ion-button>
-
+    <ion-col class="padding"></ion-col>
+    <ion-col size="auto">
+      <ion-button size="large" color="danger">Nod</ion-button>
+    </ion-col>
+    <ion-col size="auto">
+      <ion-button size="large" color="warning">Hum</ion-button>
     </ion-col>
   </ion-row>
 
-  </ion-grid>
+<ion-row>
+  <ion-col class="padding"></ion-col>
+  <ion-col size="auto">
+    <ion-button size="large" color="medium">Sub_rutine_1</ion-button>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col class="padding"></ion-col>
+  <ion-col size="auto">
+    <ion-button size="large" color="warning">Listen</ion-button>
+  </ion-col>
+</ion-row>
+
+</ion-grid>
+
+<ion-grid class="ion-text-center ion-align-items-center">
+ 
+  <ion-row>
+    <ion-col>
+      <div class="start-button">
+        <ion-title>END</ion-title>
+      </div>
+    </ion-col>
+  </ion-row>
+
+</ion-grid>
+
+
+
