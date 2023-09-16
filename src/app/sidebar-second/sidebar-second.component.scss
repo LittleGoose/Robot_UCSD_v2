@@ -9,9 +9,19 @@ ion-menu ion-content {
     --padding-bottom: 20px;
   }
 
-  ion-content.content::-webkit-scrollbar {
-    width: 2px; /* Ajusta el valor según tu preferencia */
-  }
+  //ion-content.content::-webkit-scrollbar {
+    //width: 2px; /* Ajusta el valor según tu preferencia */
+  //}
+
+  //::-webkit-scrollbar {
+    //width: 6px; /* Ancho de la barra de scroll */
+    //height: 10px;
+  //}
+
+  //::-webkit-scrollbar-thumb {
+    //background-color: #4029d6; /* Color de la barra de desplazamiento */
+  //}
+  
   
   ion-menu.md ion-list {
     padding: 0px 0;
@@ -116,4 +126,9 @@ ion-menu ion-content {
   .scrollable-content {
     overflow: auto; /* Allow scrolling if content overflows */
     max-height: 100%; /* Ensure content doesn't exceed the available space */
+    background-color:aqua;
+  }
+
+  .my-componente2.scrollable-content{
+    background-color: #f02626;
   }

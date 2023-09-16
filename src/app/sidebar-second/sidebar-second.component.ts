@@ -1,27 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { ScrollService } from '../shared.service';
+import { ScrollService } from '../scroll.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-sidebar-second',
   templateUrl: './sidebar-second.component.html',
   styleUrls: ['./sidebar-second.component.scss'],
 })
-export class SidebarSecondComponent  implements OnInit {
-  @ViewChild('scrollContent', { static: true }) scrollContent!: IonContent;
-  @ViewChild(IonContent) ionContent!: IonContent;
+export class SidebarSecondComponent implements OnDestroy {
+  @ViewChild(IonContent) content: IonContent;
+  private scrollSubscription: Subscription;
+  
 
+  //constructor(private scrollService: ScrollService) {}
 
-  //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService) {}
-
-  getScrollPosition(): number {
-    return this.scrollService.getScrollPosition();
+  constructor(private scrollService: ScrollService) {
+    this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
+    {
+      this.content.scrollToPoint(positionX, positionY, 500); // Realizar el scroll en este componente
+    });
   }
+  ngOnDestroy() {
+      this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
+  }
+
+  
+  //scrollToPosition(positionX: 0, positionY: 10000) {
+    //this.scrollService.scrollToPosition(this.content,positionX ,positionY );
+  //}
+
 
   rootPage2 = 'Panel2Page';
   

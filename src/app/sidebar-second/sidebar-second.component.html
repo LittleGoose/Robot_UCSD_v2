@@ -1,10 +1,9 @@
 <ion-nav [root]="rootPage2" name="panel2">
-  <ion-content  #scrollContent
+  <ion-content  class="mi_scroll"
                 [scrollEvents]="true"
                 (ionScrollStart)="handleScrollStart()"
                 (ionScroll)="handleScroll($any($event))"
-                (ionScrollEnd)="handleScrollEnd()"
-                class="side2" >
+                (ionScrollEnd)="handleScrollEnd()" >
     <ion-list class="my-componente2">
       <ion-item *ngFor="let item of options; let index">
         <ion-avatar slot="start">
@@ -13,11 +12,8 @@
         <ion-label>{{ item }}</ion-label>
       </ion-item>
     </ion-list>
-    <!-- (ionInfinite)="onIonInfinite($event)"  -->
-    
-    <!--ion-infinite-scroll >
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll -->
   </ion-content>
 </ion-nav>
 <!-- ion-nav [root]="rootPage3" name="panel3"></ion-nav -->
+
+<!--              -->
