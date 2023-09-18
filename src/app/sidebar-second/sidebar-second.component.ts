@@ -21,8 +21,6 @@ export class SidebarSecondComponent  implements OnInit {
   //Esta parte es para hacer que funcione el scroll en dos componentes 
   constructor(private scrollService: ScrollService, private rs: RestService) {}
 
-  facial_list : Facial_Expression[] = [];
-
   getScrollPosition(): number {
     return this.scrollService.getScrollPosition();
   }
@@ -37,11 +35,14 @@ export class SidebarSecondComponent  implements OnInit {
 
   options: string[] = [];
 
+    facial_list : Facial_Expression[] = [];
+
+
   ngOnInit() {
     this.rs.read_db()
     .subscribe(
       (response) => {
-        this.facial_list = response;
+        this.facial_list = response[0]["data"];
         console.log(this.facial_list);
       },
       (error) => {
@@ -54,9 +55,9 @@ export class SidebarSecondComponent  implements OnInit {
 
   private generateItems() {
 
-    let totalexpressions = this.facial_expresions.length;
+    let totalexpressions = this.facial_list.length;
     for (let i = 0; i < totalexpressions; i++) {
-      this.options.push(` ${this.facial_expresions[i]}`);
+      this.options.push(` ${this.facial_list[i]}`);
     }
 
     let totalgestures = this.body_gestures.length;

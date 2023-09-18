@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
@@ -90,24 +90,28 @@ def root():
     return "Hello from Flask"
 
 
-@app.route("/create_yaml", methods=['GET'])
-def create_yaml():
-    data = {
-        "Block_1": {"Talk" : 1 , "Walk" : 3, "Energetic" : 2, "Happy": 3},
-        "Block_2": {"Nod" : 1 , "Hum" : 3},
-        "Block_3": {"Talk" : 2 , "Walk" : 2, "Energetic" : 2, "Happy": 2},
-        "Block_4": {"Listen" : 3}
-    }
+# @app.route("/create_yaml", methods=['GET'])
+# def create_yaml():
+#     data = {
+#         "Block_1": {"Talk" : 1 , "Walk" : 3, "Energetic" : 2, "Happy": 3},
+#         "Block_2": {"Nod" : 1 , "Hum" : 3},
+#         "Block_3": {"Talk" : 2 , "Walk" : 2, "Energetic" : 2, "Happy": 2},
+#         "Block_4": {"Listen" : 3}
+#     }
 
-    yaml = yaml.dump(data)
+#     yaml = yaml.dump(data)
 
 @app.route("/fetch_from_db", methods=['GET'])
 def create_yaml():
-    # data = {}
+    
+
+    facial_expressions_data = {}
 
     facial_expressions_entries = []
     for entry in facial_expressions.find():
-        facial_expressions_entries.append({"id": entry["_id"], "label": entry["expression_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+        facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+
+    facial_expressions_data["data"] = facial_expressions_entries
 
     # data["facial_expressions"] = facial_expressions_entries
 
@@ -133,11 +137,12 @@ def create_yaml():
     # for entry in routines.find():
     #     routines_entries.append({"description": entry["element_name"], "id_in_robot": entry["id_in_robot"], "utterance": entry["description"]})
 
-    return json.dumps(facial_expressions_entries)
+    print(facial_expressions_data)
+    return jsonify([facial_expressions_data])
 
-@app.route("/fetch_subroutines", methods=['GET'])
-def create_yaml():
-    return "Here I implement returning subroutine (YAML) file as a JSON object"
+# @app.route("/fetch_subroutines", methods=['GET'])
+# def create_yaml():
+#     return "Here I implement returning subroutine (YAML) file as a JSON object"
 
 if __name__== "__main__":
     app.run()
