@@ -15,7 +15,7 @@
 
   <ion-row *ngFor="let row of current_routine.array_block">
     <ion-col class="padding"></ion-col>
-    <ion-col size="auto" *ngFor="let block of row">
+    <ion-col size="auto" *ngFor="let block of row" class="grid-cell">
       <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
     </ion-col>
   </ion-row>

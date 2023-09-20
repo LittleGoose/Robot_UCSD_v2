@@ -120,7 +120,7 @@ export class SidebarSecondComponent  implements OnInit {
   }
 
   onDragEnd(event: DragEvent, block: Block): void {
-    this.new_block.emitData(block);
+    this.new_block.emitData(event, block);
   }
 
   

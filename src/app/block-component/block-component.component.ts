@@ -37,7 +37,7 @@ export class BlockComponentComponent  implements OnInit {
     this.block3.class = "speech"*/
 
     //this.current_routine.array_block = [[this.block1, this.block2], [this.block3]];
-    this.current_routine.array_block = [];
+    this.current_routine.array_block = [[]];
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
       // Call your component's function or perform necessary actions
@@ -46,8 +46,8 @@ export class BlockComponentComponent  implements OnInit {
 
     this.newBlockService.newBlockAdded.subscribe((data) => {
       this.current_block = new Send_block();
-      this.current_block.name = data.label;
-      switch(data.constructor.name){
+      this.current_block.name = data.block.label;
+      switch(data.block.constructor.name){
         case "Facial_Expression":
           this.current_block.class = "facial_expression";
           break;
@@ -65,7 +65,14 @@ export class BlockComponentComponent  implements OnInit {
           break;
       }
 
-      this.current_routine.array_block.push([this.current_block]);
+      data.event.preventDefault(); // Prevent the default behavio
+    
+      const mouseX = data.event.pageX;
+      const mouseY = data.event.pageY;
+
+      console.log(`Item dropped at (${mouseX}, ${mouseY})`);
+
+      this.current_routine.array_block[0].push(this.current_block);
 
     });
 

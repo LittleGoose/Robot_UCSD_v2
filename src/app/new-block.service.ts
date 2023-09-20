@@ -6,11 +6,19 @@ import { Block } from './models/blocks.model';
 })
 export class NewBlockService {
 
-  newBlockAdded: EventEmitter<Block> = new EventEmitter<Block>();
+  newBlockAdded: EventEmitter<SendData> = new EventEmitter<SendData>();
+  send_data: SendData = new SendData();
 
   constructor() { }
 
-  emitData(block: Block) {
-    this.newBlockAdded.emit(block);
+  emitData(event: DragEvent, block: Block) {
+    this.send_data.event = event;
+    this.send_data.block = block;
+    this.newBlockAdded.emit(this.send_data);
   }
+}
+
+export class SendData{
+  event: DragEvent;
+  block: Block;
 }
