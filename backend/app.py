@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
-from bson.binary import Binary
+import bson
 import yaml
 import json
 
@@ -64,7 +64,8 @@ speech_elements = db["speech_elements"] # Creation/Access of table Speech
 # dummy_speech_post = {
 #     "id_in_robot": "DummyId",
 #     "element_name": "Talk",
-#     "description": "Lol",
+#     "description": "Casual conversation",
+#     "utterance" : "Hello there",
 #     "status": "Active"
 # }
 # speech_elements.insert_one(dummy_speech_post)
@@ -72,21 +73,37 @@ speech_elements = db["speech_elements"] # Creation/Access of table Speech
 routines = db["routines"] #Creation/Access of table Routines
 
 # Dummy entry for Routines table
-# users = [{'name': 'John Doe', 'occupation': 'gardener'},
-#          {'name': 'Lucy Black', 'occupation': 'teacher'}]
+# routine = {
+#     "Segment_1": {
+#         "Block_1": {
+#             "Type": "facial_expression",
+#             "Level": 2,
+#             "Label": "Happy"
+#             }
+#     },
+#     "Segment_2": {
+#         "Block_1": {
+#             "Type": "speech",
+#             "Level": 3,
+#             "Label": "Hum"
+#         }
+#     }
+#     }
 
 # dummy_routine_post = {
 #     "user": "User1",
 #     "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
 #     "name": "Dance_1",
-#     "file": str(users)}
+#     "file": yaml.dump(routine)}
 
+# json.dumps() json.loads() https://stackoverflow.com/questions/26745519/converting-dictionary-to-json
 # routines.insert_one(dummy_routine_post)
+
+
 
 # Main app
 @app.route('/', methods=['GET'])
 def root():
-
     return "Hello from Flask"
 
 
@@ -103,49 +120,47 @@ def root():
 
 @app.route("/fetch_from_db", methods=['GET'])
 def create_yaml():
-    
-
-    facial_expressions_data = {}
+        
+    data = {}
 
     facial_expressions_entries = []
     for entry in facial_expressions.find():
         facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    facial_expressions_data["data"] = facial_expressions_entries
+    data["facial_expressions"] = facial_expressions_entries
 
-    # data["facial_expressions"] = facial_expressions_entries
+    body_gestures_entries = []
+    for entry in body_gestures.find():
+        body_gestures_entries.append({"id": str(entry["_id"]), "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    # body_gestures_entries = []
-    # for entry in body_gestures.find():
-    #     body_gestures_entries.append({"id": entry["_id"], "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+    data["body_gestures"] = body_gestures_entries
 
-    # data["body_gestures"] = body_gestures_entries
+    tones_of_voice_entries = []
+    for entry in tones_of_voice.find():
+        tones_of_voice_entries.append({"id": str(entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    # tones_of_voice_entries = []
-    # for entry in tones_of_voice.find():
-    #     tones_of_voice_entries.append({"id": entry["_id"], "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
-
-    # data["tones_of_voice"] = tones_of_voice_entries
+    data["tones_of_voice"] = tones_of_voice_entries
     
-    # speech_elements_entries = []
-    # for entry in speech_elements.find():
-    #     speech_elements_entries.append({"id": entry["_id"], "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+    speech_elements_entries = []
+    for entry in speech_elements.find():
+        speech_elements_entries.append({"id": str(entry["_id"]), "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
 
-    # data["speech_elements"] = speech_elements_entries
+    data["speech_elements"] = speech_elements_entries
 
-    # routines_entries = []
-    # for entry in routines.find():
-    #     routines_entries.append({"description": entry["element_name"], "id_in_robot": entry["id_in_robot"], "utterance": entry["description"]})
+    routines_entries = []
+    for entry in routines.find():
+        routines_entries.append({"id": str(entry["_id"]), "user": entry["user"], "last_modified": entry["last_modified"], "name": entry["name"], "file": bson.decode(entry["file"])})
 
-    print(facial_expressions_data)
-    return jsonify([facial_expressions_data])
+    data["routines"] = routines_entries
+
+    return jsonify(data)
 
 # @app.route("/fetch_subroutines", methods=['GET'])
 # def create_yaml():
 #     return "Here I implement returning subroutine (YAML) file as a JSON object"
 
 if __name__== "__main__":
-    app.run()
+    app.run(debug=True)
 
 # R2
 # @app.route('/', methods=['GET', 'POST'])

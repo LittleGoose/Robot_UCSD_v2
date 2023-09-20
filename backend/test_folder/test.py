@@ -1,5 +1,12 @@
 import yaml
 from pymongo import MongoClient
+from flask import jsonify
+import json
+import gridfs
+import datetime
+import bson
+from datetime import datetime
+import os
 
 client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
 db = client["ROBOT_UCSD"] # Access/creation of data base
@@ -10,65 +17,65 @@ tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
 speech_elements = db["speech_elements"] # Creation/Access of table Speech
 routines = db["routines"] #Creation/Access of table Routines
 
-facial_expressions_entries = []
-for entry in facial_expressions.find():
-    facial_expressions_entries.append({"id": entry["_id"], "label": entry["expression_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+routine = {
+    "Segment_1": {
+        "Block_1": {
+            "Type": "facial_expression",
+            "Level": 2,
+            "Label": "Happy"
+            }
+    },
+    "Segment_2": {
+        "Block_1": {
+            "Type": "speech",
+            "Level": 3,
+            "Label": "Hum"
+        }
+    }
+}
 
-body_gestures_entries = []
-for entry in body_gestures.find():
-    body_gestures_entries.append({"id": entry["_id"], "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+# fs = gridfs.GridFS(db, collection="routines")
+# data = yaml.dump(routine).encode('utf-8')
+# fs.put(data)
 
-tones_of_voice_entries = []
-for entry in tones_of_voice.find():
-    tones_of_voice_entries.append({"id": entry["_id"], "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+# print("Upload Complete")
 
-speech_elements_entries = []
-for entry in speech_elements.find():
-    speech_elements_entries.append({"id": entry["_id"], "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
-
-# routines_entries = []
-# for entry in routines.find():
-#     routines_entries.append({"description": entry["element_name"], "id_in_robot": entry["id_in_robot"], "utterance": entry["description"]})
+# dummy_routine_post = {
+#     "user": "User1",
+#     "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
+#     "name": "Dance_1",
+#     "file":  bson.encode(routine)}
 
 
-print(facial_expressions_entries)
-print(body_gestures_entries)
-print(tones_of_voice_entries)
-print(tones_of_voice_entries)
-print(speech_elements_entries)
+# print(type(yaml.dump(routine)))
+
+# routines.insert_one(dummy_routine_post)
+
+decoded_data = bson.decode(routines.find_one({"user": "User1"})["file"])
+# print(decoded_data)
+# print(yaml.dump(decoded_data))
 
 
-#Format file in python
-# data = {
-#     "Block_1": {"Talk" : 1 , "Walk" : 3, "Energetic" : 2, "Happy": 3},
-#     "Block_2": {"Nod" : 1 , "Hum" : 3},
-#     "Block_3": {"Talk" : 2 , "Walk" : 2, "Energetic" : 2, "Happy": 2},
-#     "Block_4": {"Listen" : 3}
-# }
+home = os.path.expanduser("~")
+download_path = os.path.join(home, 'Downloads/')
 
-# print(yaml.dump(data))
+x = datetime.now()
+
+file_name = download_path + x.strftime('%d-%m-%Y-%H-%M-%S.yaml')
+with open(file_name, 'w') as fp:
+    fp.write(yaml.dump(decoded_data))
+
+print(file_name)
 
 # Format
+#
 # Segment_1:
 #   Block_1:
 #       Type: facial_expression
 #       Level: 2
-
-
-#   Happy: 3
-#   Talk: kjehfsejrg
-#   Walk: 3
-# Block_2:
-#   Hum: 3
-#   Nod: 1
-# Block_3:
-#   Energetic: 2
-#   Happy: 2
-#   Talk: 2
-#   Walk: 2
-# Block_4:
-#   Listen: 3
-
-# Save file
-# with open('info1.yaml', 'w') as file:
-#     documents = yaml.dump(data, file)
+#       Label: Happy
+# Segment 2:
+#   Block_2:
+#       Type: speech
+#       Level: 3
+#       Label: Hum

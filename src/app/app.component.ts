@@ -13,6 +13,7 @@ import { RestService } from './rest.service';
 
 
 import { OnInit } from '@angular/core';
+import { Facial_Expression } from './models/blocks.model';
 
 
 @Component({
@@ -32,9 +33,9 @@ export class AppComponent implements OnInit {
 
   rootPage2 = 'Panel2Page';
   
-  ngOnInit() {
+  // ngOnInit() {
     
-  }
+  // }
 
   onIonInfinite(ev: any) {
     setTimeout(() => {
@@ -57,6 +58,24 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor() {}
-  
+  constructor(private rs : RestService) {}
+
+  facial_list : Facial_Expression[] = [];
+
+  ngOnInit(){
+    this.rs.read_db()
+        .subscribe
+          (
+            (response) => 
+            {
+              this.facial_list = response;
+              console.log(response);
+            },
+            (error) =>
+            {
+              console.log("No Data Found" + error);
+            }
+
+          )
+  }
 }
