@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { PopUpService } from './pop-up.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RestService } from './rest.service';
-
+import { NewBlockService } from './new-block.service';
 
 import { OnInit } from '@angular/core';
 import { Facial_Expression } from './models/blocks.model';
@@ -26,12 +26,12 @@ import { Facial_Expression } from './models/blocks.model';
     SidebarModule,
     FormsModule,
     HttpClientModule],
-  providers:[PopUpService, RestService],
+  providers:[PopUpService, RestService, NewBlockService],
 })
 
 export class AppComponent implements OnInit {
 
-  rootPage2 = 'Panel2Page';
+  //rootPage2 = 'Panel2Page';
   
   // ngOnInit() {
     
