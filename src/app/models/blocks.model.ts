@@ -1,7 +1,7 @@
 export class Block {
 
-  id: number = 0;
-  label: string = "";
+  id: number;
+  label: string;
 
   constructor(id: number, label: string){
     this.id = id;
@@ -12,9 +12,9 @@ export class Block {
 
 export class Facial_Expression extends Block {
 
-  description: string = "";
-  id_in_robot: string = "";
-  level: number = 0;
+  description: string;
+  id_in_robot: string;
+  level: number;
 
   constructor(id: number, label: string, description: string, id_in_robot: string, level: number){
     super(id, label);

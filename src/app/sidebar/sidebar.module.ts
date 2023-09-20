@@ -8,17 +8,22 @@ import { SidebarSecondComponent } from '../sidebar-second/sidebar-second.compone
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
+import { RestService } from '../rest.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [SidebarFirstComponent, SidebarSecondComponent],
   imports: [
     CommonModule,
     IonicModule,
+    HttpClientModule
+    
   ],
   exports: [
     SidebarFirstComponent,
     SidebarSecondComponent,
   ],
+  providers: [RestService]
 })
 export class SidebarModule { 
   onIonInfinite(ev: any) {

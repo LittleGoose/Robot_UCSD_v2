@@ -37,6 +37,10 @@ https://stackoverflow.com/questions/24985684/mongodb-show-all-contents-from-all-
 
 https://stackoverflow.com/questions/13827915/location-of-the-mongodb-database-on-mac
 
+https://www.mongodb.com/docs/mongodb-shell/crud/delete/
+
+https://stackoverflow.com/questions/4932928/remove-by-id-in-mongodb-console
+
 ** Run flask app
 python3 app.py
 
