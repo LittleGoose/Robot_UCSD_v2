@@ -28,7 +28,7 @@ export class SidebarSecondComponent  implements OnInit {
     return this.scrollService.getScrollPosition();
   }
 
-  rootPage2 = 'Panel2Page';
+  //rootPage2 = 'Panel2Page';
 
   // This will be added with the database
   block_1: Facial_Expression = new Facial_Expression(1, "Happy", "Happy face", "E1", 0);
@@ -56,7 +56,7 @@ export class SidebarSecondComponent  implements OnInit {
   options: Block[] = [];
 
   ngOnInit() {
-    this.rs.read_db()
+    /*this.rs.read_db()
     .subscribe(
       (response) => {
         this.facial_list = response;
@@ -65,7 +65,7 @@ export class SidebarSecondComponent  implements OnInit {
       (error) => {
         console.log("No Data Found" + error);
       }
-    )
+    )*/
 
     this.generateItems();
   }

@@ -4,16 +4,16 @@
       
       <ion-col>
         <div class="start-button">
-          <ion-title>START</ion-title>
+          <ion-title #start>START</ion-title>
         </div>
       </ion-col>
     </ion-row>
 
 </ion-grid>
 
-<ion-grid class="ion-text-left">
+<ion-grid class="ion-text-left" id="grid">
 
-  <ion-row *ngFor="let row of current_routine.array_block">
+  <ion-row *ngFor="let row of current_routine.array_block" #blockRef>
     <ion-col class="padding"></ion-col>
     <ion-col size="auto" *ngFor="let block of row" class="grid-cell">
       <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
@@ -21,12 +21,12 @@
   </ion-row>
 </ion-grid>
 
-<ion-grid class="ion-text-center ion-align-items-center">
+<ion-grid class="ion-text-center ion-align-items-center" #end>
  
   <ion-row>
     <ion-col>
       <div class="start-button">
-        <ion-title>END</ion-title>
+        <ion-title >END</ion-title>
       </div>
     </ion-col>
   </ion-row>

@@ -30,7 +30,7 @@ import { OnInit } from '@angular/core';
 
 export class AppComponent implements OnInit {
 
-  rootPage2 = 'Panel2Page';
+  //rootPage2 = 'Panel2Page';
   
   ngOnInit() {
     

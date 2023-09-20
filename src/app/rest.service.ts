@@ -11,9 +11,9 @@ export class RestService {
 
   // ngOnInit(){}
 
-  blockUrl : string = "http://127.0.0.1:5000/fetch_from_db/";
+  //blockUrl : string = "http://127.0.0.1:5000/fetch_from_db/";
 
-  read_db(){
+  /*read_db(){
     return this.http.get<Facial_Expression[]>(this.blockUrl);
-  }
+  }*/
 }

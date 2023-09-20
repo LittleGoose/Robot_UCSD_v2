@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { IonButton, IonContent } from '@ionic/angular';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
 import { OverlayEventDetail } from '@ionic/core/components';
@@ -13,7 +14,11 @@ import { NewBlockService } from '../new-block.service';
   styleUrls: ['./block-component.component.scss'],
 })
 
-export class BlockComponentComponent  implements OnInit {
+export class BlockComponentComponent implements AfterViewInit {
+  @ViewChild('start', { static: false, read: ElementRef }) startElement: ElementRef;
+  @ViewChild('end', { static: false, read: ElementRef }) endElement: ElementRef;
+  @ViewChildren('blockRef') buttons: QueryList<QueryList<IonButton>>;
+  @ViewChild('blockRef', { read: ElementRef }) buttonRef: ElementRef;
 
   current_routine: Routines = new Routines();
 
@@ -23,7 +28,12 @@ export class BlockComponentComponent  implements OnInit {
 
   current_block: Send_block = new Send_block();
 
-  constructor(private popUpService: PopUpService, private newBlockService: NewBlockService) {
+  blocks: number = 0;
+
+  cellPositions: { center_x: number; center_y: number}[] = [];
+
+  constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
+    private ionContent: IonContent, private renderer: Renderer2) {
     // Initialize the routine
     /*this.block1.name = "Happy";
     this.block1.level = 1;
@@ -72,14 +82,44 @@ export class BlockComponentComponent  implements OnInit {
 
       console.log(`Item dropped at (${mouseX}, ${mouseY})`);
 
-      this.current_routine.array_block[0].push(this.current_block);
+      // Get the grid element
+      const grid = document.getElementById('grid');
 
-    });
+      this.cellPositions = [];
+
+      if (grid) {
+        // Get all cell elements within the grid
+        const cells = grid.querySelectorAll('ion-col');
+
+        // Initialize an array to store cell positions
+        // Loop through each cell and calculate its position
+        cells.forEach((cell) => {
+          // Calculate the cell's position relative to the grid container
+          const rect = cell.getBoundingClientRect();
+          const gridRect = grid.getBoundingClientRect();
+          const cellPosition: { center_x: number; center_y: number } = {
+            center_x: rect.left + rect.width / 2,
+            center_y: rect.top + rect.height / 2
+          };
+  
+          // Add the cell's position to the array
+          this.cellPositions.push(cellPosition);
+        });
+
+        // Now, cellPositions contains the positions of all cells in the grid
+        console.log(this.cellPositions);
+
+      } else {
+        console.error('Grid element not found.');
+      }
+
+      // Calculate the center coordinates
+      this.current_routine.array_block.push([this.current_block]);
+      this.blocks += 1;
+      });
 
     //console.log(this.current_routine.array_block); 
   }
-  
-  ngOnInit() {}
 
   openPopUp(event: MouseEvent, block: Send_block) {
     if (event.detail === 2) {
@@ -92,5 +132,32 @@ export class BlockComponentComponent  implements OnInit {
     this.current_block = block;
     console.log(this.current_block);
     //console.log(this.block2);
+  }
+
+  ngAfterViewInit() {
+    this.ionContent.scrollToTop(0);
+
+    // Check if the startElement and endElement are defined
+    setTimeout(() => {
+      // Check if the startElement and endElement are defined
+      if (this.startElement && this.endElement) {
+        // Use Renderer2 to get the coordinates of the elements
+        const startRect = this.startElement.nativeElement.getBoundingClientRect();
+        const endRect = this.endElement.nativeElement.getBoundingClientRect();
+
+        // Calculate the center coordinates for each element
+        const startCenterX = startRect.left + startRect.width / 2;
+        const startCenterY = startRect.top + startRect.height / 2;
+
+        const endCenterX = endRect.left + endRect.width / 2;
+        const endCenterY = endRect.top + endRect.height / 2;
+
+        console.log(`Start Center X: ${startCenterX}px, Start Center Y: ${startCenterY}px`);
+        console.log(`End Center X: ${endCenterX}px, End Center Y: ${endCenterY}px`);
+
+      } else {
+        console.error('Elements not found');
+      }
+    }, 500); // Adjust the timeout duration as needed
   }
 }
