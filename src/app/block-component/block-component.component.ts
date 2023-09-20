@@ -30,18 +30,20 @@ export class BlockComponentComponent  implements OnInit {
 
     this.block2.name = "Talk";
     this.block2.talk = "Hello";
-    this.block2.class = "speach"
+    this.block2.class = "speech"
 
     this.block3.name = "Hum";
+    this.block3.class = "speech"
 
     this.current_routine.array_block = [[this.block1, this.block2], [this.block3]];
+    //this.current_routine.array_block = [];
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
       // Call your component's function or perform necessary actions
       this.saveNewParameter(newBlock);
     });
 
-    console.log(this.current_routine.array_block); 
+    //console.log(this.current_routine.array_block); 
   }
   
   ngOnInit() {}
@@ -56,6 +58,6 @@ export class BlockComponentComponent  implements OnInit {
   saveNewParameter(block: Send_block){
     this.current_block = block;
     console.log(this.current_block);
-    console.log(this.block2);
+    //console.log(this.block2);
   }
 }
