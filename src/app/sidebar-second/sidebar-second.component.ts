@@ -119,7 +119,7 @@ export class SidebarSecondComponent  implements OnInit {
     console.log('scroll end');
   }
 
-  sendBlock(block: Block) {
+  onDragEnd(event: DragEvent, block: Block): void {
     this.new_block.emitData(block);
   }
 
