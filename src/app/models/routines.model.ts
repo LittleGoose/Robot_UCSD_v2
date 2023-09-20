@@ -1,7 +1,7 @@
 export class Send_block {
     name: string = "";
     class: string = "";
-    level: number = 1;
+    level: number = 0;
     talk: string = "";
 
     get_color(){

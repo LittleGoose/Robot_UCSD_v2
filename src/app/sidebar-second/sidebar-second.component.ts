@@ -7,6 +7,7 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { ScrollService } from '../shared.service';
 import { RestService } from '../rest.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
+import { NewBlockService } from '../new-block.service'
 
 @Component({
   selector: 'app-sidebar-second',
@@ -19,7 +20,7 @@ export class SidebarSecondComponent  implements OnInit {
 
 
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService) {}
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {}
 
   facial_list : Facial_Expression[] = [];
 
@@ -116,6 +117,10 @@ export class SidebarSecondComponent  implements OnInit {
 
   handleScrollEnd() {
     console.log('scroll end');
+  }
+
+  sendBlock(block: Block) {
+    this.new_block.emitData(block);
   }
 
   
