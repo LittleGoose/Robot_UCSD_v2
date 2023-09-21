@@ -30,6 +30,7 @@ export class BlockComponentComponent implements AfterViewInit {
   current_block: Send_block = new Send_block();
 
   blocks: number = 0;
+  dif: number = 0;
 
   cellPositions: { center_x: number; center_y: number}[] = [];
   // Create a Set to store unique x values
@@ -91,26 +92,49 @@ export class BlockComponentComponent implements AfterViewInit {
 
       //console.log("COOOOLLL", this.updatedColValues);
 
-      let index = 0;
+      let index_row = 0;
+      let index_col = 0;
+      let past_num = 0;
+      let dif = 0;
+      let third = 0;
 
-      console.log()
-      
-      for (const num of this.ColValues) {
-        // 'num' holds the current number in the set
-        if(num > (data.event.pageY)){
-          break;
+      const colArray: number[] = Array.from(this.ColValues);
+
+      let RowValues = new Set<number>();
+      // Iterate through the coordinates and add unique x values to the Set
+
+      const divide = 6;
+
+      if(colArray.length == 0){
+        this.current_routine.array_block.splice(0, 0, [this.current_block]);
+      } else {
+        for (const num of this.ColValues) {
+          if(num + (this.dif/divide) > data.event.pageY){
+            if(num - (this.dif/divide) < data.event.pageY){
+              for (const coord of this.cellPositions) {
+                if (coord.center_y == num){
+                  console.log("Found row")
+                  if(coord.center_x > data.event.pageX){
+                    break;
+                  }
+                  index_col++;
+                }
+              }
+              this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
+            } else {
+              this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
+            }
+            break;
+          }
+          index_row++;
         }
-        index++;
       }
 
-      /*const RowValues = new Set<number>();
-      // Iterate through the coordinates and add unique x values to the Set
-      for (const coord of this.cellPositions) {
-        this.ColValues.add(coord.center_y);
-      }*/
+      if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
+        this.current_routine.array_block.push([this.current_block]);
+      }
 
       // Calculate the center coordinates
-      this.current_routine.array_block.splice(index, 0, [this.current_block]);
       //his.current_routine.array_block.push([this.current_block]);
       this.blocks += 1;
 
@@ -182,6 +206,7 @@ export class BlockComponentComponent implements AfterViewInit {
         }
         // Calculate the cell's position relative to the grid container
         const rect = cell.getBoundingClientRect();
+        this.dif = rect.width;
         const gridRect = grid.getBoundingClientRect();
         const cellPosition: { center_x: number; center_y: number } = {
           center_x: rect.left + rect.width / 2,

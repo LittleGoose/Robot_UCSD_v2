@@ -73,9 +73,9 @@ export class SidebarSecondComponent  implements OnInit {
 
   private generateItems() {
 
-    let totalexpressions = this.facial_list.length;
+    let totalexpressions = this.facial_expresions.length;
     for (let i = 0; i < totalexpressions; i++) {
-      this.options.push(this.facial_list[i]);
+      this.options.push(this.facial_expresions[i]);
     }
 
     let totalgestures = this.body_gestures.length;
