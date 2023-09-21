@@ -53,7 +53,7 @@ export class SidebarSecondComponent  implements OnInit {
 
   options: Block[] = [];
 
-    facial_list : Facial_Expression[] = [];
+  facial_list : Facial_Expression[] = [];
 
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class SidebarSecondComponent  implements OnInit {
 
     let totalexpressions = this.facial_list.length;
     for (let i = 0; i < totalexpressions; i++) {
-      this.options.push(` ${this.facial_list[i]}`);
+      this.options.push(this.facial_list[i]);
     }
 
     let totalgestures = this.body_gestures.length;

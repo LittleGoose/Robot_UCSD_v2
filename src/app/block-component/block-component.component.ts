@@ -82,42 +82,13 @@ export class BlockComponentComponent implements AfterViewInit {
 
       console.log(`Item dropped at (${mouseX}, ${mouseY})`);
 
-      // Get the grid element
-      const grid = document.getElementById('grid');
-
-      this.cellPositions = [];
-
-      if (grid) {
-        // Get all cell elements within the grid
-        const cells = grid.querySelectorAll('ion-col');
-
-        // Initialize an array to store cell positions
-        // Loop through each cell and calculate its position
-        cells.forEach((cell) => {
-          // Calculate the cell's position relative to the grid container
-          const rect = cell.getBoundingClientRect();
-          const gridRect = grid.getBoundingClientRect();
-          const cellPosition: { center_x: number; center_y: number } = {
-            center_x: rect.left + rect.width / 2,
-            center_y: rect.top + rect.height / 2
-          };
-  
-          // Add the cell's position to the array
-          this.cellPositions.push(cellPosition);
-        });
-
-        // Now, cellPositions contains the positions of all cells in the grid
-        console.log(this.cellPositions);
-
-      } else {
-        console.error('Grid element not found.');
-      }
-
       // Calculate the center coordinates
       this.current_routine.array_block.push([this.current_block]);
       this.blocks += 1;
-      });
 
+      this.check_cells_positions();
+      
+      });
     //console.log(this.current_routine.array_block); 
   }
 
@@ -159,5 +130,45 @@ export class BlockComponentComponent implements AfterViewInit {
         console.error('Elements not found');
       }
     }, 500); // Adjust the timeout duration as needed
+  }
+
+  check_cells_positions(){
+    setTimeout(() => {
+      // Get the grid element
+    const grid = document.getElementById('grid');
+
+    this.cellPositions = [];
+
+    if (grid) {
+      // Get all cell elements within the grid
+      const cells = grid.querySelectorAll('ion-col');
+
+      // Initialize an array to store cell positions
+      // Loop through each cell and calculate its position
+      
+      cells.forEach((cell) => {
+        if(cell.id === 'padding'){
+          return;
+        }
+        // Calculate the cell's position relative to the grid container
+        const rect = cell.getBoundingClientRect();
+        const gridRect = grid.getBoundingClientRect();
+        const cellPosition: { center_x: number; center_y: number } = {
+          center_x: rect.left + rect.width / 2,
+          center_y: rect.top + rect.height / 2
+        };
+
+        // Add the cell's position to the array
+        this.cellPositions.push(cellPosition);
+      });
+
+      // Now, cellPositions contains the positions of all cells in the grid
+
+    } else {
+      console.error('Grid element not found.');
+    }
+
+    console.log(this.cellPositions);
+    },10);
   }
 }
