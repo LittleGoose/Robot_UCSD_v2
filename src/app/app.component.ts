@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor(private rs : RestService) {}
+  constructor(private rs : RestService, private new_block: NewBlockService) {}
 
   facial_list : Facial_Expression[] = [];
 
@@ -77,5 +77,10 @@ export class AppComponent implements OnInit {
             }
 
           )
+  }
+
+  onScroll(event: Event){
+    console.log("Scrolled")
+    this.new_block.sendScroll(event);
   }
 }

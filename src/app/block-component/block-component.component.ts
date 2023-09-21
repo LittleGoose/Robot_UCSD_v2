@@ -19,6 +19,7 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChild('end', { static: false, read: ElementRef }) endElement: ElementRef;
   @ViewChildren('blockRef') buttons: QueryList<QueryList<IonButton>>;
   @ViewChild('blockRef', { read: ElementRef }) buttonRef: ElementRef;
+  @ViewChild('grid', { read: ElementRef }) gridRef: ElementRef;
 
   current_routine: Routines = new Routines();
 
@@ -31,6 +32,10 @@ export class BlockComponentComponent implements AfterViewInit {
   blocks: number = 0;
 
   cellPositions: { center_x: number; center_y: number}[] = [];
+  // Create a Set to store unique x values
+  ColValues = new Set<number>();
+  RowValues = new Set<number>();
+  scrollPosition = 0;
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2) {
@@ -77,18 +82,39 @@ export class BlockComponentComponent implements AfterViewInit {
 
       data.event.preventDefault(); // Prevent the default behavio
     
-      const mouseX = data.event.pageX;
+      /*const mouseX = data.event.pageX;
       const mouseY = data.event.pageY;
 
-      console.log(`Item dropped at (${mouseX}, ${mouseY})`);
-
-      // Calculate the center coordinates
-      this.current_routine.array_block.push([this.current_block]);
-      this.blocks += 1;
+      console.log(`Item dropped at (${mouseX}, ${mouseY})`);*/
 
       this.check_cells_positions();
+
+      //console.log("COOOOLLL", this.updatedColValues);
+
+      let index = 0;
+
+      console.log()
       
-      });
+      for (const num of this.ColValues) {
+        // 'num' holds the current number in the set
+        if(num > (data.event.pageY)){
+          break;
+        }
+        index++;
+      }
+
+      /*const RowValues = new Set<number>();
+      // Iterate through the coordinates and add unique x values to the Set
+      for (const coord of this.cellPositions) {
+        this.ColValues.add(coord.center_y);
+      }*/
+
+      // Calculate the center coordinates
+      this.current_routine.array_block.splice(index, 0, [this.current_block]);
+      //his.current_routine.array_block.push([this.current_block]);
+      this.blocks += 1;
+
+    });
     //console.log(this.current_routine.array_block); 
   }
 
@@ -126,6 +152,9 @@ export class BlockComponentComponent implements AfterViewInit {
         console.log(`Start Center X: ${startCenterX}px, Start Center Y: ${startCenterY}px`);
         console.log(`End Center X: ${endCenterX}px, End Center Y: ${endCenterY}px`);
 
+        const gridElement = this.gridRef.nativeElement;
+        gridElement.addEventListener('scroll', this.onScroll.bind(this));
+
       } else {
         console.error('Elements not found');
       }
@@ -133,6 +162,7 @@ export class BlockComponentComponent implements AfterViewInit {
   }
 
   check_cells_positions(){
+    this.ionContent.scrollToTop(0);
     setTimeout(() => {
       // Get the grid element
     const grid = document.getElementById('grid');
@@ -167,8 +197,21 @@ export class BlockComponentComponent implements AfterViewInit {
     } else {
       console.error('Grid element not found.');
     }
+    
+    this.ColValues = new Set<number>();
+    // Iterate through the coordinates and add unique x values to the Set
+    for (const coord of this.cellPositions) {
+      this.ColValues.add(coord.center_y);
+    }
 
-    console.log(this.cellPositions);
-    },10);
+    },500);
+  }
+
+  onScroll(event){
+    this.scrollPosition = event.detail.scrollTop;
+
+    // Use scrollPosition as needed
+    console.log('Scroll position:', this.scrollPosition);
+    this.check_cells_positions();
   }
 }
