@@ -9,7 +9,7 @@
       <ion-item *ngFor="let item of options; let index" 
       draggable="true"
       (dragend)="onDragEnd($event, item)"
-      color="{{item.color}}">
+      color="{{item.color}}" class="desaturate-color">
         <ion-avatar slot="start">
           <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
         </ion-avatar>
