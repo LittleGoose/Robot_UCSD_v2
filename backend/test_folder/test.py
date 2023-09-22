@@ -3,9 +3,9 @@ from pymongo import MongoClient
 from flask import jsonify
 import json
 import gridfs
-import datetime
 import bson
-from datetime import datetime
+from bson.objectid import ObjectId
+import datetime
 import os
 
 client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
@@ -17,22 +17,25 @@ tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
 speech_elements = db["speech_elements"] # Creation/Access of table Speech
 routines = db["routines"] #Creation/Access of table Routines
 
-# routine = {
-#     "Segment_1": {
-#         "Block_1": {
-#             "Type": "facial_expression",
-#             "Level": 2,
-#             "Label": "Happy"
-#             }
-#     },
-#     "Segment_2": {
-#         "Block_1": {
-#             "Type": "speech",
-#             "Level": 3,
-#             "Label": "Hum"
-#         }
-#     }
-# }
+if (routines.find_one({"_id" : "1"})) is None:
+    print("lolol")
+
+routine = {
+    "Segment_1": {
+        "Block_1": {
+            "Type": "facial_expression",
+            "Level": 2,
+            "Label": "Happy"
+            }
+    },
+    "Segment_2": {
+        "Block_1": {
+            "Type": "speech",
+            "Level": 3,
+            "Label": "Hum"
+        }
+    }
+}
 
 # fs = gridfs.GridFS(db, collection="routines")
 # data = yaml.dump(routine).encode('utf-8')
@@ -40,16 +43,16 @@ routines = db["routines"] #Creation/Access of table Routines
 
 # print("Upload Complete")
 
-# dummy_routine_post = {
-#     "user": "User1",
-#     "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
-#     "name": "Dance_1",
-#     "file":  bson.encode(routine)}
+dummy_routine_post = {
+    "user": "User2",
+    "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
+    "label": "Dance_2",
+    "file":  bson.encode(routine)}
 
 
 # print(type(yaml.dump(routine)))
 
-# routines.insert_one(dummy_routine_post)
+routines.insert_one(dummy_routine_post)
 
 # decoded_data = bson.decode(routines.find_one({"user": "User1"})["file"])
 # print(decoded_data)

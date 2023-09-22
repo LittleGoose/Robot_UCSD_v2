@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 from pymongo import MongoClient
 import datetime
-from datetime import datetime
 import bson
+from bson.objectid import ObjectId
 import yaml
 import os
 
@@ -34,35 +34,30 @@ def fetch_from_db():
     for entry in facial_expressions.find():
         facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"], "level" : 0, "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    # data["facial_expressions"] = facial_expressions_entries
     data.append(facial_expressions_entries)
 
     body_gestures_entries = []
     for entry in body_gestures.find():
         body_gestures_entries.append({"id": str(entry["_id"]), "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    # data["body_gestures"] = body_gestures_entries
     data.append(body_gestures_entries)
 
     tones_of_voice_entries = []
     for entry in tones_of_voice.find():
         tones_of_voice_entries.append({"id": str(entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    # data["tones_of_voice"] = tones_of_voice_entries
     data.append(tones_of_voice_entries)
     
     speech_elements_entries = []
     for entry in speech_elements.find():
         speech_elements_entries.append({"id": str(entry["_id"]), "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
 
-    # data["speech_elements"] = speech_elements_entries
     data.append(speech_elements_entries)
 
     routines_entries = []
     for entry in routines.find():
         routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"], "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
 
-    # data["routines"] = routines_entries
     data.append(routines_entries)
 
     return jsonify(data)
@@ -74,13 +69,16 @@ def fetch_from_db():
 def save_yaml(routine):
     # TODO convert routine from angular data type to python dict
     try:
-        routine_post = {
-            "user": "User1",
-            "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
-            "name": "Dance_1",
-            "file":  bson.encode(routine)}
-        routines.insert_one(routine_post)
-        print("Insert completed")
+        if (routines.find_one({"_id": routine["id"]})) is None:
+            routine_post = {
+                "user": "User1",
+                "last_modified": datetime.now(tz=datetime.timezone.utc),
+                "label": "Dance_1",
+                "file":  bson.encode(routine)}
+            routines.insert_one(routine_post)
+            print("Insert completed")
+        else:
+            update_routine(routine)
     except Exception as e:
         print("An error ocurred: ", e)
 
@@ -100,9 +98,30 @@ def download_routine(routine):
         print("An error ocurred: ", e)
 
 # TODO Retrieve most recent routine
-# TODO UPDATE
-# TODO DELETE
 
+# UPDATE
+# Update routine entry in db using its id and receiving new
+# routine object
+def update_routine(routine):
+    try:
+        filter = {"_id" : routine["id"]}
+        new_values = { "$set": {"file": routine , "last_modified": datetime.datetime.now(tz=datetime.timezone.utc)} }
+        routines.update_one(filter, new_values)
+        print("Update completed")
+    except Exception as e:
+        print("An error ocurred: ", e)
+
+# DELETE
+# Delete routine entry from db using its id 
+def delete_routine(id):
+    try:
+        if (routines.find_one({"_id": id})) is not None:
+            routines.delete_one({"_id": id})
+            print("Delete completed")
+        else:
+            print("No such routine found")
+    except Exception as e:
+        print("An error ocurred: ", e)
 
 if __name__== "__main__":
     app.run(debug=True)
