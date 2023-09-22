@@ -39,6 +39,7 @@ export class Send_block {
 export class Routines {
 
     id: number = 0;
+    routine_id: number = 0;
     name: string = "";
     array_block: Array<Array<Send_block>> = [];
       

@@ -83,4 +83,8 @@ export class AppComponent implements OnInit {
     console.log("Scrolled")
     this.new_block.sendScroll(event);
   }
+
+  saveRoutine(){
+    this.new_block.save_button("Button_Clicked");
+  }
 }

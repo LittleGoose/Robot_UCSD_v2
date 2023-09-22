@@ -36,3 +36,10 @@ app-sidebar-second {
     overflow: auto; /* Allow scrolling if content overflows */
     max-height: 100%; /* Ensure content doesn't exceed the available space */
   }
+
+.clear{
+  max-width: 8%!important;
+  position: fixed;
+  bottom: 20px; /* Adjust the distance from the bottom as needed */
+  right: 20px; /* Adjust the distance from the right as needed */
+}

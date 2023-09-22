@@ -20,7 +20,15 @@ export class SidebarSecondComponent  implements OnInit {
 
 
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {}
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {
+    this.new_block.saveRoutineEvent.subscribe((data) => {
+      if(data.type_def != "Button_Clicked"){
+        if(!this.options.some(option => option.label === data.routine.label)){
+          this.options.push(data.routine);
+        }
+      }
+    });
+  }
 
   getScrollPosition(): number {
     return this.scrollService.getScrollPosition();
@@ -124,7 +132,6 @@ export class SidebarSecondComponent  implements OnInit {
     this.new_block.emitData(event, block);
   }
 
-  
   }
   
 
