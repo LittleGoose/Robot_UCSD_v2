@@ -22,12 +22,7 @@ $colors: (
   max-width: 2%!important;
 }
 
-ion-grid {
-  border: 1px solid #ccc; /* Add a border to the entire grid */
-}
-
 .grid-cell {
-  border: 1px solid #ccc; /* Add a border to each grid cell */
   padding: 10px; /* Add padding for spacing */
   text-align: center; /* Center text within cells */
 }

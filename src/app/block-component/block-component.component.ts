@@ -38,21 +38,12 @@ export class BlockComponentComponent implements AfterViewInit {
   RowValues = new Set<number>();
   scrollPosition = 0;
 
+  startRect = new DOMRect;
+  endRect = new DOMRect;
+
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2) {
-    // Initialize the routine
-    /*this.block1.name = "Happy";
-    this.block1.level = 1;
-    this.block1.class = "facial_expression"
 
-    this.block2.name = "Talk";
-    this.block2.talk = "Hello";
-    this.block2.class = "speech"
-
-    this.block3.name = "Hum";
-    this.block3.class = "speech"*/
-
-    //this.current_routine.array_block = [[this.block1, this.block2], [this.block3]];
     this.current_routine.array_block = [[]];
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
@@ -103,41 +94,69 @@ export class BlockComponentComponent implements AfterViewInit {
       let RowValues = new Set<number>();
       // Iterate through the coordinates and add unique x values to the Set
 
-      const divide = 6;
+      const divide = 7;
 
-      if(colArray.length == 0){
-        this.current_routine.array_block.splice(0, 0, [this.current_block]);
+      this.reset_edges();
+
+      if(data.event.pageY < this.startRect.top || data.event.pageY > this.endRect.bottom || data.event.pageX < this.startRect.left){
+        console.log("Outside of bounds")
       } else {
-        for (const num of this.ColValues) {
-          if(num + (this.dif/divide) > data.event.pageY){
-            if(num - (this.dif/divide) < data.event.pageY){
-              for (const coord of this.cellPositions) {
-                if (coord.center_y == num){
-                  console.log("Found row")
-                  if(coord.center_x > data.event.pageX){
+        if(colArray.length == 0){
+          this.current_routine.array_block[0] = [this.current_block];
+        } else {
+          for (const num of this.ColValues) {
+            if(num + (this.dif/divide) > data.event.pageY){
+              if(num - (this.dif/divide) < data.event.pageY){
+  
+                console.log("Add to previous")
+                
+                // Routines can't be added in a row with other blocks
+                if(this.current_block.class == "routine"){
+                  break;
+                }
+  
+                let break_var = 0;
+  
+                for(let i = 0; i < this.current_routine.array_block[index_row].length; i++) {
+                  if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
+                    || this.current_routine.array_block[index_row][i].class == "routine"){
+                    break_var = 1;
                     break;
                   }
-                  index_col++;
                 }
+  
+                if(break_var == 1){
+                  break;
+                }
+  
+                for (const coord of this.cellPositions) {
+                  if (coord.center_y == num){
+                    if(coord.center_x > data.event.pageX){
+                      break;
+                    }
+                    index_col++;
+                  }
+                }
+                this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
+                this.blocks += 1;
+              } else {
+                this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
+                this.blocks += 1;
               }
-              this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
-            } else {
-              this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
+              break;
             }
-            break;
+            index_row++;
           }
-          index_row++;
         }
-      }
-
-      if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
-        this.current_routine.array_block.push([this.current_block]);
+  
+        if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
+          this.current_routine.array_block.push([this.current_block]);
+          this.blocks += 1;
+        }
       }
 
       // Calculate the center coordinates
       //his.current_routine.array_block.push([this.current_block]);
-      this.blocks += 1;
-
     });
     //console.log(this.current_routine.array_block); 
   }
@@ -155,33 +174,39 @@ export class BlockComponentComponent implements AfterViewInit {
     //console.log(this.block2);
   }
 
+  reset_edges(){
+    if (this.startElement && this.endElement) {
+      // Use Renderer2 to get the coordinates of the elements
+      const startRect = this.startElement.nativeElement.getBoundingClientRect();
+      this.startRect = startRect;
+      const endRect = this.endElement.nativeElement.getBoundingClientRect();
+      this.endRect = endRect;
+
+      // Calculate the center coordinates for each element
+      const startCenterX = startRect.left + startRect.width / 2;
+      const startCenterY = startRect.top + startRect.height / 2;
+
+      const endCenterX = endRect.left + endRect.width / 2;
+      const endCenterY = endRect.top + endRect.height / 2;
+
+      console.log(`Start Center X: ${startCenterX}px, Start Center Y: ${startCenterY}px`);
+      console.log(`End Center X: ${endCenterX}px, End Center Y: ${endCenterY}px`);
+
+      const gridElement = this.gridRef.nativeElement;
+      gridElement.addEventListener('scroll', this.onScroll.bind(this));
+
+    } else {
+      console.error('Elements not found');
+    }
+  }
+
   ngAfterViewInit() {
     this.ionContent.scrollToTop(0);
 
     // Check if the startElement and endElement are defined
     setTimeout(() => {
       // Check if the startElement and endElement are defined
-      if (this.startElement && this.endElement) {
-        // Use Renderer2 to get the coordinates of the elements
-        const startRect = this.startElement.nativeElement.getBoundingClientRect();
-        const endRect = this.endElement.nativeElement.getBoundingClientRect();
-
-        // Calculate the center coordinates for each element
-        const startCenterX = startRect.left + startRect.width / 2;
-        const startCenterY = startRect.top + startRect.height / 2;
-
-        const endCenterX = endRect.left + endRect.width / 2;
-        const endCenterY = endRect.top + endRect.height / 2;
-
-        console.log(`Start Center X: ${startCenterX}px, Start Center Y: ${startCenterY}px`);
-        console.log(`End Center X: ${endCenterX}px, End Center Y: ${endCenterY}px`);
-
-        const gridElement = this.gridRef.nativeElement;
-        gridElement.addEventListener('scroll', this.onScroll.bind(this));
-
-      } else {
-        console.error('Elements not found');
-      }
+      this.reset_edges()
     }, 500); // Adjust the timeout duration as needed
   }
 

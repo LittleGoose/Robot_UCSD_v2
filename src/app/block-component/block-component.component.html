@@ -17,7 +17,7 @@
 
 <ion-row *ngFor="let row of current_routine.array_block" #blockRef>
   <ion-col class="padding" id="padding"></ion-col>
-  <ion-col size="auto" *ngFor="let block of row" class="grid-cell">
+  <ion-col size="auto" *ngFor="let block of row">
     <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
   </ion-col>
 </ion-row>
@@ -28,7 +28,7 @@
 <ion-row>
   <ion-col>
     <div class="start-button">
-      <ion-title >END</ion-title>
+      <ion-title>END</ion-title>
     </div>
   </ion-col>
 </ion-row>
