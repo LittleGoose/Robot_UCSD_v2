@@ -101,6 +101,8 @@ export class BlockComponentComponent implements AfterViewInit {
 
       if(data.event.pageY < this.startRect.top || data.event.pageY > this.endRect.bottom || data.event.pageX < this.startRect.left){
         console.log("Outside of bounds")
+      } else if (this.current_block.name == this.current_routine.name){
+        console.log("Can't add routine to the current one")
       } else {
         if(colArray.length == 0){
           this.current_routine.array_block[0] = [this.current_block];
