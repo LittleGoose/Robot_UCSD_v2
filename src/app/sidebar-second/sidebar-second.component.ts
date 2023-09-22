@@ -56,7 +56,7 @@ export class SidebarSecondComponent  implements OnInit {
   facial_expresions: Facial_Expression[] = [this.block_1, this.block_2];
   body_gestures: Body_Gestures[] = [this.block_3, this.block_4];
   tone_of_voice: Tone_Voice[] = [this.block_5, this.block_6];
-  speach: Speech[] = [this.block_7, this.block_8, this.block_9];
+  speech: Speech[] = [this.block_7, this.block_8, this.block_9];
   routines: Routines_Blocks[] = [this.block_10, this.block_11];
 
   options: Block[] = [];
@@ -83,26 +83,31 @@ export class SidebarSecondComponent  implements OnInit {
 
     let totalexpressions = this.facial_expresions.length;
     for (let i = 0; i < totalexpressions; i++) {
+      this.facial_expresions[i].color = "success"
       this.options.push(this.facial_expresions[i]);
     }
 
     let totalgestures = this.body_gestures.length;
     for (let i = 0; i < totalgestures; i++) {
+      this.body_gestures[i].color = "danger"
       this.options.push(this.body_gestures[i]);
     }
 
     let totalvoices = this.tone_of_voice.length;
     for (let i = 0; i < totalvoices; i++) {
+      this.tone_of_voice[i].color = "tertiary"
       this.options.push(this.tone_of_voice[i]);
     }
 
-    let totalspeach = this.speach.length;
+    let totalspeach = this.speech.length;
     for (let i = 0; i < totalspeach; i++) {
-      this.options.push(this.speach[i]);
+      this.speech[i].color = "warning"
+      this.options.push(this.speech[i]);
     }
 
     let totalroutines = this.routines.length;
     for (let i = 0; i < totalroutines; i++) {
+      this.routines[i].color = "medium"
       this.options.push(this.routines[i]);
     }
 
