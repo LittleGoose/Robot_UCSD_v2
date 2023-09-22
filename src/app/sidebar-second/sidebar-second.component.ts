@@ -38,79 +38,77 @@ export class SidebarSecondComponent  implements OnInit {
   //rootPage2 = 'Panel2Page';
 
   // This will be added with the database
-  block_1: Facial_Expression = new Facial_Expression(1, "Happy", "Happy face", "E1", 0);
-  block_2: Facial_Expression = new Facial_Expression(2, "Sad", "Sad face", "E2", 0);
+  block_1: Facial_Expression = new Facial_Expression("1", "Happy", "Happy face", "E1", 0);
+  block_2: Facial_Expression = new Facial_Expression("2", "Sad", "Sad face", "E2", 0);
 
-  block_3: Body_Gestures = new Body_Gestures(1, "Nod", "Rotate head", "B1", 0);
-  block_4: Body_Gestures = new Body_Gestures(2, "Turn", "Rotate head", "B2", 0);
+  block_3: Body_Gestures = new Body_Gestures("1", "Nod", "Rotate head", "B1", 0);
+  block_4: Body_Gestures = new Body_Gestures("2", "Turn", "Rotate head", "B2", 0);
 
-  block_5: Tone_Voice = new Tone_Voice(1, "Excited", "Rotate head", "T1");
-  block_6: Tone_Voice = new Tone_Voice(2, "Timid", "Rotate head", "T2");
+  block_5: Tone_Voice = new Tone_Voice("1", "Excited", "Rotate head", "T1");
+  block_6: Tone_Voice = new Tone_Voice("2", "Timid", "Rotate head", "T2");
 
-  block_7: Speech = new Speech(1, "Listen", "Rotate head", "T1", "");
-  block_8: Speech = new Speech(2, "Talk", "Rotate head", "T2", "");
-  block_9: Speech = new Speech(3, "Scream", "Rotate head", "T3", "Hm");
+  block_7: Speech = new Speech("1", "Listen", "Rotate head", "T1", "");
+  block_8: Speech = new Speech("2", "Talk", "Rotate head", "T2", "");
+  block_9: Speech = new Speech("3", "Scream", "Rotate head", "T3", "Hm");
 
-  block_10: Routines_Blocks = new Routines_Blocks(1, "Dance_1", 1);
-  block_11: Routines_Blocks = new Routines_Blocks(2, "Conversation_1", 2);
-  
-  facial_expresions: Facial_Expression[] = [this.block_1, this.block_2];
-  body_gestures: Body_Gestures[] = [this.block_3, this.block_4];
-  tone_of_voice: Tone_Voice[] = [this.block_5, this.block_6];
-  speech: Speech[] = [this.block_7, this.block_8, this.block_9];
-  routines: Routines_Blocks[] = [this.block_10, this.block_11];
+  block_10: Routines_Blocks = new Routines_Blocks("1", "Dance_1", 1);
+  block_11: Routines_Blocks = new Routines_Blocks("2", "Conversation_1", 2);
+ 
+  facial_expresions: Facial_Expression[] = [];
+  body_gestures: Body_Gestures[] = [];
+  tone_of_voice: Tone_Voice[] = [];
+  speech: Speech[] = [];
+  routines: Routines_Blocks[] = [];
 
-  options: Block[] = [];
-
-  facial_list : Facial_Expression[] = [];
-
+  options : Block[] = [];
 
   ngOnInit() {
-    /*this.rs.read_db()
+    this.rs.read_db()
     .subscribe(
       (response) => {
-        this.facial_list = response[0]["data"];
-        console.log(this.facial_list);
+
+        this.facial_expresions = response[0];
+
+        this.facial_expresions.forEach(element => {
+          this.options.push(element);
+        });
+
+        this.body_gestures = response[1];
+
+        this.body_gestures.forEach(element => {
+          this.options.push(element);
+        });
+
+        this.tone_of_voice = response[2];
+
+        this.tone_of_voice.forEach(element => {
+          this.options.push(element);
+        });
+        
+        this.speech = response[3];
+
+        this.speech.forEach(element => {
+          this.options.push(element);
+        });
+
+        this.routines = response[4];
+        this.routines.forEach(element => {
+          this.options.push(element);
+        });
+
+        console.log(this.options);
+
       },
       (error) => {
         console.log("No Data Found" + error);
       }
-    )*/
+    )
 
     this.generateItems();
+
   }
 
   private generateItems() {
-
-    let totalexpressions = this.facial_expresions.length;
-    for (let i = 0; i < totalexpressions; i++) {
-      this.facial_expresions[i].color = "success"
-      this.options.push(this.facial_expresions[i]);
-    }
-
-    let totalgestures = this.body_gestures.length;
-    for (let i = 0; i < totalgestures; i++) {
-      this.body_gestures[i].color = "danger"
-      this.options.push(this.body_gestures[i]);
-    }
-
-    let totalvoices = this.tone_of_voice.length;
-    for (let i = 0; i < totalvoices; i++) {
-      this.tone_of_voice[i].color = "tertiary"
-      this.options.push(this.tone_of_voice[i]);
-    }
-
-    let totalspeach = this.speech.length;
-    for (let i = 0; i < totalspeach; i++) {
-      this.speech[i].color = "warning"
-      this.options.push(this.speech[i]);
-    }
-
-    let totalroutines = this.routines.length;
-    for (let i = 0; i < totalroutines; i++) {
-      this.routines[i].color = "medium"
-      this.options.push(this.routines[i]);
-    }
 
   }
 
