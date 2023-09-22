@@ -51,8 +51,8 @@ export class SidebarSecondComponent  implements OnInit {
   block_8: Speech = new Speech("2", "Talk", "Rotate head", "T2", "");
   block_9: Speech = new Speech("3", "Scream", "Rotate head", "T3", "Hm");
 
-  block_10: Routines_Blocks = new Routines_Blocks("1", "Dance_1", 1);
-  block_11: Routines_Blocks = new Routines_Blocks("2", "Conversation_1", 2);
+  // block_10: Routines_Blocks = new Routines_Blocks("1", "Dance_1", 1);
+  // block_11: Routines_Blocks = new Routines_Blocks("2", "Conversation_1", 2);
  
   facial_expresions: Facial_Expression[] = [];
   body_gestures: Body_Gestures[] = [];

@@ -161,8 +161,7 @@ export class BlockComponentComponent implements AfterViewInit {
     
     this.newBlockService.saveRoutineEvent.subscribe((data) => {
       if(data.type_def=="Button_Clicked"){
-        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name, 
-          this.current_routine.routine_id);
+        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name);
 
         this.newBlockService.save_button("Routine", send_routine);
       }
