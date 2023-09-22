@@ -20,7 +20,16 @@ export class SidebarSecondComponent  implements OnInit {
 
 
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {}
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {
+    this.new_block.saveRoutineEvent.subscribe((data) => {
+      if(data.type_def != "Button_Clicked"){
+        if(!this.options.some(option => option.label === data.routine.label)){
+          data.routine.color = "medium"
+          this.options.push(data.routine);
+        }
+      }
+    });
+  }
 
   getScrollPosition(): number {
     return this.scrollService.getScrollPosition();
@@ -44,7 +53,7 @@ export class SidebarSecondComponent  implements OnInit {
 
   block_10: Routines_Blocks = new Routines_Blocks("1", "Dance_1", 1);
   block_11: Routines_Blocks = new Routines_Blocks("2", "Conversation_1", 2);
-  
+ 
   facial_expresions: Facial_Expression[] = [];
   body_gestures: Body_Gestures[] = [];
   tone_of_voice: Tone_Voice[] = [];
@@ -52,7 +61,6 @@ export class SidebarSecondComponent  implements OnInit {
   routines: Routines_Blocks[] = [];
 
   options : Block[] = [];
-
 
   ngOnInit() {
     this.rs.read_db()
@@ -102,31 +110,6 @@ export class SidebarSecondComponent  implements OnInit {
 
   private generateItems() {
 
-    // let totalexpressions = this.facial_expresions.length + 1;
-    // for (let i = 0; i < totalexpressions; i++) {
-    //   this.options.push(this.facial_expresions[i]);
-    // }
-
-    // let totalgestures = this.body_gestures.length;
-    // for (let i = 0; i < totalgestures; i++) {
-    //   this.options.push(this.body_gestures[i]);
-    // }
-
-    // let totalvoices = this.tone_of_voice.length;
-    // for (let i = 0; i < totalvoices; i++) {
-    //   this.options.push(this.tone_of_voice[i]);
-    // }
-
-    // let totalspeach = this.speech.length;
-    // for (let i = 0; i < totalspeach; i++) {
-    //   this.options.push(this.speech[i]);
-    // }
-
-    // let totalroutines = this.routines.length;
-    // for (let i = 0; i < totalroutines; i++) {
-    //   this.options.push(this.routines[i]);
-    // }
-
   }
 
   onIonInfinite(ev: any) {
@@ -153,7 +136,6 @@ export class SidebarSecondComponent  implements OnInit {
     this.new_block.emitData(event, block);
   }
 
-  
   }
   
 

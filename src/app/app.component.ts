@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor() {}
+  constructor(private rs : RestService, private new_block: NewBlockService) {}
 
   // facial_list;
 
@@ -75,7 +75,15 @@ export class AppComponent implements OnInit {
   //           {
   //             console.log("No Data Found" + error);
   //           }
+  //        )
+  //}
 
-  //         )
-  // }
+  onScroll(event: Event){
+    console.log("Scrolled")
+    this.new_block.sendScroll(event);
+  }
+
+  saveRoutine(){
+    this.new_block.save_button("Button_Clicked");
+  }
 }

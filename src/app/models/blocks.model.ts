@@ -2,6 +2,7 @@ export class Block {
 
   id: string;
   label: string;
+  color: string;
 
   constructor(id: string, label: string){
     this.id = id;
