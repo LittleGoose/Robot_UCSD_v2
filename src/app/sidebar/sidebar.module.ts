@@ -17,7 +17,6 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     IonicModule,
     HttpClientModule
-    
   ],
   exports: [
     SidebarFirstComponent,

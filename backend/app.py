@@ -7,6 +7,7 @@ import yaml
 import os
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 
 client = MongoClient("0.0.0.0", 27017) # Connect to mongo client (local level)
 db = client["ROBOT_UCSD"] # Access/creation of data base
@@ -27,37 +28,42 @@ def root():
 @app.route("/fetch_tables_from_db", methods=["GET"])
 def fetch_from_db():
         
-    data = {} 
+    data = []
 
     facial_expressions_entries = []
     for entry in facial_expressions.find():
-        facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+        facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"], "level" : 0, "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    data["facial_expressions"] = facial_expressions_entries
+    # data["facial_expressions"] = facial_expressions_entries
+    data.append(facial_expressions_entries)
 
     body_gestures_entries = []
     for entry in body_gestures.find():
         body_gestures_entries.append({"id": str(entry["_id"]), "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    data["body_gestures"] = body_gestures_entries
+    # data["body_gestures"] = body_gestures_entries
+    data.append(body_gestures_entries)
 
     tones_of_voice_entries = []
     for entry in tones_of_voice.find():
         tones_of_voice_entries.append({"id": str(entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-    data["tones_of_voice"] = tones_of_voice_entries
+    # data["tones_of_voice"] = tones_of_voice_entries
+    data.append(tones_of_voice_entries)
     
     speech_elements_entries = []
     for entry in speech_elements.find():
         speech_elements_entries.append({"id": str(entry["_id"]), "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
 
-    data["speech_elements"] = speech_elements_entries
+    # data["speech_elements"] = speech_elements_entries
+    data.append(speech_elements_entries)
 
     routines_entries = []
     for entry in routines.find():
-        routines_entries.append({"id": str(entry["_id"]), "user": entry["user"], "last_modified": entry["last_modified"], "name": entry["name"], "file": bson.decode(entry["file"])})
+        routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"], "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
 
-    data["routines"] = routines_entries
+    # data["routines"] = routines_entries
+    data.append(routines_entries)
 
     return jsonify(data)
 

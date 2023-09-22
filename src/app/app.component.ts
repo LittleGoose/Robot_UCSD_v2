@@ -33,9 +33,9 @@ export class AppComponent implements OnInit {
 
   //rootPage2 = 'Panel2Page';
   
-  // ngOnInit() {
+  ngOnInit() {
     
-  // }
+  }
 
   onIonInfinite(ev: any) {
     setTimeout(() => {
@@ -58,24 +58,24 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor(private rs : RestService) {}
+  constructor() {}
 
-  facial_list : Facial_Expression[] = [];
+  // facial_list;
 
-  ngOnInit(){
-    this.rs.read_db()
-        .subscribe
-          (
-            (response) => 
-            {
-              this.facial_list = response;
-              console.log(response);
-            },
-            (error) =>
-            {
-              console.log("No Data Found" + error);
-            }
+  // ngOnInit(){
+  //   this.rs.read_db()
+  //       .subscribe
+  //         (
+  //           (response) => 
+  //           {
+  //             this.facial_list = response[2];
+  //             console.log(response);
+  //           },
+  //           (error) =>
+  //           {
+  //             console.log("No Data Found" + error);
+  //           }
 
-          )
-  }
+  //         )
+  // }
 }

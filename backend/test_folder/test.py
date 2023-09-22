@@ -17,22 +17,22 @@ tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
 speech_elements = db["speech_elements"] # Creation/Access of table Speech
 routines = db["routines"] #Creation/Access of table Routines
 
-routine = {
-    "Segment_1": {
-        "Block_1": {
-            "Type": "facial_expression",
-            "Level": 2,
-            "Label": "Happy"
-            }
-    },
-    "Segment_2": {
-        "Block_1": {
-            "Type": "speech",
-            "Level": 3,
-            "Label": "Hum"
-        }
-    }
-}
+# routine = {
+#     "Segment_1": {
+#         "Block_1": {
+#             "Type": "facial_expression",
+#             "Level": 2,
+#             "Label": "Happy"
+#             }
+#     },
+#     "Segment_2": {
+#         "Block_1": {
+#             "Type": "speech",
+#             "Level": 3,
+#             "Label": "Hum"
+#         }
+#     }
+# }
 
 # fs = gridfs.GridFS(db, collection="routines")
 # data = yaml.dump(routine).encode('utf-8')
@@ -51,21 +51,20 @@ routine = {
 
 # routines.insert_one(dummy_routine_post)
 
-decoded_data = bson.decode(routines.find_one({"user": "User1"})["file"])
+# decoded_data = bson.decode(routines.find_one({"user": "User1"})["file"])
 # print(decoded_data)
 # print(yaml.dump(decoded_data))
 
+# home = os.path.expanduser("~")
+# download_path = os.path.join(home, 'Downloads/')
 
-home = os.path.expanduser("~")
-download_path = os.path.join(home, 'Downloads/')
+# x = datetime.now()
 
-x = datetime.now()
+# file_name = home + x.strftime('%d-%m-%Y-%H-%M-%S.yaml')
+# with open(file_name, 'w') as fp:
+#     fp.write(yaml.dump(decoded_data))
 
-file_name = home + x.strftime('%d-%m-%Y-%H-%M-%S.yaml')
-with open(file_name, 'w') as fp:
-    fp.write(yaml.dump(decoded_data))
-
-print(file_name)
+# print(file_name)
 
 # Format
 #
