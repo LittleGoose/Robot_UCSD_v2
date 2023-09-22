@@ -24,6 +24,7 @@ export class SidebarSecondComponent  implements OnInit {
     this.new_block.saveRoutineEvent.subscribe((data) => {
       if(data.type_def != "Button_Clicked"){
         if(!this.options.some(option => option.label === data.routine.label)){
+          data.routine.color = "medium"
           this.options.push(data.routine);
         }
       }
