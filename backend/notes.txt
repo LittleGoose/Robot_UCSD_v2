@@ -100,3 +100,4 @@ https://techinima.com/python/create-a-yaml-file-in-python/
 
 https://medium.com/techiediaries-com/send-http-post-with-angular-9-8-httpclient-by-example-61e2dfdee8a9
 
+https://stackabuse.com/how-to-get-and-parse-http-post-body-in-flask-json-and-form-data/
