@@ -9,54 +9,66 @@ import os
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-client = MongoClient("0.0.0.0", 27017) # Connect to mongo client (local level)
-db = client["ROBOT_UCSD"] # Access/creation of data base
+# Connect to mongo client (local level)
+client = MongoClient("127.0.0.1", 27017)
+db = client["ROBOT_UCSD"]  # Access/creation of data base
 
-facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
-body_gestures = db["body_gestures"] # Creation/Access of table Movements
-tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
-speech_elements = db["speech_elements"] # Creation/Access of table Speech
-routines = db["routines"] #Creation/Access of table Routines
+# Creation/Access of table Expressions
+facial_expressions = db["facial_expressions"]
+body_gestures = db["body_gestures"]  # Creation/Access of table Movements
+# Creation/Access of table Tones of Voice
+tones_of_voice = db["tones_of_voice"]
+speech_elements = db["speech_elements"]  # Creation/Access of table Speech
+routines = db["routines"]  # Creation/Access of table Routines
 
 # Main app
+
+
 @app.route("/", methods=["GET"])
 def root():
     return "MAIN FLASK ROUTE"
 
 # Fetch entries from all tables to send to sidebar angular component
 # Return entries in a json format
+
+
 @app.route("/fetch_tables_from_db", methods=["GET"])
 def fetch_from_db():
-        
+
     data = []
 
     facial_expressions_entries = []
     for entry in facial_expressions.find():
-        facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"], "level" : 0, "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+        facial_expressions_entries.append({"id": str(entry["_id"]), "label": entry["expression_name"],
+                                          "level": 0, "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
     data.append(facial_expressions_entries)
 
     body_gestures_entries = []
     for entry in body_gestures.find():
-        body_gestures_entries.append({"id": str(entry["_id"]), "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+        body_gestures_entries.append({"id": str(
+            entry["_id"]), "label": entry["movement_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
     data.append(body_gestures_entries)
 
     tones_of_voice_entries = []
     for entry in tones_of_voice.find():
-        tones_of_voice_entries.append({"id": str(entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
+        tones_of_voice_entries.append({"id": str(
+            entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
     data.append(tones_of_voice_entries)
-    
+
     speech_elements_entries = []
     for entry in speech_elements.find():
-        speech_elements_entries.append({"id": str(entry["_id"]), "label": entry["element_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
+        speech_elements_entries.append({"id": str(entry["_id"]), "label": entry["element_name"],
+                                       "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
 
     data.append(speech_elements_entries)
 
     routines_entries = []
     for entry in routines.find():
-        routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"], "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
+        routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
+                                "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
 
     data.append(routines_entries)
 
@@ -65,6 +77,8 @@ def fetch_from_db():
 # CREATE
 # Receive a the routine object to enconde in binary
 # Add to entry and upload to database
+
+
 @app.route("/save_yaml", methods=["POST"])
 def save_yaml(routine):
     # TODO convert routine from angular data type to python dict
@@ -84,6 +98,8 @@ def save_yaml(routine):
 
 # READ
 # Download routine from angular app
+
+
 @app.route("/download_routine", methods=["GET"])
 def download_routine(routine):
     # TODO convert routine from angular data type to python dict
@@ -102,17 +118,22 @@ def download_routine(routine):
 # UPDATE
 # Update routine entry in db using its id and receiving new
 # routine object
+
+
 def update_routine(routine):
     try:
-        filter = {"_id" : routine["id"]}
-        new_values = { "$set": {"file": routine , "last_modified": datetime.datetime.now(tz=datetime.timezone.utc)} }
+        filter = {"_id": routine["id"]}
+        new_values = {"$set": {"file": routine, "last_modified": datetime.datetime.now(
+            tz=datetime.timezone.utc)}}
         routines.update_one(filter, new_values)
         print("Update completed")
     except Exception as e:
         print("An error ocurred: ", e)
 
 # DELETE
-# Delete routine entry from db using its id 
+# Delete routine entry from db using its id
+
+
 def delete_routine(id):
     try:
         if (routines.find_one({"_id": id})) is not None:
@@ -123,5 +144,6 @@ def delete_routine(id):
     except Exception as e:
         print("An error ocurred: ", e)
 
-if __name__== "__main__":
+
+if __name__ == "__main__":
     app.run(debug=True)
