@@ -61,7 +61,7 @@ export class PopUpComponent {
         this.block.level = this.selectedValue;
         break;
       }
-      case 'speach': {
+      case 'speech': {
         this.block.talk = this.talk;
         break;
       }
