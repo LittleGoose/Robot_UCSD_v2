@@ -1,8 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from pymongo import MongoClient
 import datetime
 import bson
 from bson.objectid import ObjectId
+from bson.json_util import loads
 import yaml
 import os
 
@@ -74,21 +75,23 @@ def fetch_from_db():
 # Receive a the routine object to enconde in binary
 # Add to entry and upload to database
 @app.route("/save_yaml", methods=["POST"])
-def save_yaml(routine):
-    # TODO convert routine from angular data type to python dict
-    try:
-        if (routines.find_one({"_id": routine["id"]})) is None:
-            routine_post = {
-                "user": "User1",
-                "last_modified": datetime.now(tz=datetime.timezone.utc),
-                "label": "Dance_1",
-                "file":  bson.encode(routine)}
-            routines.insert_one(routine_post)
-            print("Insert completed")
-        else:
-            update_routine(routine)
-    except Exception as e:
-        print("An error ocurred: ", e)
+def save_yaml():
+    if request.method == 'POST':
+        routine = bson.json_util.loads(request.data)
+    return jsonify({"response":"HI"})
+    # try:
+    #     if (routines.find_one({"_id": routine["id"]})) is None:
+    #         routine_post = {
+    #             "user": "User1",
+    #             "last_modified": datetime.now(tz=datetime.timezone.utc),
+    #             "label": "Dance_1",
+    #             "file":  bson.encode(routine)}
+    #         routines.insert_one(routine_post)
+    #         print("Insert completed")
+    #     else:
+    #         update_routine(routine)
+    # except Exception as e:
+    #     print("An error ocurred: ", e)
 
 
 # READ
