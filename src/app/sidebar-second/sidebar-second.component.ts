@@ -106,8 +106,6 @@ export class SidebarSecondComponent  implements OnInit {
           this.options.push(block);
         });
 
-        console.log(this.options);
-
       },
       (error) => {
         console.log("No Data Found" + error);
