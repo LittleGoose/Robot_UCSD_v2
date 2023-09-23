@@ -71,10 +71,7 @@ export class Speech extends Block {
 
 export class Routines_Blocks extends Block {
 
-  routine_id: number = 0;
-
-  constructor(id: string, label: string, routine_id: number){
+  constructor(id: string, label: string){
     super(id, label);
-    this.routine_id = routine_id;
   }
 }

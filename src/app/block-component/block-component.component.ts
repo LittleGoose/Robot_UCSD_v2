@@ -161,8 +161,7 @@ export class BlockComponentComponent implements AfterViewInit {
     
     this.newBlockService.saveRoutineEvent.subscribe((data) => {
       if(data.type_def=="Button_Clicked"){
-        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name, 
-          this.current_routine.routine_id);
+        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name);
 
         this.newBlockService.save_button("Routine", send_routine);
       }
@@ -189,16 +188,6 @@ export class BlockComponentComponent implements AfterViewInit {
       this.startRect = startRect;
       const endRect = this.endElement.nativeElement.getBoundingClientRect();
       this.endRect = endRect;
-
-      // Calculate the center coordinates for each element
-      const startCenterX = startRect.left + startRect.width / 2;
-      const startCenterY = startRect.top + startRect.height / 2;
-
-      const endCenterX = endRect.left + endRect.width / 2;
-      const endCenterY = endRect.top + endRect.height / 2;
-
-      console.log(`Start Center X: ${startCenterX}px, Start Center Y: ${startCenterY}px`);
-      console.log(`End Center X: ${endCenterX}px, End Center Y: ${endCenterY}px`);
 
       const gridElement = this.gridRef.nativeElement;
       gridElement.addEventListener('scroll', this.onScroll.bind(this));
