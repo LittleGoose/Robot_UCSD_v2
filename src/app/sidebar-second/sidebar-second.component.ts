@@ -71,6 +71,7 @@ export class SidebarSecondComponent  implements OnInit {
 
         this.facial_expresions.forEach(element => {
           const block = new Facial_Expression(element.id, element.label, element.description, element.id_in_robot, element.level);
+          block.color = "success";
           this.options.push(block);
         });
 
@@ -78,6 +79,7 @@ export class SidebarSecondComponent  implements OnInit {
 
         this.body_gestures.forEach(element => {
           const block = new Body_Gestures(element.id, element.label, element.description, element.id_in_robot, element.level);
+          block.color = "danger";
           this.options.push(block);
         });
 
@@ -85,6 +87,7 @@ export class SidebarSecondComponent  implements OnInit {
 
         this.tone_of_voice.forEach(element => {
           const block = new Tone_Voice(element.id, element.label, element.description, element.id_in_robot);
+          block.color = "tertiary";
           this.options.push(block);
         });
         
@@ -92,12 +95,14 @@ export class SidebarSecondComponent  implements OnInit {
 
         this.speech.forEach(element => {
           const block = new Speech(element.id, element.label, element.description, element.id_in_robot, element.utterance);
+          block.color = "warning";
           this.options.push(block);
         });
 
         this.routines = response[4];
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label);
+          block.color = "medium";
           this.options.push(block);
         });
 
