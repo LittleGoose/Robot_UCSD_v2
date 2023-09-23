@@ -78,6 +78,7 @@ def fetch_from_db():
 def save_yaml():
     if request.method == 'POST':
         routine = bson.json_util.loads(request.data)
+        print(routine)
     return jsonify({"response":"HI"})
     # try:
     #     if (routines.find_one({"_id": routine["id"]})) is None:

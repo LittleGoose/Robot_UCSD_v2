@@ -30,12 +30,13 @@ export class NewBlockService {
     this.send_data_routine.type_def = type_def;
     if(routine){
       this.send_data_routine.routine = routine;
-      console.log("AQUIIII")
-      console.log(routine)
-
+      
       this.rs.upload_routine(routine).subscribe(
-        res => {
-          console.log(res);
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
         }
       );
 
