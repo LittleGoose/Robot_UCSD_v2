@@ -55,6 +55,7 @@ export class BlockComponentComponent implements AfterViewInit {
     this.newBlockService.newBlockAdded.subscribe((data) => {
       this.current_block = new Send_block();
       this.current_block.name = data.block.label;
+      console.log(data.block.constructor.name)
       switch(data.block.constructor.name){
         case "Facial_Expression":
           this.current_block.class = "facial_expression";

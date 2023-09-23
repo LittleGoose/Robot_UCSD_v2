@@ -70,30 +70,35 @@ export class SidebarSecondComponent  implements OnInit {
         this.facial_expresions = response[0];
 
         this.facial_expresions.forEach(element => {
-          this.options.push(element);
+          const block = new Facial_Expression(element.id, element.label, element.description, element.id_in_robot, element.level);
+          this.options.push(block);
         });
 
         this.body_gestures = response[1];
 
         this.body_gestures.forEach(element => {
-          this.options.push(element);
+          const block = new Body_Gestures(element.id, element.label, element.description, element.id_in_robot, element.level);
+          this.options.push(block);
         });
 
         this.tone_of_voice = response[2];
 
         this.tone_of_voice.forEach(element => {
-          this.options.push(element);
+          const block = new Tone_Voice(element.id, element.label, element.description, element.id_in_robot);
+          this.options.push(block);
         });
         
         this.speech = response[3];
 
         this.speech.forEach(element => {
-          this.options.push(element);
+          const block = new Speech(element.id, element.label, element.description, element.id_in_robot, element.utterance);
+          this.options.push(block);
         });
 
         this.routines = response[4];
         this.routines.forEach(element => {
-          this.options.push(element);
+          const block = new Routines_Blocks(element.id, element.label);
+          this.options.push(block);
         });
 
         console.log(this.options);
