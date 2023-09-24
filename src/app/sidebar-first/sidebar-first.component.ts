@@ -35,7 +35,7 @@ export class SidebarFirstComponent  implements OnInit {
     }
     else if (buttonId === 'btnRoutines') {
       console.log("Se hizo clic en el btnRoutines")
-      this.scrollService.sendInformation(0, 200);
+      this.scrollService.sendInformation(0, 450);
     }
   }
 

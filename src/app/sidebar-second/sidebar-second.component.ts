@@ -18,7 +18,7 @@ export class SidebarSecondComponent implements OnDestroy {
   private scrollSubscription: Subscription;
   
 
-  //constructor(private scrollService: ScrollService) {}
+  
 
   constructor(private scrollService: ScrollService) {
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
@@ -29,58 +29,40 @@ export class SidebarSecondComponent implements OnDestroy {
   ngOnDestroy() {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
-
   
-  //scrollToPosition(positionX: 0, positionY: 10000) {
-    //this.scrollService.scrollToPosition(this.content,positionX ,positionY );
-  //}
-
 
   rootPage2 = 'Panel2Page';
   
-  facial_expresions: string[] = ["Happy", "Sad", "Mad", "Angry", "Crazy"];
-  body_gestures: string[] = ["Nod", "Turn", "Walk", "Side_head", "Bow"];
-  tone_of_voice: string[] = ["Excited", "Timid", "Sad", "Slow", "Fast"];
-  speach: string[] = ["Listen", "Talk", "Hum", "Scream", "Agree"];
-  routines: string[] = ["Dance_1", "Conversation_1", "Coffe_talk_2", "Apologyze", "Aggreable_2"];
+  //TODO: Cambiar por emotions:  { clave: string; valor: string, imgUrl: string }[] = [
+  emotions:  { clave: string; valor: string }[] = [
+    { clave: "Happy", valor: "Im Happy"},
+    { clave: "Sad", valor: "I'm Feeling Sad"},
+    { clave: "Angry", valor: "Im angry"},
+    { clave: "Crazy", valor: "Im Excited"},
+    { clave: "Nod", valor: "I'm Nodding"},
+    { clave: "Turn", valor: "I'm Turning"},
+    { clave: "Walk", valor: "I'm Walking"},
+    { clave: "Side_head", valor: "I'm Tilting My Head"},
+    { clave: "Bow", valor: "I'm Bowing"},
+    { clave: "Excited", valor: "I'm Excited"},
+    { clave: "Timid", valor: "I'm Being Timid"},
+    { clave: "Slow", valor: "I'm Moving Slowly"},
+    { clave: "Fast", valor: "I'm Moving Fast"},
+    { clave: "Listen", valor: "I'm Listening"},
+    { clave: "Talk", valor: "I'm Talking"},
+    { clave: "Hum", valor: "I'm Humming"},
+    { clave: "Scream", valor: "I'm Screaming"},
+    { clave: "Agree", valor: "I'm Agreeing"},
+    { clave: "Dance", valor: "I'm Dancing"},
+    { clave: "Conversation", valor: "I'm Having a Conversation"},
+    { clave: "Coffe_talk", valor: "I'm Having a Coffee Talk"},
+    { clave: "Apologyze", valor: "I'm Apologizing"},
+    { clave: "Aggreable", valor: "I'm Being Agreeable"}
+  ];
 
-  options: string[] = [];
-
-  ngOnInit() {
-    this.generateItems();
-  }
-
-  private generateItems() {
-
-    let totalexpressions = this.facial_expresions.length;
-    for (let i = 0; i < totalexpressions; i++) {
-      this.options.push(` ${this.facial_expresions[i]}`);
-    }
-
-    let totalgestures = this.body_gestures.length;
-    for (let i = 0; i < totalgestures; i++) {
-      this.options.push(` ${this.body_gestures[i]}`);
-    }
-
-    let totalvoices = this.tone_of_voice.length;
-    for (let i = 0; i < totalvoices; i++) {
-      this.options.push(` ${this.tone_of_voice[i]}`);
-    }
-
-    let totalspeach = this.speach.length;
-    for (let i = 0; i < totalspeach; i++) {
-      this.options.push(` ${this.speach[i]}`);
-    }
-
-    let totalroutines = this.routines.length;
-    for (let i = 0; i < totalroutines; i++) {
-      this.options.push(` ${this.routines[i]}`);
-    }
-
-  }
+  ngOnInit() {}
 
   onIonInfinite(ev: any) {
-    this.generateItems();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
@@ -99,8 +81,7 @@ export class SidebarSecondComponent implements OnDestroy {
     console.log('scroll end');
   }
 
-  
-  }
+}
   
 
   
