@@ -1,8 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from pymongo import MongoClient
 import datetime
 import bson
 from bson.objectid import ObjectId
+from bson.json_util import loads
 import yaml
 import os
 
@@ -13,25 +14,19 @@ app.config['JSON_SORT_KEYS'] = False
 client = MongoClient("127.0.0.1", 27017)
 db = client["ROBOT_UCSD"]  # Access/creation of data base
 
-# Creation/Access of table Expressions
-facial_expressions = db["facial_expressions"]
+facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
 body_gestures = db["body_gestures"]  # Creation/Access of table Movements
-# Creation/Access of table Tones of Voice
-tones_of_voice = db["tones_of_voice"]
+tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
 speech_elements = db["speech_elements"]  # Creation/Access of table Speech
 routines = db["routines"]  # Creation/Access of table Routines
 
 # Main app
-
-
 @app.route("/", methods=["GET"])
 def root():
     return "MAIN FLASK ROUTE"
 
 # Fetch entries from all tables to send to sidebar angular component
 # Return entries in a json format
-
-
 @app.route("/fetch_tables_from_db", methods=["GET"])
 def fetch_from_db():
 
@@ -65,6 +60,7 @@ def fetch_from_db():
 
     data.append(speech_elements_entries)
 
+    #TODO Preguntar como pasar el file (BSON/JSON decodificado es lo que se utiliza actualmente)
     routines_entries = []
     for entry in routines.find():
         routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
@@ -74,32 +70,33 @@ def fetch_from_db():
 
     return jsonify(data)
 
+
 # CREATE
 # Receive a the routine object to enconde in binary
 # Add to entry and upload to database
-
-
 @app.route("/save_yaml", methods=["POST"])
-def save_yaml(routine):
-    # TODO convert routine from angular data type to python dict
-    try:
-        if (routines.find_one({"_id": routine["id"]})) is None:
-            routine_post = {
-                "user": "User1",
-                "last_modified": datetime.now(tz=datetime.timezone.utc),
-                "label": "Dance_1",
-                "file":  bson.encode(routine)}
-            routines.insert_one(routine_post)
-            print("Insert completed")
-        else:
-            update_routine(routine)
-    except Exception as e:
-        print("An error ocurred: ", e)
+def save_yaml():
+    if request.method == 'POST':
+        routine = bson.json_util.loads(request.data)
+        print(routine)
+    return jsonify({"response":"HI"})
+    # try:
+    #     if (routines.find_one({"_id": routine["id"]})) is None:
+    #         routine_post = {
+    #             "user": "User1",
+    #             "last_modified": datetime.now(tz=datetime.timezone.utc),
+    #             "label": "Dance_1",
+    #             "file":  bson.encode(routine)}
+    #         routines.insert_one(routine_post)
+    #         print("Insert completed")
+    #     else:
+    #         update_routine(routine)
+    # except Exception as e:
+    #     print("An error ocurred: ", e)
+
 
 # READ
 # Download routine from angular app
-
-
 @app.route("/download_routine", methods=["GET"])
 def download_routine(routine):
     # TODO convert routine from angular data type to python dict
@@ -113,13 +110,22 @@ def download_routine(routine):
     except Exception as e:
         print("An error ocurred: ", e)
 
+
 # TODO Retrieve most recent routine
+# db.routines.find().sort({"last_modified": -1}).limit(1)
+def get_most_recent_routine():
+    try:
+        recent_routine = []
+        recent = routines.find_one(sort=[('$natural', -1)])
+        recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user": recent["user"],"last_modified": recent["last_modified"], "file": bson.decode(recent["file"])})
+        return jsonify(recent_routine)
+    except Exception as e:
+        print("An error ocurred: ", e)
+
 
 # UPDATE
 # Update routine entry in db using its id and receiving new
 # routine object
-
-
 def update_routine(routine):
     try:
         filter = {"_id": routine["id"]}
@@ -130,10 +136,10 @@ def update_routine(routine):
     except Exception as e:
         print("An error ocurred: ", e)
 
+
 # DELETE
 # Delete routine entry from db using its id
-
-
+@app.route("/delete_routine/<id>", methods=["DELETE"])
 def delete_routine(id):
     try:
         if (routines.find_one({"_id": id})) is not None:

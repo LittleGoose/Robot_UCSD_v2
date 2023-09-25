@@ -58,25 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor(private rs : RestService, private new_block: NewBlockService) {}
-
-  // facial_list;
-
-  // ngOnInit(){
-  //   this.rs.read_db()
-  //       .subscribe
-  //         (
-  //           (response) => 
-  //           {
-  //             this.facial_list = response[2];
-  //             console.log(response);
-  //           },
-  //           (error) =>
-  //           {
-  //             console.log("No Data Found" + error);
-  //           }
-  //        )
-  //}
+  constructor(private new_block: NewBlockService) {}
 
   onScroll(event: Event){
     console.log("Scrolled")

@@ -1,6 +1,6 @@
 import yaml
 from pymongo import MongoClient
-from flask import jsonify
+from flask import Flask, jsonify
 import json
 import gridfs
 import bson
@@ -16,9 +16,6 @@ body_gestures = db["body_gestures"] # Creation/Access of table Movements
 tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
 speech_elements = db["speech_elements"] # Creation/Access of table Speech
 routines = db["routines"] #Creation/Access of table Routines
-
-if (routines.find_one({"_id" : "1"})) is None:
-    print("lolol")
 
 routine = {
     "Segment_1": {
@@ -37,22 +34,26 @@ routine = {
     }
 }
 
+recent_routine = []
+recent = routines.find_one(sort=[('$natural', -1)])
+recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user": recent["user"],"last_modified": recent["last_modified"], "file": bson.decode(recent["file"])})
+
 # fs = gridfs.GridFS(db, collection="routines")
 # data = yaml.dump(routine).encode('utf-8')
 # fs.put(data)
 
 # print("Upload Complete")
 
-dummy_routine_post = {
-    "user": "User2",
-    "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
-    "label": "Dance_2",
-    "file":  bson.encode(routine)}
+# dummy_routine_post = {
+#     "user": "User3",
+#     "last_modified": datetime.datetime.now(tz=datetime.timezone.utc),
+#     "label": "Dance_3",
+#     "file":  bson.encode(routine)}
 
 
 # print(type(yaml.dump(routine)))
 
-routines.insert_one(dummy_routine_post)
+# routines.insert_one(dummy_routine_post)
 
 # decoded_data = bson.decode(routines.find_one({"user": "User1"})["file"])
 # print(decoded_data)
@@ -91,7 +92,7 @@ routines.insert_one(dummy_routine_post)
 # import yaml
 # import json
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
 # client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
 # db = client["ROBOT_UCSD"] # Access/creation of data base
@@ -184,12 +185,10 @@ routines.insert_one(dummy_routine_post)
 # json.dumps() json.loads() https://stackoverflow.com/questions/26745519/converting-dictionary-to-json
 # routines.insert_one(dummy_routine_post)
 
-
-
 # Main app
-# @app.route('/', methods=['GET'])
-# def root():
-#     return "Hello from Flask"
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify(recent_routine)
 
 
 # @app.route("/create_yaml", methods=['GET'])
@@ -244,8 +243,8 @@ routines.insert_one(dummy_routine_post)
 # def create_yaml():
 #     return "Here I implement returning subroutine (YAML) file as a JSON object"
 
-# if __name__== "__main__":
-#     app.run(debug=True)
+if __name__== "__main__":
+    app.run(debug=True)
 
 # R2
 # @app.route('/', methods=['GET', 'POST'])
