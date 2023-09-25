@@ -1,16 +1,20 @@
 <ion-app>
-  <ion-split-pane class="parte_1" contentId="main-content">
-    <!-- AQUI COMIENZA EL PRIMER SIDEBAR -->
-      <ion-content  contentId="left-content" class="first">
-        <app-sidebar-first></app-sidebar-first>
-      </ion-content>
-      <!-- AQUI COMIENZA EL SEGUNDO SIDEBAR -->
-      <ion-content contentId="center-content" class="second">
-        <app-sidebar-second></app-sidebar-second>
-      </ion-content>
-      <!-- AQUI COMIENZA EL AREA DE RUTINA -->
-      <ion-content contentId="right-content" class="third">
-        <app-block-component></app-block-component>
-      </ion-content>
-    </ion-split-pane>
+  <ion-split-pane contentId="main-content">
+    <!-- Contenido del primer sidebar -->
+    <ion-content contentId="left-content" class="first">
+      <app-sidebar-first></app-sidebar-first>
+    </ion-content>
+    
+    <!-- Contenido del segundo sidebar -->
+    <ion-content contentId="center-content" class="second">
+      <app-sidebar-second></app-sidebar-second>
+    </ion-content>
+    
+    <!-- Contenido del área de rutina -->
+    <ion-content contentId="right-content" class="third">
+      <app-block-component></app-block-component>
+    </ion-content>
+  </ion-split-pane>
 </ion-app>
+
+
