@@ -38,7 +38,7 @@ export class SidebarSecondComponent implements OnDestroy {
     { clave: "Happy", valor: "Im Happy"},
     { clave: "Sad", valor: "I'm Feeling Sad"},
     { clave: "Angry", valor: "Im angry"},
-    { clave: "Crazy", valor: "Im Excited"},
+    { clave: "Crazy", valor: "Im Crazy"},
     { clave: "Nod", valor: "I'm Nodding"},
     { clave: "Turn", valor: "I'm Turning"},
     { clave: "Walk", valor: "I'm Walking"},
@@ -57,7 +57,7 @@ export class SidebarSecondComponent implements OnDestroy {
     { clave: "Conversation", valor: "I'm Having a Conversation"},
     { clave: "Coffe_talk", valor: "I'm Having a Coffee Talk"},
     { clave: "Apologyze", valor: "I'm Apologizing"},
-    { clave: "Aggreable", valor: "I'm Being Agreeable"}
+    { clave: "Aggreable2", valor: "I'm Being Agreeable"}
   ];
 
   ngOnInit() {}

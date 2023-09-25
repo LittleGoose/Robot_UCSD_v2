@@ -27,7 +27,8 @@
     </ion-col>
     <ion-col size="auto">
       <ion-button size="large" color="success" (click)="openPopUp($event, current_routine.array_block[0][0])">Happy</ion-button>
-    </ion-col>    
+    </ion-col> 
+      
   </ion-row>
 
   <ion-row>
@@ -67,6 +68,10 @@
   </ion-row>
 
 </ion-grid>
+
+<ion-col size="auto">
+  <ion-button size="large" color="danger"  (click)="openPopUp($event, current_routine.array_block[0][2])">Clear</ion-button>
+</ion-col>
 
 
 

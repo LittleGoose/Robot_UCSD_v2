@@ -15,12 +15,15 @@ export class PopUpComponent {
   @Input() block: Send_block;
   selectedValue: number;
   talk: string;
+  clear: string;
 
   constructor(private modalController: ModalController, private popUpService: PopUpService){ }
 
   ngOnInit(): void { 
     this.selectedValue = this.block.level;
     this.talk = this.block.talk;
+    this.clear = this.block.clear;
+    
    }
 
   cancel() {
@@ -65,6 +68,12 @@ export class PopUpComponent {
         this.block.talk = this.talk;
         break;
       }
+      case 'clear':
+        {
+          this.block.clear= this.clear;
+          break;
+        }
+       
     }
     //this.popUpService.save_param(this.block);
     this.modalController.dismiss(this.block, 'dataSaved');

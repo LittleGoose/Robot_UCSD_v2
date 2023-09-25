@@ -19,6 +19,7 @@ export class BlockComponentComponent  implements OnInit {
   block1: Send_block = new Send_block();
   block2: Send_block = new Send_block();
   block3: Send_block = new Send_block();
+  block4: Send_block = new Send_block();
 
   current_block: Send_block = new Send_block();
 
@@ -32,9 +33,13 @@ export class BlockComponentComponent  implements OnInit {
     this.block2.talk = "Hello";
     this.block2.class = "speach"
 
+    this.block4.name = "Clear";
+    this.block4.clear= "";
+    this.block4.class= "clear";
+
     this.block3.name = "Hum";
 
-    this.current_routine.array_block = [[this.block1, this.block2], [this.block3]];
+    this.current_routine.array_block = [[this.block1, this.block2, this.block4], [this.block3]];
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
       // Call your component's function or perform necessary actions

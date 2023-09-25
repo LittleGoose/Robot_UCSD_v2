@@ -3,6 +3,8 @@ export class Send_block {
     class: string = "";
     level: number = 1;
     talk: string = "";
+    clear: string= "";
+    
 };
 
 export class Routines {
