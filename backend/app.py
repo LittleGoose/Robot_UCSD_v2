@@ -139,6 +139,7 @@ def update_routine(routine):
 
 # DELETE
 # Delete routine entry from db using its id
+@app.route("/delete_routine/<id>", methods=["DELETE"])
 def delete_routine(id):
     try:
         if (routines.find_one({"_id": id})) is not None:
