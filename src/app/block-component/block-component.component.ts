@@ -163,7 +163,7 @@ export class BlockComponentComponent implements AfterViewInit {
       if(data.type_def=="Button_Clicked"){
         let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name);
 
-        this.newBlockService.save_button("Routine", send_routine);
+        this.newBlockService.save_button("Routine", send_routine); //ximena implementar save console.log(this.current_routine.array_block);
       }
     });
   }

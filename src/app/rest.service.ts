@@ -10,7 +10,7 @@ export class RestService {
   constructor(private http : HttpClient) { }
 
   // ngOnInit(){}
-  server_url : string = "http://localhost:5000";
+  server_url : string = "http://127.0.0.1:5000"; // este tiene que quedarse como "http://127.0.0.1:5000" en modo de desarrollo
   fetch_db_url : string = `${this.server_url}/fetch_tables_from_db`;
   upload_db_url : string = `${this.server_url}/save_yaml`;
   delete_db_url : string = `${this.server_url}/delete_routine`;
