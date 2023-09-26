@@ -3,7 +3,8 @@ export class Send_block {
     class: string = "";
     level: number = 0;
     talk: string = "";
-
+    clear: string= "";
+  
     get_color(){
         
         let color: string;
@@ -40,6 +41,7 @@ export class Routines {
 
     id: string = "0";
     name: string = "";
+    description: string = "";
     array_block: Array<Array<Send_block>> = [];
       
   }

@@ -39,7 +39,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
   startRect = new DOMRect;
   endRect = new DOMRect;
-
+  
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2) {
 
@@ -54,6 +54,7 @@ export class BlockComponentComponent implements AfterViewInit {
     this.newBlockService.newBlockAdded.subscribe((data) => {
       this.current_block = new Send_block();
       this.current_block.name = data.block.label;
+      this.current_routine.description = "Description of routine";
       switch(data.block.constructor.name){
         case "Facial_Expression":
           this.current_block.class = "facial_expression";
@@ -160,7 +161,7 @@ export class BlockComponentComponent implements AfterViewInit {
     
     this.newBlockService.saveRoutineEvent.subscribe((data) => {
       if(data.type_def=="Button_Clicked"){
-        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name);
+        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name, this.current_routine.description);
 
         this.newBlockService.save_button("Routine", send_routine); //ximena implementar save console.log(this.current_routine.array_block);
       }

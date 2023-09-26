@@ -1,53 +1,39 @@
 <ion-content [scrollEvents]="true"
   (ionScroll)="onScroll($event)">
-<ion-grid class="ion-text-center ion-align-items-center" #grid>
+
+  <ion-grid class="ion-text-center ion-align-items-center" #grid>
     
+    <ion-row>
+      
+      <ion-col>
+        <div class="start-button">
+          <ion-title #start>START</ion-title>
+        </div>
+      </ion-col>
+    </ion-row>
+  
+  </ion-grid>
+  
+  <ion-grid class="ion-text-left" id="grid">
+  
+  <ion-row *ngFor="let row of current_routine.array_block" #blockRef>
+    <ion-col class="padding" id="padding"></ion-col>
+    <ion-col size="auto" *ngFor="let block of row">
+      <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
+    </ion-col>
+  </ion-row>
+  </ion-grid>
+  
+  <ion-grid class="ion-text-center ion-align-items-center" #end>
+  
   <ion-row>
-    
     <ion-col>
       <div class="start-button">
-        <ion-title #start>START</ion-title>
+        <ion-title>END</ion-title>
       </div>
     </ion-col>
   </ion-row>
+  
+  </ion-grid>
 
-</ion-grid>
-
-<ion-grid class="ion-text-left" id="grid">
-
-<ion-row *ngFor="let row of current_routine.array_block" #blockRef>
-  <ion-col class="padding" id="padding"></ion-col>
-  <ion-col size="auto" *ngFor="let block of row">
-    <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
-  </ion-col>
-</ion-row>
-</ion-grid>
-
-<ion-grid class="ion-text-center ion-align-items-center" #end>
-
-<ion-row>
-  <ion-col>
-    <div class="start-button">
-      <ion-title>END</ion-title>
-    </div>
-  </ion-col>
-</ion-row>
-
-</ion-grid>
-
-  <ion-button size="large" color="medium">clear</ion-button>
-
-  <ion-grid class="ion-text-center">
-  <ion-grid class="button_save">
-  <ion-row>
-    <ion-col>
-      <ion-col class="padding"></ion-col>
-      <ion-col size="auto">
-        <ion-button size="large" color="success" (click)="openPopUp($event, current_routine.array_block[0][2])">Save</ion-button>
-      </ion-col>
-    </ion-col>
-  </ion-row>
-
- 
-</ion-grid>
 </ion-content>

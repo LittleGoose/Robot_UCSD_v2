@@ -1,0 +1,42 @@
+.block {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  ion-modal {
+    --height: auto;
+  }
+  
+  ion-title {
+    --color: #000000;
+  }
+  
+  ion-toolbar {
+    --background: green;
+  }
+
+  .cross_button{
+    width: 5%;
+    height: 5%;
+    margin-right:3%;
+  }
+
+  ion-content {
+    --align-items: center;
+    --padding-start: 5%;
+    --padding-end: 5%;
+    --padding-top: 3%;
+  }
+
+  .face{
+    width: 45%;
+    height: 45%;
+    align-content: center;
+  }
+
+  .button_save{
+    padding-top: 5%;
+  }

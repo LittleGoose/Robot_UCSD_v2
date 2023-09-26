@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { ScrollService } from '../shared.service';
+import { Subscription } from 'rxjs';
+import { ScrollService } from '../scroll.service';
 import { RestService } from '../rest.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
@@ -14,11 +15,10 @@ import { NewBlockService } from '../new-block.service'
   templateUrl: './sidebar-second.component.html',
   styleUrls: ['./sidebar-second.component.scss'],
 })
-export class SidebarSecondComponent  implements OnInit {
-  @ViewChild('scrollContent', { static: true }) scrollContent!: IonContent;
-  @ViewChild(IonContent) ionContent!: IonContent;
-
-
+export class SidebarSecondComponent implements OnDestroy {
+  @ViewChild(IonContent) content: IonContent;
+  private scrollSubscription: Subscription;
+  
   //Esta parte es para hacer que funcione el scroll en dos componentes 
   constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {
     this.new_block.saveRoutineEvent.subscribe((data) => {
@@ -29,12 +29,17 @@ export class SidebarSecondComponent  implements OnInit {
         }
       }
     });
+
+    this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
+    {
+      this.content.scrollToPoint(positionX, positionY, 500); // Realizar el scroll en este componente
+    });
   }
 
-  getScrollPosition(): number {
-    return this.scrollService.getScrollPosition();
+  ngOnDestroy() {
+      this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
-
+  
   //rootPage2 = 'Panel2Page';
 
   // This will be added with the database
@@ -101,7 +106,7 @@ export class SidebarSecondComponent  implements OnInit {
 
         this.routines = response[4];
         this.routines.forEach(element => {
-          const block = new Routines_Blocks(element.id, element.label);
+          const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
           this.options.push(block);
         });
@@ -121,7 +126,6 @@ export class SidebarSecondComponent  implements OnInit {
   }
 
   onIonInfinite(ev: any) {
-    this.generateItems();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
