@@ -2,8 +2,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { PopUpSaveComponent } from './pop-up-save/pop-up-save.component';
-
 import { Send_block } from './models/routines.model';
+import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,21 @@ export class PopUpService {
 
     const modal = await this.modalController.create({
       component: PopUpSaveComponent,
+      componentProps: {
+        text: "Hello" // Pass the block as a parameter to the modal
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+    });
+
+    await modal.present();
+  }
+
+  async openModal_Clear() {
+
+    const modal = await this.modalController.create({
+      component: PopUpClearComponent,
       componentProps: {
         text: "Hello" // Pass the block as a parameter to the modal
       }
