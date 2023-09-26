@@ -117,3 +117,8 @@ ion-menu ion-content {
     overflow: auto; /* Allow scrolling if content overflows */
     max-height: 100%; /* Ensure content doesn't exceed the available space */
   }
+
+  .desaturate-color{
+    filter: saturate(0.8);
+    //filter: brightness(0.7);
+  }

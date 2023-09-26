@@ -1,70 +1,39 @@
-<ion-grid class="ion-text-center ion-align-items-center">
+<ion-content [scrollEvents]="true"
+  (ionScroll)="onScroll($event)">
+<ion-grid class="ion-text-center ion-align-items-center" #grid>
     
-    <ion-row>
-      
-      <ion-col>
-        <div class="start-button">
-          <ion-title>START</ion-title>
-         
-        </div>
-      </ion-col>
-    </ion-row>
-
-</ion-grid>
-
-<ion-grid class="ion-text-left">
-  
   <ion-row>
-    <ion-col class="padding"></ion-col>
-    <ion-col size="auto">
-      <ion-button size="large" color="warning" (click)="openPopUp($event, current_routine.array_block[0][1])">Talk</ion-button>   
-    </ion-col>
-    <ion-col size="auto">
-      <ion-button size="large" color="danger">Walk</ion-button>
-    </ion-col>
-    <ion-col size="auto">
-      <ion-button size="large" color="tertiary">Energetic</ion-button>
-    </ion-col>
-    <ion-col size="auto">
-      <ion-button size="large" color="success" (click)="openPopUp($event, current_routine.array_block[0][0])">Happy</ion-button>
-    </ion-col>    
-  </ion-row>
-
-  <ion-row>
-    <ion-col class="padding"></ion-col>
-    <ion-col size="auto">
-      <ion-button size="large" color="danger">Nod</ion-button>
-    </ion-col>
-    <ion-col size="auto">
-      <ion-button size="large" color="warning">Hum</ion-button>
-    </ion-col>
-  </ion-row>
-
-<ion-row>
-  <ion-col class="padding"></ion-col>
-  <ion-col size="auto">
-    <ion-button size="large" color="medium">Sub_rutine_1</ion-button>
-  </ion-col>
-</ion-row>
-
-<ion-row>
-  <ion-col class="padding"></ion-col>
-  <ion-col size="auto">
-    <ion-button size="large" color="warning">Listen</ion-button>
-  </ion-col>
-</ion-row>
-
-</ion-grid>
-
-<ion-grid class="ion-text-center ion-align-items-center">
- 
-  <ion-row>
+    
     <ion-col>
       <div class="start-button">
-        <ion-title>END</ion-title>
+        <ion-title #start>START</ion-title>
       </div>
     </ion-col>
-  </ion-row> 
+  </ion-row>
+
+</ion-grid>
+
+<ion-grid class="ion-text-left" id="grid">
+
+<ion-row *ngFor="let row of current_routine.array_block" #blockRef>
+  <ion-col class="padding" id="padding"></ion-col>
+  <ion-col size="auto" *ngFor="let block of row">
+    <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
+  </ion-col>
+</ion-row>
+</ion-grid>
+
+<ion-grid class="ion-text-center ion-align-items-center" #end>
+
+<ion-row>
+  <ion-col>
+    <div class="start-button">
+      <ion-title>END</ion-title>
+    </div>
+  </ion-col>
+</ion-row>
+
+</ion-grid>
 
   <ion-button size="large" color="medium">clear</ion-button>
 
@@ -81,10 +50,4 @@
 
  
 </ion-grid>
-
-
-
-
-
-
-
+</ion-content>

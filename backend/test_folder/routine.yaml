@@ -1,0 +1,10 @@
+Segment_1:
+  Block_1:
+    Label: Happy
+    Level: 2
+    Type: facial_expression
+Segment_2:
+  Block_1:
+    Label: Hum
+    Level: 3
+    Type: speech

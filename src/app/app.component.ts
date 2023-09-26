@@ -8,8 +8,12 @@ import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { PopUpService } from './pop-up.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RestService } from './rest.service';
+import { NewBlockService } from './new-block.service';
 
 import { OnInit } from '@angular/core';
+import { Facial_Expression } from './models/blocks.model';
 
 
 @Component({
@@ -20,13 +24,14 @@ import { OnInit } from '@angular/core';
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule, 
     RoutineAreaModule, 
     SidebarModule,
-    FormsModule],
-  providers:[PopUpService],
+    FormsModule,
+    HttpClientModule],
+  providers:[PopUpService, RestService, NewBlockService],
 })
 
 export class AppComponent implements OnInit {
 
-  rootPage2 = 'Panel2Page';
+  //rootPage2 = 'Panel2Page';
   
   ngOnInit() {
     
@@ -53,6 +58,14 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor() {}
-  
+  constructor(private new_block: NewBlockService) {}
+
+  onScroll(event: Event){
+    console.log("Scrolled")
+    this.new_block.sendScroll(event);
+  }
+
+  saveRoutine(){
+    this.new_block.save_button("Button_Clicked");
+  }
 }

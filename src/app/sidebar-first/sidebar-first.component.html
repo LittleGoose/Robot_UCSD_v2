@@ -1,41 +1,32 @@
-<ion-nav [root]="rootPage1" name="panel1">
-  <ion-list class="my-componente1">
+<ion-nav name="panel1" class="my-componente1"> <!--[root]="rootPage1"--> 
+  <ion-list>
     <!-- "scrollService.scrollToComponentB()"-->
-    <ion-item >
-      <ion-button (click)="funcionalidad_1()" class="f-exp" color="light">
+
+      <ion-item (click)="funcionalidad_1()">
         <ion-icon class="circulo_verde" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Facial Expressions</ion-label>
-      </ion-button>
+      </ion-item>
       <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
-    </ion-item>
     <!--Segundo Item-->
     <ion-item (click)="funcionalidad()">
-      <ion-button class="f-exp" color="light">
         <ion-icon class="circulo_rojo" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Body Gestures</ion-label>
-      </ion-button>
       <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
     </ion-item>
     <!--Tercer Item-->
     <ion-item (click)="funcionalidad()" >
-      <ion-button class="f-exp" color="light">
         <ion-icon class="circulo_morado" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Tone of Voice</ion-label>
-      </ion-button>
     </ion-item>
     <!--Cuarto Item-->
     <ion-item (click)="funcionalidad()" >
-      <ion-button class="f-exp" color="light">
         <ion-icon class="circulo_amarillo" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Speech</ion-label>
-      </ion-button>
     </ion-item>
     <!--Quinto Item-->
     <ion-item (click)="funcionalidad()" >
-      <ion-button class="f-exp" color="light">
         <ion-icon class="circulo" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Routines</ion-label>
-      </ion-button>
     </ion-item>
   </ion-list>
 </ion-nav>

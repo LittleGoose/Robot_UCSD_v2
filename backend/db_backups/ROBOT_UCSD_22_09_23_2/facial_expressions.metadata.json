@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"c47bf864183a48d8bfd63f64dbb1803a","collectionName":"facial_expressions","type":"collection"}
