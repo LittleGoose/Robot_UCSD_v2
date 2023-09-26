@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, Vie
 import { IonButton, IonContent } from '@ionic/angular';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
-import { OverlayEventDetail } from '@ionic/core/components';
 import { PopUpService } from '../pop-up.service';
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { NewBlockService } from '../new-block.service';
@@ -22,10 +21,10 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChild('grid', { read: ElementRef }) gridRef: ElementRef;
 
   current_routine: Routines = new Routines();
-
   block1: Send_block = new Send_block();
   block2: Send_block = new Send_block();
   block3: Send_block = new Send_block();
+  block4: Send_block = new Send_block();
 
   current_block: Send_block = new Send_block();
 
@@ -51,7 +50,7 @@ export class BlockComponentComponent implements AfterViewInit {
       // Call your component's function or perform necessary actions
       this.saveNewParameter(newBlock);
     });
-
+    
     this.newBlockService.newBlockAdded.subscribe((data) => {
       this.current_block = new Send_block();
       this.current_block.name = data.block.label;
@@ -171,11 +170,11 @@ export class BlockComponentComponent implements AfterViewInit {
   openPopUp(event: MouseEvent, block: Send_block) {
     if (event.detail === 2) {
       this.current_block = block;
-      this.popUpService.openModal(block); 
+      this.popUpService.openModal(block);
     }
   }
 
-  saveNewParameter(block: Send_block){
+  saveNewParameter(block: Send_block) {
     this.current_block = block;
     console.log(this.current_block);
     //console.log(this.block2);
