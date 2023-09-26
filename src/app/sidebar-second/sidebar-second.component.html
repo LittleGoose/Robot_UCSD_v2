@@ -1,19 +1,34 @@
-<ion-nav [root]="rootPage2" name="panel2">
-  <ion-content  class="mi_scroll"
-                [scrollEvents]="true"
-                (ionScrollStart)="handleScrollStart()"
-                (ionScroll)="handleScroll($any($event))"
-                (ionScrollEnd)="handleScrollEnd()" >
+<ion-nav name="panel2">
+  <ion-content
+    #scrollContent
+    [scrollEvents]="true"
+    (ionScrollStart)="handleScrollStart()"
+    (ionScroll)="handleScroll($any($event))"
+    (ionScrollEnd)="handleScrollEnd()"
+    class="side2"
+  >
     <ion-list class="my-componente2">
-      <ion-item title="{{ emotion.valor }}" *ngFor="let emotion of emotions">
-        <ion-label>{{ emotion.clave }} </ion-label>  
+      <ion-item
+        *ngFor="let item of options; let index"
+        draggable="true"
+        (dragend)="onDragEnd($event, item)"
+        color="{{ item.color }}"
+        class="desaturate-color"
+        title="{{ item.description }}"
+      >
         <ion-avatar slot="start">
-          <!-- TODO: Cambiar por [src]="{{emotion.imgUrl}}"-->
-          <img [src]="'https://picsum.photos/80/80?random='" alt="avatar" />
+          <img
+            [src]="'https://picsum.photos/80/80?random=' + index"
+            alt="avatar"
+          />
         </ion-avatar>
-        
-      </ion-item> 
-      
+        <ion-label>{{ item.label }}</ion-label>
+      </ion-item>
     </ion-list>
+    <!-- (ionInfinite)="onIonInfinite($event)"  -->
+
+    <!--ion-infinite-scroll >
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll -->
   </ion-content>
 </ion-nav>

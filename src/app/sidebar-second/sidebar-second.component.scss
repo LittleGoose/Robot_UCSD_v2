@@ -178,4 +178,10 @@ ion-menu ion-content {
 
   .my-componente2.scrollable-content{
     background-color: #f02626;
+
+  }
+
+  .desaturate-color{
+    filter: saturate(0.8);
+    //filter: brightness(0.7);
   }

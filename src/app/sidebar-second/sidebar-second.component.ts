@@ -4,9 +4,11 @@ import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { ScrollService } from '../scroll.service';
 import { Subscription } from 'rxjs';
-
+import { ScrollService } from '../shared.service';
+import { RestService } from '../rest.service';
+import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
+import { NewBlockService } from '../new-block.service'
 
 @Component({
   selector: 'app-sidebar-second',
@@ -17,8 +19,17 @@ export class SidebarSecondComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
   private scrollSubscription: Subscription;
   
-
-  
+  //Esta parte es para hacer que funcione el scroll en dos componentes 
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {
+    this.new_block.saveRoutineEvent.subscribe((data) => {
+      if(data.type_def != "Button_Clicked"){
+        if(!this.options.some(option => option.label === data.routine.label)){
+          data.routine.color = "medium"
+          this.options.push(data.routine);
+        }
+      }
+    });
+  }
 
   constructor(private scrollService: ScrollService) {
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
@@ -30,37 +41,90 @@ export class SidebarSecondComponent implements OnDestroy {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
   
+  //rootPage2 = 'Panel2Page';
 
-  rootPage2 = 'Panel2Page';
-  
-  //TODO: Cambiar por emotions:  { clave: string; valor: string, imgUrl: string }[] = [
-  emotions:  { clave: string; valor: string }[] = [
-    { clave: "Happy", valor: "Im Happy"},
-    { clave: "Sad", valor: "I'm Feeling Sad"},
-    { clave: "Angry", valor: "Im angry"},
-    { clave: "Crazy", valor: "Im Crazy"},
-    { clave: "Nod", valor: "I'm Nodding"},
-    { clave: "Turn", valor: "I'm Turning"},
-    { clave: "Walk", valor: "I'm Walking"},
-    { clave: "Side_head", valor: "I'm Tilting My Head"},
-    { clave: "Bow", valor: "I'm Bowing"},
-    { clave: "Excited", valor: "I'm Excited"},
-    { clave: "Timid", valor: "I'm Being Timid"},
-    { clave: "Slow", valor: "I'm Moving Slowly"},
-    { clave: "Fast", valor: "I'm Moving Fast"},
-    { clave: "Listen", valor: "I'm Listening"},
-    { clave: "Talk", valor: "I'm Talking"},
-    { clave: "Hum", valor: "I'm Humming"},
-    { clave: "Scream", valor: "I'm Screaming"},
-    { clave: "Agree", valor: "I'm Agreeing"},
-    { clave: "Dance", valor: "I'm Dancing"},
-    { clave: "Conversation", valor: "I'm Having a Conversation"},
-    { clave: "Coffe_talk", valor: "I'm Having a Coffee Talk"},
-    { clave: "Apologyze", valor: "I'm Apologizing"},
-    { clave: "Aggreable2", valor: "I'm Being Agreeable"}
-  ];
+  // This will be added with the database
+  block_1: Facial_Expression = new Facial_Expression("1", "Happy", "Happy face", "E1", 0);
+  block_2: Facial_Expression = new Facial_Expression("2", "Sad", "Sad face", "E2", 0);
 
-  ngOnInit() {}
+  block_3: Body_Gestures = new Body_Gestures("1", "Nod", "Rotate head", "B1", 0);
+  block_4: Body_Gestures = new Body_Gestures("2", "Turn", "Rotate head", "B2", 0);
+
+  block_5: Tone_Voice = new Tone_Voice("1", "Excited", "Rotate head", "T1");
+  block_6: Tone_Voice = new Tone_Voice("2", "Timid", "Rotate head", "T2");
+
+  block_7: Speech = new Speech("1", "Listen", "Rotate head", "T1", "");
+  block_8: Speech = new Speech("2", "Talk", "Rotate head", "T2", "");
+  block_9: Speech = new Speech("3", "Scream", "Rotate head", "T3", "Hm");
+
+  // block_10: Routines_Blocks = new Routines_Blocks("1", "Dance_1", 1);
+  // block_11: Routines_Blocks = new Routines_Blocks("2", "Conversation_1", 2);
+ 
+  facial_expresions: Facial_Expression[] = [];
+  body_gestures: Body_Gestures[] = [];
+  tone_of_voice: Tone_Voice[] = [];
+  speech: Speech[] = [];
+  routines: Routines_Blocks[] = [];
+
+  options : Block[] = [];
+
+  ngOnInit() {
+    this.rs.read_db()
+    .subscribe(
+      (response) => {
+
+        this.facial_expresions = response[0];
+
+        this.facial_expresions.forEach(element => {
+          const block = new Facial_Expression(element.id, element.label, element.description, element.id_in_robot, element.level);
+          block.color = "success";
+          this.options.push(block);
+        });
+
+        this.body_gestures = response[1];
+
+        this.body_gestures.forEach(element => {
+          const block = new Body_Gestures(element.id, element.label, element.description, element.id_in_robot, element.level);
+          block.color = "danger";
+          this.options.push(block);
+        });
+
+        this.tone_of_voice = response[2];
+
+        this.tone_of_voice.forEach(element => {
+          const block = new Tone_Voice(element.id, element.label, element.description, element.id_in_robot);
+          block.color = "tertiary";
+          this.options.push(block);
+        });
+        
+        this.speech = response[3];
+
+        this.speech.forEach(element => {
+          const block = new Speech(element.id, element.label, element.description, element.id_in_robot, element.utterance);
+          block.color = "warning";
+          this.options.push(block);
+        });
+
+        this.routines = response[4];
+        this.routines.forEach(element => {
+          const block = new Routines_Blocks(element.id, element.label);
+          block.color = "medium";
+          this.options.push(block);
+        });
+
+      },
+      (error) => {
+        console.log("No Data Found" + error);
+      }
+    )
+
+    this.generateItems();
+
+  }
+
+  private generateItems() {
+
+  }
 
   onIonInfinite(ev: any) {
     setTimeout(() => {
@@ -81,7 +145,11 @@ export class SidebarSecondComponent implements OnDestroy {
     console.log('scroll end');
   }
 
-}
+  onDragEnd(event: DragEvent, block: Block): void {
+    this.new_block.emitData(event, block);
+  }
+
+  }
   
 
   

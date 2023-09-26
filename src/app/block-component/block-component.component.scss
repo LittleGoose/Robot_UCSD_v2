@@ -21,3 +21,8 @@ $colors: (
 .padding{
   max-width: 2%!important;
 }
+
+.grid-cell {
+  padding: 10px; /* Add padding for spacing */
+  text-align: center; /* Center text within cells */
+}

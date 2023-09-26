@@ -23,7 +23,7 @@ app-sidebar-second {
 }
 
 .second{
-  max-width: 3%!important; /* Ajusta el ancho según tus necesidades */
+  max-width: 8%!important; /* Ajusta el ancho según tus necesidades */
   height: 100%; /* Ajusta la altura según tus necesidades */
 }
 
@@ -36,3 +36,17 @@ app-sidebar-second {
     overflow: auto; /* Allow scrolling if content overflows */
     max-height: 100%; /* Ensure content doesn't exceed the available space */
   }
+
+.clear{
+  max-width: 8%!important;
+  position: fixed;
+  bottom: 20px; /* Adjust the distance from the bottom as needed */
+  right: 20px; /* Adjust the distance from the right as needed */
+}
+
+.save{
+  max-width: 8%!important;
+  position: fixed;
+  bottom: 20px; /* Adjust the distance from the bottom as needed */
+  right: 120px; /* Adjust the distance from the right as needed */
+}
