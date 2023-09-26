@@ -12,8 +12,12 @@ app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (local level)
 client = MongoClient("127.0.0.1", 27017)
-# client = MongoClient("0.0.0.0", 27017)
 db = client["ROBOT_UCSD"]  # Access/creation of data base
+
+# Connect to mongo client (Atlas - Cloud)
+# client = MongoClient("mongodb+srv://ximena:lulOUGN0FEUIb2om@robot-ucsd.oqmkaj6.mongodb.net") 
+# db = client["ROBOT-UCSD"]  # Access/creation of data base
+
 
 facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
 body_gestures = db["body_gestures"]  # Creation/Access of table Movements
