@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RestService } from './rest.service';
 import { NewBlockService } from './new-block.service';
 
+
 import { OnInit } from '@angular/core';
 import { Facial_Expression } from './models/blocks.model';
 
@@ -58,25 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor(private rs : RestService, private new_block: NewBlockService) {}
-
-  // facial_list;
-
-  // ngOnInit(){
-  //   this.rs.read_db()
-  //       .subscribe
-  //         (
-  //           (response) => 
-  //           {
-  //             this.facial_list = response[2];
-  //             console.log(response);
-  //           },
-  //           (error) =>
-  //           {
-  //             console.log("No Data Found" + error);
-  //           }
-  //        )
-  //}
+  constructor(private new_block: NewBlockService, private popUpService: PopUpService) {}
 
   onScroll(event: Event){
     console.log("Scrolled")
@@ -84,6 +67,11 @@ export class AppComponent implements OnInit {
   }
 
   saveRoutine(){
+    this.popUpService.openModal_Save();
     this.new_block.save_button("Button_Clicked");
+  }
+
+  clearRoutine(){
+    this.popUpService.openModal_Clear();
   }
 }
