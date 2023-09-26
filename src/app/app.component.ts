@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RestService } from './rest.service';
 import { NewBlockService } from './new-block.service';
 
+
 import { OnInit } from '@angular/core';
 import { Facial_Expression } from './models/blocks.model';
 
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   // Aqui termina las funciones para hacer el scroll
-  constructor(private new_block: NewBlockService) {}
+  constructor(private new_block: NewBlockService, private popUpService: PopUpService) {}
 
   onScroll(event: Event){
     console.log("Scrolled")
@@ -66,6 +67,11 @@ export class AppComponent implements OnInit {
   }
 
   saveRoutine(){
+    this.popUpService.openModal_Save();
     this.new_block.save_button("Button_Clicked");
+  }
+
+  clearRoutine(){
+    this.popUpService.openModal_Clear();
   }
 }

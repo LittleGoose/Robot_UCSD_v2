@@ -1,31 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="titleicon" style="display:inline-block"> Update Parameter </ion-title>
+    <ion-title class="titleicon" style="display:inline-block" ngIf="{{block}}"> Update Parameter </ion-title>
     <img slot="end" class="cross_button" src="../../assets/icon/cross_2.png" style="display:inline-block" (click)="cancel()"/>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="pop-up-content" [ngSwitch]="block.class">
-    <div class="ion-text-center" *ngSwitchCase="'facial_expression'">
-      <ion-text>¿What level would you like “{{block.name}}”?</ion-text>
-      <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true" [pinFormatter]="pinFormatter" [(ngModel)]="selectedValue"></ion-range>
+  <!-- Sección para 'facial_expression' -->
+  <ng-container *ngSwitchCase="'facial_expression'">
+    <div class="ion-text-center">
+      <ion-text>What level would you like "{{ block.name }}"?</ion-text>
+      <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true"
+        [pinFormatter]="pinFormatter" [(ngModel)]="selectedValue"></ion-range>
       <ion-img class="face" src="../../assets/face.png"></ion-img>
     </div>
-      
-    <div class="ion-text-center" *ngSwitchCase="'body_gesture'">
-      <ion-text>¿What level would you like “{{block.name}}”?</ion-text>
-      <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true" [pinFormatter]="pinFormatter" [(ngModel)]="selectedValue"></ion-range>
+  </ng-container>
+
+  <!-- Sección para 'body_gesture' -->
+  <ng-container *ngSwitchCase="'body_gesture'">
+    <div class="ion-text-center">
+      <ion-text>What level would you like "{{ block.name }}"?</ion-text>
+      <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true"
+        [pinFormatter]="pinFormatter" [(ngModel)]="selectedValue"></ion-range>
     </div>
+  </ng-container>
 
     <div class="ion-text-center" *ngSwitchCase="'speech'">
       <ion-text>¿What you like your robot to say?</ion-text>
       <ion-input placeholder="Text Here" [(ngModel)]="talk"></ion-input>
     </div>
-    
-    <div *ngSwitchDefault>
-      ERROR
+
+  <!-- Sección predeterminada para errores -->
+  <ng-container *ngSwitchDefault>
+    <div class="ion-text-center">
+      <ion-text>Error: Invalid block type</ion-text>
     </div>
-
-    <ion-button class="button_save" colors="success" (click)="save()">Save Changes</ion-button>
-
+  </ng-container>
 </ion-content>

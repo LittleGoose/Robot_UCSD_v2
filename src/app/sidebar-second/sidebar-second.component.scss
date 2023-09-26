@@ -9,9 +9,66 @@ ion-menu ion-content {
     --padding-bottom: 20px;
   }
 
-  ion-content.content::-webkit-scrollbar {
-    width: 2px; /* Ajusta el valor según tu preferencia */
+  //ion-content.content::-webkit-scrollbar {
+    //width: 2px; /* Ajusta el valor según tu preferencia */
+  //}
+
+  //::-webkit-scrollbar {
+    //width: 6px; /* Ancho de la barra de scroll */
+    //height: 10px;
+  //}
+
+  //::-webkit-scrollbar-thumb {
+    //background-color: #4029d6; /* Color de la barra de desplazamiento */
+  //}
+  ion-item::before {
+    content: ""; /* Contenido vacío */
+    position: absolute;
+    top: 100%; /* Coloca el mensaje debajo del elemento */
+    left: 0;
+    background-color: #007bff; /* Color de fondo del mensaje */
+    color: white; /* Color del texto del mensaje */
+    padding: 5px; /* Espacio alrededor del mensaje */
+    opacity: 0; /* Inicialmente oculto */
+    transition: opacity 0.3s; /* Transición suave para mostrar/ocultar */
   }
+
+  
+  /* Estilo para mostrar el texto adicional en hover */
+  ion-item:hover::before {
+    content: attr(title);
+    opacity: 1; /* Muestra el texto adicional cuando se hace hover */
+    position: absolute;
+    top: 100%; /* Coloca el texto debajo del elemento */
+    left: 0;
+    background-color: #88b1dd;
+    color: rgb(24, 23, 23);
+    padding: 5px;
+    opacity: 0; /* Inicialmente oculto */
+    transition: opacity 0.4s; /* Transición suave para mostrar/ocultar */
+  }
+
+  ion-item:hover {
+    content: attr(title);
+    display: block; /* Muestra la descripción cuando se hace hover en el ion-item */
+    font-size: 20px; /* Tamaño de fuente cuando se hace hover */
+    color: #f07de0; /* Color de texto cuando se hace hover */
+  }
+
+  ion-item::part(tooltip) {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .descripcion {
+    display: none; /* Oculta la descripción por defecto */
+    font-size: 18px; /* Tamaño de fuente normal */
+    color: #333; /* Color de texto normal */
+  }
+
+  
   
   ion-menu.md ion-list {
     padding: 0px 0;
@@ -116,6 +173,12 @@ ion-menu ion-content {
   .scrollable-content {
     overflow: auto; /* Allow scrolling if content overflows */
     max-height: 100%; /* Ensure content doesn't exceed the available space */
+    background-color:aqua;
+  }
+
+  .my-componente2.scrollable-content{
+    background-color: #f02626;
+
   }
 
   .desaturate-color{
