@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { BottonClearComponent } from './botton-clear.component';
+import { PopUpSaveComponent } from './pop-up-save.component';
 
-describe('BottonClearComponent', () => {
-  let component: BottonClearComponent;
-  let fixture: ComponentFixture<BottonClearComponent>;
+describe('PopUpSaveComponent', () => {
+  let component: PopUpSaveComponent;
+  let fixture: ComponentFixture<PopUpSaveComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BottonClearComponent ],
+      declarations: [ PopUpSaveComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BottonClearComponent);
+    fixture = TestBed.createComponent(PopUpSaveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
