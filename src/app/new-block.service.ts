@@ -13,7 +13,7 @@ export class NewBlockService {
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
-  constructor(private rs: RestService) { }
+  constructor() { }
 
   emitData(event: DragEvent, block: Block) {
     this.send_data.event = event;
@@ -30,17 +30,6 @@ export class NewBlockService {
     this.send_data_routine.type_def = type_def;
     if(routine){
       this.send_data_routine.routine = routine;
-
-      this.rs.upload_routine(routine).subscribe(
-        (response) => {
-          console.log(response);
-          console.log(routine);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-
     }
     this.saveRoutineEvent.emit(this.send_data_routine);
   }

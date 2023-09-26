@@ -5,7 +5,7 @@ import { Routines, Send_block } from '../models/routines.model';
 import { PopUpService } from '../pop-up.service';
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { NewBlockService } from '../new-block.service';
-
+import { RestService } from '../rest.service';
 
 @Component({
   selector: 'app-block-component',
@@ -41,7 +41,7 @@ export class BlockComponentComponent implements AfterViewInit {
   endRect = new DOMRect;
   
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
-    private ionContent: IonContent, private renderer: Renderer2) {
+    private ionContent: IonContent, private renderer: Renderer2, private rs: RestService) {
 
     this.current_routine.array_block = [[]];
     this.current_routine.name = "Test_routine";
@@ -162,8 +162,18 @@ export class BlockComponentComponent implements AfterViewInit {
     this.newBlockService.saveRoutineEvent.subscribe((data) => {
       if(data.type_def=="Button_Clicked"){
         let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name, this.current_routine.description);
-
         this.newBlockService.save_button("Routine", send_routine); //ximena implementar save console.log(this.current_routine.array_block);
+        
+        this.rs.upload_routine(this.current_routine.array_block).subscribe(
+          (response) => {
+            console.log(response);
+            console.log(this.current_routine.array_block);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      
       }
     });
   }
