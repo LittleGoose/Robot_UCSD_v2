@@ -5,7 +5,7 @@ import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { ScrollService } from '../shared.service';
+import { ScrollService } from '../scroll.service';
 import { RestService } from '../rest.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
@@ -29,14 +29,13 @@ export class SidebarSecondComponent implements OnDestroy {
         }
       }
     });
-  }
 
-  constructor(private scrollService: ScrollService) {
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
       this.content.scrollToPoint(positionX, positionY, 500); // Realizar el scroll en este componente
     });
   }
+
   ngOnDestroy() {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
@@ -107,7 +106,7 @@ export class SidebarSecondComponent implements OnDestroy {
 
         this.routines = response[4];
         this.routines.forEach(element => {
-          const block = new Routines_Blocks(element.id, element.label);
+          const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
           this.options.push(block);
         });

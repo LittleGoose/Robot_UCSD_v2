@@ -58,15 +58,10 @@ export class SidebarFirstComponent  implements OnInit {
     this.scrollService.sendInformation(positionX, positionY);
 
   }
-
-
-  
+    
   rootPage1 = 'Panel1Page';
   rootPage2 = 'Panel2Page';
   rootPage3 = 'Panel3Page';
-
-
-  
 
    //public scrollToComponentB(): void {
     // Calcula la posición de desplazamiento que desees
@@ -77,15 +72,7 @@ export class SidebarFirstComponent  implements OnInit {
   //}
 
   ngOnInit() {}
-  
-
-  funcionalidad_1(){
-    
-  }
-  funcionalidad(){}
-
-   
-   }
+}
 
   
 

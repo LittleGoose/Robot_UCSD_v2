@@ -6,9 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { BlockComponentComponent } from '../block-component/block-component.component';
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { PopUpSaveComponent } from '../pop-up-save/pop-up-save.component';
+import { PopUpClearComponent } from '../pop-up-clear/pop-up-clear.component';
 
 @NgModule({
-  declarations: [BlockComponentComponent, PopUpComponent, PopUpSaveComponent],
+  declarations: [BlockComponentComponent, PopUpComponent, PopUpSaveComponent, PopUpClearComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -18,6 +19,7 @@ import { PopUpSaveComponent } from '../pop-up-save/pop-up-save.component';
     BlockComponentComponent,
     PopUpComponent,
     PopUpSaveComponent,
+    PopUpClearComponent,
   ],
 })
 export class RoutineAreaModule { }

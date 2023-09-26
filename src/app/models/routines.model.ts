@@ -41,6 +41,7 @@ export class Routines {
 
     id: string = "0";
     name: string = "";
+    description: string = "";
     array_block: Array<Array<Send_block>> = [];
       
   }

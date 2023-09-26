@@ -1,34 +1,30 @@
 <ion-nav name="panel1" class="my-componente1"> <!--[root]="rootPage1"--> 
   <ion-list>
     <!-- "scrollService.scrollToComponentB()"-->
-    <ion-item>
-      <ion-button (click)="buttonClick($event)" data-button-id="btnFacialExp" class="f-exp" color="light">
+
+      <ion-item (click)="buttonClick($event)" data-button-id="btnFacialExp">
         <ion-icon class="circulo_verde" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Facial Expressions</ion-label>
-      </ion-button>
-    </ion-item>
+      </ion-item>
+      <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
     <!--Segundo Item-->
-    <ion-item>
-      <ion-button (click)="buttonClick($event)" data-button-id="btnBodyGest" class="f-exp" color="light">
+    <ion-item (click)="buttonClick($event)" data-button-id="btnBodyGest">
         <ion-icon class="circulo_rojo" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Body Gestures</ion-label>
       <!-- ion-icon name="happy-outline" slot="start"></ion-icon -->
     </ion-item>
     <!--Tercer Item-->
-    <ion-item >
-      <ion-button (click)="buttonClick($event)" data-button-id="btnToneVoice" class="f-exp" color="light">
+    <ion-item (click)="buttonClick($event)" data-button-id="btnToneVoice">
         <ion-icon class="circulo_morado" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Tone of Voice</ion-label>
     </ion-item>
     <!--Cuarto Item-->
-    <ion-item >
-      <ion-button (click)="buttonClick($event)" data-button-id="btnSpeech" class="f-exp" color="light">
+    <ion-item (click)="buttonClick($event)" data-button-id="btnSpeech">
         <ion-icon class="circulo_amarillo" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Speech</ion-label>
     </ion-item>
     <!--Quinto Item-->
-    <ion-item >
-      <ion-button (click)="buttonClick($event)" data-button-id="btnRoutines" class="f-exp" color="light">
+    <ion-item (click)="buttonClick($event)" data-button-id="btnRoutines">
         <ion-icon class="circulo" name="tu-icono" slot="start"></ion-icon>
         <ion-label style="text-align: left;">Routines</ion-label>
     </ion-item>
