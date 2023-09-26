@@ -39,7 +39,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
   startRect = new DOMRect;
   endRect = new DOMRect;
-
+  
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2) {
 
