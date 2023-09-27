@@ -18,4 +18,16 @@ export class PopUpClearComponent {
     this.modalController.dismiss(null, 'cancel');
   }
 
+  butomYes()
+  {
+
+  }
+  butomNo()
+  {
+    this.modalController.dismiss(null, 'cancel');
+  }
+  butomSave(){
+    
+  }
+
 }

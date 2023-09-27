@@ -5,8 +5,13 @@
   </ion-toolbar>
 </ion-header>
 
-<div class="ion-text-center">
-  <ion-text>¿Are you sure you want to delete your curent routine?</ion-text>
-  <ion-input placeholder="Text Here"></ion-input>
+<div class="ion-text-center button-container">
+  <ion-text class="top-text" >¿Are you sure you want to delete your curent routine?</ion-text>
+  <div class="botones">
+    <ion-button  (click)="butomYes()">Yes</ion-button>
+    <ion-button  (click)="butomNo()">No</ion-button>
+  </div> 
+  <ion-text class="second-text">¿Are you want to save your curent routine?</ion-text>
+  <ion-button (click)="butomSave()">Save</ion-button>
 </div>
 

@@ -24,6 +24,29 @@
     margin-right:3%;
   }
 
+  //Estilo de mis botones 
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinea el contenido en la parte superior del contenedor */
+    align-items: center; /* Alinea horizontalmente el contenido al centro */
+    height: 100vh;
+  }
+
+  .top-text {
+    text-align: center; /* Alinea el texto en el centro si es necesario */
+    /* Ajusta el espacio superior según tus preferencias */
+    font-size: 24px;
+    
+  }
+  .second-text{
+    text-align: center; 
+    font-size: 24px;
+  }
+  .botones{
+    display: flex;
+    flex-direction: row;
+  }
   ion-content {
     --align-items: center;
     --padding-start: 5%;
