@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
-import datetime
+from configparser_crypt import ConfigParserCrypt
+import datetime as dt
+from datetime import datetime
 import bson
 from bson.objectid import ObjectId
 from bson.json_util import loads
@@ -11,13 +13,22 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (local level)
-client = MongoClient("127.0.0.1", 27017)
-db = client["ROBOT_UCSD"]  # Access/creation of data base
+# client = MongoClient("127.0.0.1", 27017)
+# db = client["ROBOT_UCSD"]  # Access/creation of data base
 
 # Connect to mongo client (Atlas - Cloud)
-# client = MongoClient("mongodb+srv://ximena:lulOUGN0FEUIb2om@robot-ucsd.oqmkaj6.mongodb.net") 
-# db = client["ROBOT-UCSD"]  # Access/creation of data base
+file = 'config.encrypted'
+conf_file = ConfigParserCrypt()
 
+conf_file.aes_key = b'\x0c\x17\xa3\xd7\xb1\x8d\x03\xa4\nq\xf3\xa9Q8\x1d(\xe6$~\x82\xa1\xc7V\x91*:q\xd9cM\x12r'
+
+# Read encrypted config file
+conf_file.read_encrypted(file)
+user = conf_file["CREDENTIALS"]["username"]
+password = conf_file["CREDENTIALS"]["password"]
+
+client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net") 
+db = client["ROBOT-UCSD"]  # Access/creation of data base
 
 facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
 body_gestures = db["body_gestures"]  # Creation/Access of table Movements
@@ -29,6 +40,7 @@ routines = db["routines"]  # Creation/Access of table Routines
 @app.route("/", methods=["GET"])
 def root():
     return "MAIN FLASK ROUTE"
+
 
 # Fetch entries from all tables to send to sidebar angular component
 # Return entries in a json format
@@ -82,47 +94,68 @@ def fetch_from_db():
 @app.route("/save_yaml", methods=["POST"])
 def save_yaml():
     if request.method == 'POST':
-        routine = bson.json_util.loads(request.data)
-        print(routine)
-    return jsonify({"response":"HI"})
-    # try:
-    #     if (routines.find_one({"_id": routine["id"]})) is None:
-    #         routine_post = {
-    #             "user": "User1",
-    #             "last_modified": datetime.now(tz=datetime.timezone.utc),
-    #             "label": "Dance_1",
-    #             "file":  bson.encode(routine)}
-    #         routines.insert_one(routine_post)
-    #         print("Insert completed")
-    #     else:
-    #         update_routine(routine)
-    # except Exception as e:
-    #     print("An error ocurred: ", e)
+        routine = loads(request.data)
+        try:
+
+            # if (routines.find_one({"_id": routine["id"]})) is None:
+            db_routine = {}
+            db_routine["user"] = "TESTUSER"
+            db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
+            db_routine["label"] = "TEST_ENTRY"
+
+            file = {}
+
+            for i in range(0, len(routine)):
+                file["Segment" + str(i+1)] = routine[i]
+           
+            db_routine["file"] = bson.encode(file)
+
+            routines.insert_one(db_routine)
+            print("Insert completed")
+            return "True"
+            # else:
+            #     update_routine(routine)
+        except Exception as e:
+            print("An error ocurred: " + str(e))
+            return "False"
 
 
 # READ
 # Download routine from angular app
 @app.route("/download_routine", methods=["GET"])
-def download_routine(routine):
-    # TODO convert routine from angular data type to python dict
+def download_routine(id):
     try:
-        home = os.path.expanduser("~")
+        routine = routines.find_one({"_id": ObjectId(id)})
+        routine = routine["file"]
+        routine = bson.decode(routine)
+
+        path = os.path.expanduser("~") + "/robot_routines/"
         x = datetime.now()
-        file_name = home + x.strftime('%d-%m-%Y-%H-%M-%S.yaml')
-        with open(file_name, 'w') as fp:
-            fp.write(yaml.dump(routine))
-        print("Download completed")
+        file_name = x.strftime('%d-%m-%Y-%H-%M-%S.yaml')
+
+        if os.path.exists(path):
+            with open(path + file_name, 'w') as fp:
+                fp.write(yaml.dump(routine))
+            print("Download completed")
+        else:
+            os.mkdir(path)
+            with open(path + file_name, 'w') as fp:
+                fp.write(yaml.dump(routine))
+            print("Download completed")
+        return "True"  # Maybe mandar un popup o template que indique que hubo un error
     except Exception as e:
         print("An error ocurred: ", e)
+        return "False"
 
-
-# TODO Retrieve most recent routine
-# db.routines.find().sort({"last_modified": -1}).limit(1)
+# MOST RECENT
+# Retrieve most recent routine
+@app.route("/recent_routine", methods=["GET"])
 def get_most_recent_routine():
     try:
         recent_routine = []
         recent = routines.find_one(sort=[('$natural', -1)])
-        recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user": recent["user"],"last_modified": recent["last_modified"], "file": bson.decode(recent["file"])})
+        # recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user": recent["user"],"last_modified": recent["last_modified"], "file": bson.decode(recent["file"])})
+        recent_routine = bson.decode(recent["file"])
         return jsonify(recent_routine)
     except Exception as e:
         print("An error ocurred: ", e)

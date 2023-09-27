@@ -1,42 +1,80 @@
-import yaml
-from pymongo import MongoClient
-from flask import Flask, jsonify
-import json
-import gridfs
-import bson
-from bson.objectid import ObjectId
-import datetime
-import os
+from configparser_crypt import ConfigParserCrypt
 
-client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
-db = client["ROBOT_UCSD"] # Access/creation of data base
+file = 'config.encrypted'
+conf_file = ConfigParserCrypt()
 
-facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
-body_gestures = db["body_gestures"] # Creation/Access of table Movements
-tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
-speech_elements = db["speech_elements"] # Creation/Access of table Speech
-routines = db["routines"] #Creation/Access of table Routines
+# Create new AES key
+conf_file.generate_key()
+# Don't forget to backup your key somewhere
+aes_key = conf_file.aes_key
 
-routine = {
-    "Segment_1": {
-        "Block_1": {
-            "Type": "facial_expression",
-            "Level": 2,
-            "Label": "Happy"
-            }
-    },
-    "Segment_2": {
-        "Block_1": {
-            "Type": "speech",
-            "Level": 3,
-            "Label": "Hum"
-        }
-    }
-}
+print(aes_key)
 
-recent_routine = []
-recent = routines.find_one(sort=[('$natural', -1)])
-recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user": recent["user"],"last_modified": recent["last_modified"], "file": bson.decode(recent["file"])})
+# Use like normal configparser class
+conf_file.add_section("CREDENTIALS")
+conf_file["CREDENTIALS"]["username"] = "access"
+conf_file["CREDENTIALS"]["password"] = "BFL2N3YtqbA45O9b"
+
+# Write encrypted config file
+with open(file, 'wb') as file_handle:
+    conf_file.write_encrypted(file_handle)
+
+# conf_file.read_encrypted(file)
+# print(conf_file["CREDENTIALS"]["username"])
+# print(conf_file["CREDENTIALS"]["password"])
+
+# import yaml
+# from pymongo import MongoClient
+# from flask import Flask, jsonify
+# import json
+# import gridfs
+# import bson
+# from bson.objectid import ObjectId
+# import datetime as dt
+# from datetime import datetime
+# import os
+# import configparser
+
+
+# client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
+# db = client["ROBOT_UCSD"] # Access/creation of data base
+
+# facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
+# body_gestures = db["body_gestures"] # Creation/Access of table Movements
+# tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
+# speech_elements = db["speech_elements"] # Creation/Access of table Speech
+# routines = db["routines"] #Creation/Access of table Routines
+
+# config = configparser.ConfigParser()
+# config.read("../config.ini")
+
+# username = config['x-credentials']['username']
+# password = config['x-credentials']['password']
+
+# print(username)
+# print(password)
+
+# routine = {
+#     "Segment_1": {
+#         "Block_1": {
+#             "Type": "facial_expression",
+#             "Level": 2,
+#             "Label": "Happy"
+#             }
+#     },
+#     "Segment_2": {
+#         "Block_1": {
+#             "Type": "speech",
+#             "Level": 3,
+#             "Label": "Hum"
+#         }
+#     }
+# }
+
+# recent_routine = []
+# recent = routines.find_one(sort=[('$natural', -1)])
+# recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user": recent["user"],"last_modified": recent["last_modified"], "file": bson.decode(recent["file"])})
+
 
 # fs = gridfs.GridFS(db, collection="routines")
 # data = yaml.dump(routine).encode('utf-8')
@@ -92,7 +130,7 @@ recent_routine.append({"id": str(recent["_id"]), "label": recent["label"], "user
 # import yaml
 # import json
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 # client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
 # db = client["ROBOT_UCSD"] # Access/creation of data base
@@ -186,9 +224,9 @@ app = Flask(__name__)
 # routines.insert_one(dummy_routine_post)
 
 # Main app
-@app.route('/', methods=['GET'])
-def root():
-    return jsonify(recent_routine)
+# @app.route('/', methods=['GET'])
+# def root():
+#     return jsonify(recent_routine)
 
 
 # @app.route("/create_yaml", methods=['GET'])
@@ -243,8 +281,8 @@ def root():
 # def create_yaml():
 #     return "Here I implement returning subroutine (YAML) file as a JSON object"
 
-if __name__== "__main__":
-    app.run(debug=True)
+# if __name__== "__main__":
+#     app.run(debug=True)
 
 # R2
 # @app.route('/', methods=['GET', 'POST'])
