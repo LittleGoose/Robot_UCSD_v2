@@ -34,6 +34,7 @@
   }
 
   .top-text {
+    margin-top: 30px;
     text-align: center; /* Alinea el texto en el centro si es necesario */
     /* Ajusta el espacio superior según tus preferencias */
     font-size: 24px;
@@ -41,12 +42,21 @@
   }
   .second-text{
     text-align: center; 
-    font-size: 24px;
+    font-size: 20px;
   }
   .botones{
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+    
   }
+.small-button{
+  font-size: 16px;
+  margin: 0 20px;
+}
+
+
   ion-content {
     --align-items: center;
     --padding-start: 5%;
