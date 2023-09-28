@@ -1,23 +1,23 @@
-from configparser_crypt import ConfigParserCrypt
+# from configparser_crypt import ConfigParserCrypt
 
-file = 'config.encrypted'
-conf_file = ConfigParserCrypt()
+# file = 'config.encrypted'
+# conf_file = ConfigParserCrypt()
 
-# Create new AES key
-conf_file.generate_key()
-# Don't forget to backup your key somewhere
-aes_key = conf_file.aes_key
+# # Create new AES key
+# conf_file.generate_key()
+# # Don't forget to backup your key somewhere
+# aes_key = conf_file.aes_key
 
-print(aes_key)
+# print(aes_key)
 
-# Use like normal configparser class
-conf_file.add_section("CREDENTIALS")
-conf_file["CREDENTIALS"]["username"] = "access"
-conf_file["CREDENTIALS"]["password"] = "BFL2N3YtqbA45O9b"
+# # Use like normal configparser class
+# conf_file.add_section("CREDENTIALS")
+# conf_file["CREDENTIALS"]["username"] = "access"
+# conf_file["CREDENTIALS"]["password"] = "BFL2N3YtqbA45O9b"
 
-# Write encrypted config file
-with open(file, 'wb') as file_handle:
-    conf_file.write_encrypted(file_handle)
+# # Write encrypted config file
+# with open(file, 'wb') as file_handle:
+#     conf_file.write_encrypted(file_handle)
 
 # conf_file.read_encrypted(file)
 # print(conf_file["CREDENTIALS"]["username"])
@@ -35,6 +35,12 @@ with open(file, 'wb') as file_handle:
 # import os
 # import configparser
 
+# import base64
+
+# string = "0c17a3d7b18d03a40a71f3a951381d28e6247e82a1c756912a3a71d9634d1272"
+# aes = bytes.fromhex(string)
+
+# print(aes)
 
 # client = MongoClient('0.0.0.0', 27017) # Connect to mongo client (local level)
 # db = client["ROBOT_UCSD"] # Access/creation of data base

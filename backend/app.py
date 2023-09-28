@@ -8,6 +8,10 @@ from bson.objectid import ObjectId
 from bson.json_util import loads
 import yaml
 import os
+from dotenv import load_dotenv
+import binascii
+import codecs
+from binascii import unhexlify
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -20,7 +24,10 @@ app.config['JSON_SORT_KEYS'] = False
 file = 'config.encrypted'
 conf_file = ConfigParserCrypt()
 
-conf_file.aes_key = b'\x0c\x17\xa3\xd7\xb1\x8d\x03\xa4\nq\xf3\xa9Q8\x1d(\xe6$~\x82\xa1\xc7V\x91*:q\xd9cM\x12r'
+load_dotenv()
+key = bytes.fromhex(os.getenv("aes_key"))
+conf_file.aes_key = key
+
 
 # Read encrypted config file
 conf_file.read_encrypted(file)
