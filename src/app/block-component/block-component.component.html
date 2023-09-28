@@ -21,6 +21,7 @@
     <ion-col size="auto" *ngFor="let block of row">
       <ion-button 
         draggable="true"
+        (dragstart)="dragMoving($event, undefined, block, true)"
         (dragend)="dragFuncion($event, undefined, block, true)" 
         size="large" 
         color="{{block.get_color()}}" 

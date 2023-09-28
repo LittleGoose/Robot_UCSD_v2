@@ -161,6 +161,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
   dragFuncion(event: DragEvent, block?: Block, send_block?: Send_block, rearenge?: boolean){
 
+    // Where was the block you grabbed ?
     const position = { row: 0, column: 0 };
 
     if(rearenge){
@@ -186,10 +187,11 @@ export class BlockComponentComponent implements AfterViewInit {
       this.current_block.name = data.block.label;
     }
     this.current_routine.description = "Description of routine";
-    if(block == undefined){
+
+    if(block == undefined){ // If block is undefined then it was a previous block
       this.current_block = send_block;
       console.log("Change position");
-    } else {
+    } else { // You are grabbing from the second sidebar
       switch(data.block.constructor.name){
         case "Facial_Expression":
           this.current_block.class = "facial_expression";
@@ -209,16 +211,9 @@ export class BlockComponentComponent implements AfterViewInit {
       }
     }
 
-    data.event.preventDefault(); // Prevent the default behavio
-  
-    /*const mouseX = data.event.pageX;
-    const mouseY = data.event.pageY;
-
-    console.log(`Item dropped at (${mouseX}, ${mouseY})`);*/
+    data.event.preventDefault(); // Prevent the default behavior
 
     this.check_cells_positions();
-
-    //console.log("COOOOLLL", this.updatedColValues);
 
     let index_row = 0;
     let index_col = 0;
@@ -294,6 +289,7 @@ export class BlockComponentComponent implements AfterViewInit {
         }
       }
 
+      // Dropped in new row
       if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
         this.delete_previous(position, rearenge);
         this.current_routine.array_block.push([this.current_block]);
@@ -310,6 +306,10 @@ export class BlockComponentComponent implements AfterViewInit {
     } else {
       this.blocks += 1;
     }
+  }
+
+  dragMoving(event: Event, block?: Block, send_block?: Send_block, rearenge?: boolean){
+    console.log("MOVE");
   }
 }
 
