@@ -50,6 +50,10 @@ export class BlockComponentComponent implements AfterViewInit {
       // Call your component's function or perform necessary actions
       this.saveNewParameter(newBlock);
     });
+
+    this.popUpService.clearRoutine.subscribe((data) => {
+      this.current_routine.array_block = [];
+    });
     
     this.newBlockService.newBlockAdded.subscribe((data) => {
       this.current_block = new Send_block();

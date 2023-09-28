@@ -20,7 +20,9 @@ export class PopUpClearComponent {
 
   butomYes()
   {
-
+    //this.popUpService.saveRoutine.emit("Routine Saved");
+    //this.popUpService.clearRoutine.emit("Clear Routine");
+    this.modalController.dismiss(null, 'Yes');
   }
   butomNo()
   {
