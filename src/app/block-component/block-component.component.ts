@@ -222,9 +222,6 @@ export class BlockComponentComponent implements AfterViewInit {
 
     let index_row = 0;
     let index_col = 0;
-    let past_num = 0;
-    let dif = 0;
-    let third = 0;
 
     const colArray: number[] = Array.from(this.ColValues);
 
@@ -276,7 +273,7 @@ export class BlockComponentComponent implements AfterViewInit {
                 break;
               }
 
-              for (const coord of this.cellPositions) {
+              for (const coord of this.cellPositions) { // Calculate where in the row it should be added
                 if (coord.center_y == num){
                   if(coord.center_x > data.event.pageX){
                     break;
