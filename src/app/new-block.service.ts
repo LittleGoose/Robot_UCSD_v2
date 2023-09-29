@@ -9,10 +9,8 @@ export class NewBlockService {
 
   newBlockAdded: EventEmitter<SendData> = new EventEmitter<SendData>();
   scrollEvent: EventEmitter<Event> = new EventEmitter<Event>();
-  saveRoutineEvent: EventEmitter<SendDataRoutine> = new EventEmitter<SendDataRoutine>();
   send_data: SendData = new SendData();
-  send_data_routine: SendDataRoutine = new SendDataRoutine();
-
+  
   constructor(private rs: RestService) { }
 
   emitData(event: DragEvent, block: Block) {
@@ -25,34 +23,9 @@ export class NewBlockService {
     this.scrollEvent.emit(event);
   }
 
-  // TODO llamar al post del restservice para mandar la routine
-  save_button(type_def: string, routine?: Routines_Blocks){
-    this.send_data_routine.type_def = type_def;
-    if(routine){
-      this.send_data_routine.routine = routine;
-
-      this.rs.upload_routine(routine).subscribe(
-        (response) => {
-          console.log(response);
-          console.log(routine);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-
-    }
-    this.saveRoutineEvent.emit(this.send_data_routine);
-  }
-
 }
 
 export class SendData{
   event: DragEvent;
   block: Block;
-}
-
-export class SendDataRoutine{
-  type_def: string;
-  routine: Routines_Blocks;
 }

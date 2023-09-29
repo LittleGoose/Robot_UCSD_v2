@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { PopUpService } from '../pop-up.service';
 import { Send_block } from '../models/routines.model';
+import { NewBlockService } from '../new-block.service';
 
 @Component({
   selector: 'app-pop-up-save',
@@ -19,6 +20,10 @@ export class PopUpSaveComponent {
 
   cancel() {
     this.modalController.dismiss(null, 'cancel');
+  }
+
+  save(){
+    this.modalController.dismiss(null, 'Yes');
   }
 
 }
