@@ -9,6 +9,7 @@ import { ScrollService } from '../scroll.service';
 import { RestService } from '../rest.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
+import { PopUpService } from '../pop-up.service';
 
 @Component({
   selector: 'app-sidebar-second',
@@ -20,9 +21,9 @@ export class SidebarSecondComponent implements OnDestroy {
   private scrollSubscription: Subscription;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService) {
-    this.new_block.saveRoutineEvent.subscribe((data) => {
-      if(data.type_def != "Button_Clicked"){
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
+    this.pop_up.saveRoutineEvent.subscribe((data) => {
+      if(data.type_def  != "Send_Name_Please"){
         if(!this.options.some(option => option.label === data.routine.label)){
           data.routine.color = "medium"
           this.options.push(data.routine);
