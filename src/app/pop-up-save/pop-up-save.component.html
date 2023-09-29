@@ -1,13 +1,22 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title class="titleicon" style="display:inline-block"> Save </ion-title>
-      <img slot="end" class="cross_button" src="../../assets/icon/cross_2.png" style="display:inline-block" (click)="cancel()"/>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-title class="titleicon" style="display:inline-block"> Save </ion-title>
+    <img slot="end" class="cross_button" src="../../assets/icon/cross_2.png" style="display:inline-block" (click)="cancel()"/>
+  </ion-toolbar>
+</ion-header>
 
-<!-- Sección adicional para 'speech' -->
-<div class="ion-text-center">
-    <ion-text>¿Are you sure you want to delete your curent routine?</ion-text>
-    <ion-input placeholder="Text Here"></ion-input>
-</div>
-  
+<ion-content class="center-content">
+  <!-- Sección adicional para 'speech' -->
+  <ion-text class="center-text">
+   Name of Routine: 
+  </ion-text>
+
+      <!-- Campo de entrada de texto -->
+      <ion-input class="center-input" placeholder="Name Routine"></ion-input>
+
+  <!-- Contenedor para los botones centrados horizontalmente en el margen -->
+  <div class="center-buttons">
+    <ion-button class="small-button">Save Routine</ion-button>
+    
+  </div>
+</ion-content>
