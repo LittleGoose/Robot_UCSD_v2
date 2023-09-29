@@ -19,7 +19,15 @@
   <ion-row *ngFor="let row of current_routine.array_block" #blockRef>
     <ion-col class="padding" id="padding"></ion-col>
     <ion-col size="auto" *ngFor="let block of row">
-      <ion-button size="large" color="{{block.get_color()}}" (click)="openPopUp($event, block)">{{block.name}}</ion-button>
+      <ion-button 
+        draggable="true"
+        (dragstart)="dragMoving($event, undefined, block, true)"
+        (dragend)="dragFuncion($event, undefined, block, true)" 
+        size="large" 
+        color="{{block.get_color()}}" 
+        (click)="openPopUp($event, block)">
+        {{block.name}}
+      </ion-button>
     </ion-col>
   </ion-row>
   </ion-grid>
