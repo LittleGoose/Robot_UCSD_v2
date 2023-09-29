@@ -43,8 +43,8 @@ export class BlockComponentComponent implements AfterViewInit {
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2) {
 
-    this.current_routine.array_block = [[]];
-    this.current_routine.name = "Test_routine";
+    this.current_routine.array_block = [];
+    //this.current_routine.name = "Test_routine";
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
       // Call your component's function or perform necessary actions
@@ -52,7 +52,7 @@ export class BlockComponentComponent implements AfterViewInit {
     });
 
     this.popUpService.clearRoutine.subscribe((data) => {
-      this.current_routine.array_block = [];
+      this.current_routine = new Routines();
     });
     
     this.newBlockService.newBlockAdded.subscribe((data) => {
@@ -164,13 +164,19 @@ export class BlockComponentComponent implements AfterViewInit {
     });
     
     this.popUpService.saveRoutineEvent.subscribe((data) => {
-      if(data.type_def=="Yes"){
-        console.log("SAVE 2")
-        let send_routine = new Routines_Blocks(this.current_routine.id, this.current_routine.name, this.current_routine.description);
+      if(data.type_def === "Send_Name_Please"){
+        let send_routine = new Routines_Blocks(this.current_routine.id, data.name, this.current_routine.description);
+        this.current_routine.name = data.name;
 
-        this.popUpService.save_button("Routine", send_routine); //ximena implementar save console.log(this.current_routine.array_block);
+        this.popUpService.save_button(data, send_routine); //ximena implementar save console.log(this.current_routine.array_block);
       }
     });
+
+    this.popUpService.NameRoutine.subscribe((data) => { // When clicking save this is called
+      if(data == "ask"){
+        this.popUpService.ask_name("respond", this.current_routine.name);
+      }
+    })
   }
 
   openPopUp(event: MouseEvent, block: Send_block) {

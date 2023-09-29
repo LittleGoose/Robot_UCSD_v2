@@ -67,8 +67,7 @@ export class AppComponent implements OnInit {
   }
 
   saveRoutine(){
-    console.log("SAVE clicked")
-    this.popUpService.openModal_Save();
+    this.popUpService.ask_name("ask");
   }
 
   clearRoutine(){
