@@ -11,6 +11,8 @@ import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
 export class PopUpService {
 
   blockUpdated: EventEmitter<Send_block> = new EventEmitter<Send_block>();
+  saveRoutine: EventEmitter<string> = new EventEmitter<string>();
+  clearRoutine: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private modalController: ModalController) {}
 
@@ -35,10 +37,7 @@ export class PopUpService {
   async openModal_Save() {
 
     const modal = await this.modalController.create({
-      component: PopUpSaveComponent,
-      componentProps: {
-        text: "Hello" // Pass the block as a parameter to the modal
-      }
+      component: PopUpSaveComponent
     });
 
     modal.onDidDismiss().then((result) => {
@@ -57,6 +56,9 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
+      if (result.role === 'Yes') {
+        this.clearRoutine.emit(result.data);
+      }
     });
 
     await modal.present();
