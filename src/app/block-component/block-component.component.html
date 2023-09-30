@@ -25,7 +25,7 @@
         (dragend)="dragFuncion($event, undefined, block, true)" 
         size="large" 
         color="{{block.get_color()}}" 
-        (click)="openPopUp($event, block)">
+        (click)="openPopUp(block, $event)">
         {{block.name}}
       </ion-button>
     </ion-col>

@@ -54,6 +54,7 @@ export class BlockComponentComponent implements AfterViewInit {
     
     this.newBlockService.newBlockAdded.subscribe((data) => {
       this.dragFuncion(data.event, data.block);
+      this.openPopUp(this.current_block);
     });
     
     this.newBlockService.saveRoutineEvent.subscribe((data) => {
@@ -65,9 +66,13 @@ export class BlockComponentComponent implements AfterViewInit {
     });
   }
 
-  openPopUp(event: MouseEvent, block: Send_block) {
-    if (event.detail === 2) {
-      this.current_block = block;
+  openPopUp(block: Send_block, event?: MouseEvent,) {
+    if(event != undefined){
+      if (event.detail === 2) {
+        this.current_block = block;
+        this.popUpService.openModal(block);
+      }
+    } else {
       this.popUpService.openModal(block);
     }
   }
