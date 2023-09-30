@@ -9,9 +9,6 @@ from bson.json_util import loads
 import yaml
 import os
 from dotenv import load_dotenv
-import binascii
-import codecs
-from binascii import unhexlify
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -21,18 +18,9 @@ app.config['JSON_SORT_KEYS'] = False
 # db = client["ROBOT_UCSD"]  # Access/creation of data base
 
 # Connect to mongo client (Atlas - Cloud)
-file = 'config.encrypted'
-conf_file = ConfigParserCrypt()
-
 load_dotenv()
-key = bytes.fromhex(os.getenv("aes_key"))
-conf_file.aes_key = key
-
-
-# Read encrypted config file
-conf_file.read_encrypted(file)
-user = conf_file["CREDENTIALS"]["username"]
-password = conf_file["CREDENTIALS"]["password"]
+user = os.getenv("username")
+password = os.getenv("password")
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net") 
 db = client["ROBOT-UCSD"]  # Access/creation of data base
