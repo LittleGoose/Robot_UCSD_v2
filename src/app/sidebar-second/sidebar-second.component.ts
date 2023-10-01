@@ -69,6 +69,7 @@ export class SidebarSecondComponent implements OnDestroy {
   options : Block[] = [];
 
   ngOnInit() {
+
     this.rs.read_db()
     .subscribe(
       (response) => {
