@@ -10,22 +10,47 @@ export class RestService {
   constructor(private http : HttpClient) { }
 
   // ngOnInit(){}
-  server_url : string = "http://127.0.0.1:5000"; // este tiene que quedarse como "http://127.0.0.1:5000" en modo de desarrollo
+  server_url : string = "http://127.0.0.1:5000"; // este tiene que quedarse como "http://127.0.0.1:5000" en modo de desarrollo 
   fetch_db_url : string = `${this.server_url}/fetch_tables_from_db`;
-  upload_db_url : string = `${this.server_url}/save_yaml`;
+  upload_db_url : string = `${this.server_url}/save_routine`;
   delete_db_url : string = `${this.server_url}/delete_routine`;
+  recent_db_url : string = `${this.server_url}/recent_routine`;
 
 
   read_db(){
     return this.http.get<[Facial_Expression[], Body_Gestures[], Tone_Voice[], Speech[], Routines_Blocks[]]>(this.fetch_db_url);
   }
 
-  upload_routine(routine): Observable<any>{
-    return this.http.post<any>(this.upload_db_url, routine);
+  upload_routine(routine, routine_name): Observable<any>{
+    return this.http.post<any>(this.upload_db_url, {routine, routine_name});
   }
 
-  delete_routine(id): Observable<any>{
-    return this.http.delete<any>(this.delete_db_url + `/${id}`);
+  delete_routine(name): Observable<any>{
+    return this.http.delete<any>(this.delete_db_url + `/${name}`);
   }
+
+  // COIDGO PARA IMPLEMENTAR EN UN COMPONENT PARA BORRAR UNA RUTINA
+  // this.rs.delete_routine("test_2")
+  //   .subscribe(
+  //     (response) => {
+  //       console.log(response);
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   )
+
+  get_recent_routine(){
+    return this.http.get<any>(this.recent_db_url);
+  }
+    // COIDGO PARA IMPLEMENTAR EN UN COMPONENT PARA OBTENER LA RUTINA MAS RECIENTE
+    // this.rs.get_recent_routine()
+    // .subscribe(
+    //   (response) => {
+    //     console.log(response);
+    //   },(error) => {
+    //     console.log("No Data Found" + error);
+    //   }
+    // )
 
 }
