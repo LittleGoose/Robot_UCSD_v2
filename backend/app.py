@@ -19,8 +19,10 @@ app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (Atlas - Cloud)
 load_dotenv()
-user = os.getenv("username")
+user = os.getenv("user")
+print(user)
 password = os.getenv("password")
+print(password)
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 
 db = client["ROBOT-UCSD"]  # Access/creation of data base
