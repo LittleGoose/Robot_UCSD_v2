@@ -93,7 +93,9 @@ export class BlockComponentComponent implements AfterViewInit {
         this.popUpService.openModal(block);
       }
     } else {
-      this.popUpService.openModal(block);
+      if (block.class != 'routine'){
+        this.popUpService.openModal(block);
+      }
     }
   }
 
