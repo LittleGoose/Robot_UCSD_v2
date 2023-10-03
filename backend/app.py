@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request, send_file
 from pymongo import MongoClient
-from configparser_crypt import ConfigParserCrypt
 import datetime as dt
 from datetime import datetime
 import bson
@@ -23,7 +22,7 @@ load_dotenv()
 user = os.getenv("username")
 password = os.getenv("password")
 
-client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net") 
+client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 
 db = client["ROBOT-UCSD"]  # Access/creation of data base
 
 facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
