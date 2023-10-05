@@ -15,7 +15,8 @@
         color="{{ item.color }}"
         class="desaturate-color"
         title="{{ item.description }}"
-      >
+        id = "{{item.label}}" 
+        (click)="openPopover(item.color)">
         <ion-avatar slot="start">
           <img
             [src]="'https://picsum.photos/80/80?random=' + index"

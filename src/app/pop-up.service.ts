@@ -4,6 +4,7 @@ import { PopUpComponent } from './pop-up/pop-up.component';
 import { PopUpSaveComponent } from './pop-up-save/pop-up-save.component';
 import { Send_block } from './models/routines.model';
 import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
+import { PopUpRoutinesComponent } from './pop-up-routines/pop-up-routines.component';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,26 @@ export class PopUpService {
 
     await modal.present();
   }
+
+  async openModal_Routines() {
+
+    const modal = await this.modalController.create({
+      component: PopUpRoutinesComponent,
+      componentProps: {
+        text: "Hello" // Pass the block as a parameter to the modal
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'Yes') {
+        this.clearRoutine.emit(result.data);
+      }
+    });
+
+    await modal.present();
+  }
+
+
+
 
 }
