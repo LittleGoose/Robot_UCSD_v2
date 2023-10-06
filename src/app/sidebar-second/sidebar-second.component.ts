@@ -10,6 +10,7 @@ import { RestService } from '../rest.service';
 import { PopUpService } from '../pop-up.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
+import { Send_block } from '../models/routines.model';
 
 @Component({
   selector: 'app-sidebar-second',
@@ -70,6 +71,7 @@ export class SidebarSecondComponent implements OnDestroy {
   options : Block[] = [];
 
   isOpen = false;
+  pop_over_block: Block;
 
   ngOnInit() {
 
@@ -153,12 +155,24 @@ export class SidebarSecondComponent implements OnDestroy {
     this.new_block.emitData(event, block);
   }
 
-  async openPopover(color: string, e:MouseEvent) {
+  async openPopover(color: string, e:MouseEvent, item: Block) {
     e.preventDefault();
-    if (color === 'medium' ) {
+    if (color === 'medium') {
       this.popover.event = e;
       this.isOpen = true;
+      this.pop_over_block = item;
     }
+  }
+
+  delete_routine(ev: Event){
+    // Delete routine
+    console.log("Delete");
+    console.log(this.pop_over_block);
+  }
+
+  download_routine(ev: Event){
+    // Download routne
+    console.log("Download");
   }
 
 }
