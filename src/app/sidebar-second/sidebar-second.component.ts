@@ -11,6 +11,7 @@ import { PopUpService } from '../pop-up.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
 import { Send_block } from '../models/routines.model';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-sidebar-second',
@@ -168,11 +169,29 @@ export class SidebarSecondComponent implements OnDestroy {
     // Delete routine
     console.log("Delete");
     console.log(this.pop_over_block);
+    this.rs.delete_routine(this.pop_over_block["label"])
+    .subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
   download_routine(ev: Event){
     // Download routne
-    console.log("Download");
+    this.rs.download_routine(this.pop_over_block["label"])
+    .subscribe(
+      (response) => {
+        const blob = new Blob([response], { type: 'text/yaml' });
+        saveAs(blob, this.pop_over_block["label"] + ".yaml");
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
 }
