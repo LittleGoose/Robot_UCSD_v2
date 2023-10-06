@@ -19,10 +19,8 @@ app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (Atlas - Cloud)
 load_dotenv()
-user = os.getenv("user")
-print(user)
+user = os.getenv("username")
 password = os.getenv("password")
-print(password)
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 
 db = client["ROBOT-UCSD"]  # Access/creation of data base
@@ -133,6 +131,7 @@ def download_routine(name):
 
 # MOST RECENT
 # Retrieve most recent routine
+# regresar como array de arrays (asi como lo manda ionic)
 @app.route("/recent_routine", methods=["GET"])
 def get_most_recent_routine():
     try:
