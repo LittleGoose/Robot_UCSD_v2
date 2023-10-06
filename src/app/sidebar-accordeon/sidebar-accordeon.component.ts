@@ -10,6 +10,7 @@ import { RestService } from '../rest.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -20,6 +21,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
+  @ViewChild('popover') popover;
   private scrollSubscription: Subscription;
   talk: Speech;
   
@@ -52,7 +54,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
   speech_blocks: Speech[] = [];
   routines_blocks: Routines_Blocks[] = [];
 
-  colors: string[] = ["light-constrast", "danger", "light", "light", "light", "light"];
+  isOpen = false;
+  pop_over_block: Block;
 
   ngOnInit() {
 
@@ -141,30 +144,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.new_block.emitData(event, block);
   }
 
-  accordionGroupChange(ev: any, accordionGroup: String){
-    const selectedValue = ev.detail.value;
-    if(accordionGroup == "NonVerbal"){
-      console.log("NonVerbal");
-      if(selectedValue.indexOf("NonVerbal") !== -1){
-        this.colors[0] = "primary";
-      } else {
-        this.colors[0] = "light";
-      }
-      if(selectedValue.indexOf("Verbal") !== -1){
-        this.colors[3] = "primary";
-      } else {
-        this.colors[3] = "light";
-      }
-      if(selectedValue.indexOf("Actions") !== -1){
-        this.colors[5] = "primary";
-      } else {
-        this.colors[5] = "light";
-      }
-    } else if(accordionGroup == "listener_non_verbal"){
-      console.log(accordionGroup);
-    }
-  };
-
   isExpanded = false;
 
   onAccordionChange(event: any) {
@@ -174,6 +153,44 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
   openLastRoutine(){
     console.log("Open Last Routine")
+  }
+
+  async openPopover(color: string, e:MouseEvent, item: Block) {
+    e.preventDefault();
+    if (color === 'medium') {
+      this.popover.event = e;
+      this.isOpen = true;
+      this.pop_over_block = item;
+    }
+  }
+
+  delete_routine(ev: Event){
+    // Delete routine
+    console.log("Delete");
+    console.log(this.pop_over_block);
+    this.rs.delete_routine(this.pop_over_block["label"])
+    .subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+
+  download_routine(ev: Event){
+    // Download routne
+    this.rs.download_routine(this.pop_over_block["label"])
+    .subscribe(
+      (response) => {
+        const blob = new Blob([response], { type: 'text/yaml' });
+        saveAs(blob, this.pop_over_block["label"] + ".yaml");
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
 }

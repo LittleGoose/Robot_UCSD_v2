@@ -1,4 +1,4 @@
-<ion-accordion-group [multiple]="true" #listenerbig (ionChange)="accordionGroupChange($event, 'NonVerbal')">
+<ion-accordion-group [multiple]="true" #listenerbig>
   <ion-accordion value="NonVerbal">
     <ion-item slot="header" color="primary">
       <ion-icon name="mic-off-outline" slot="start"></ion-icon>
@@ -119,3 +119,14 @@
 <div class="last_routine">
   <ion-text (click)="openLastRoutine()"><u>Open Last Routine</u></ion-text>
 </div>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false" triggerAction="context-menu">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item [button]="true" [detail]="false" (click) = "delete_routine($event)">Delete</ion-item>
+        <ion-item [button]="true" [detail]="false" (click) = "download_routine($event)">Download</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
