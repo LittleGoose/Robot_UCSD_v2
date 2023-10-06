@@ -21,22 +21,18 @@ export class SidebarAccordeonComponent implements OnDestroy {
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
   private scrollSubscription: Subscription;
+  talk: Speech;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
   constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
-    /*this.pop_up.saveRoutineEvent.subscribe((data) => {
-      if(data.type_def  != "Send_Name_Please"){
-        if(!this.options.some(option => option.label === data.routine.label)){
-          data.routine.color = "medium"
-          this.options.push(data.routine);
-        }
-      }
-    });*/
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
       this.content.scrollToPoint(positionX, positionY, 500); // Realizar el scroll en este componente
     });
+
+    this.talk = new Speech("", "Talk", "Talk block", "A1", "");
+
   }
 
   ngOnDestroy() {
@@ -54,10 +50,9 @@ export class SidebarAccordeonComponent implements OnDestroy {
   body_gestures_blocks: Body_Gestures[] = [];
   tone_of_voice_blocks: Tone_Voice[] = [];
   speech_blocks: Speech[] = [];
-  talk: Speech;
   routines_blocks: Routines_Blocks[] = [];
 
-  colors: string[] = ["light", "light", "light", "light", "light", "light"];
+  colors: string[] = ["light-constrast", "danger", "light", "light", "light", "light"];
 
   ngOnInit() {
 
@@ -148,8 +143,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
   accordionGroupChange(ev: any, accordionGroup: String){
     const selectedValue = ev.detail.value;
-    //console.log("Expanded?", selectedValue);
-    //console.log(accordionGroup);
     if(accordionGroup == "NonVerbal"){
       console.log("NonVerbal");
       if(selectedValue.indexOf("NonVerbal") !== -1){
@@ -177,6 +170,10 @@ export class SidebarAccordeonComponent implements OnDestroy {
   onAccordionChange(event: any) {
     // Toggle the isExpanded variable when the accordion is toggled
     this.isExpanded = !this.isExpanded;
+  }
+
+  openLastRoutine(){
+    console.log("Open Last Routine")
   }
 
 }
