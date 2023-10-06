@@ -179,5 +179,4 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.isExpanded = !this.isExpanded;
   }
 
-  
-  }
+}

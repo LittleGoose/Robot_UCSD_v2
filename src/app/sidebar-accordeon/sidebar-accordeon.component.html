@@ -4,7 +4,7 @@
       <ion-icon name="mic-off-outline" slot="start"></ion-icon>
       <ion-label>Non-Verbal</ion-label>
     </ion-item>
-    <div slot="content">
+    <div class="padding_start" slot="content">
       <!--Inside of the verbal accordeon-->
       <!--<ion-accordion-group [multiple]="true" #listener_non_verbal (ionChange)="accordionGroupChange($event, 'listener_non_verbal')">-->
         <ion-accordion value="body-gestures" [ngClass]="{'custom-expanded': isExpanded, 'custom-collapsed': !isExpanded}">
@@ -53,7 +53,7 @@
       <ion-icon aria-hidden="true" name="mic-outline" slot="start"></ion-icon>
       <ion-label>Verbal</ion-label>
     </ion-item>
-    <div slot="content">
+    <div class="padding_start" slot="content">
       <!--Inside of the non-verbal accordeon-->
       <ion-button draggable="true"
         (dragend)="onDragEnd($event, talk)"
