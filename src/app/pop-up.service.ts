@@ -75,8 +75,10 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role === 'Yes') {
-        this.clearRoutine.emit(result.data);
+      if (result.role === 'Delete') {
+        // TODO complete functionality
+      } else if (result.role === 'Download') {
+        // TODO complete funcionality
       }
     });
 

@@ -18,6 +18,7 @@ import { NewBlockService } from '../new-block.service'
 })
 export class SidebarSecondComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('popover') popover;
   private scrollSubscription: Subscription;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
@@ -67,6 +68,8 @@ export class SidebarSecondComponent implements OnDestroy {
   routines: Routines_Blocks[] = [];
 
   options : Block[] = [];
+
+  isOpen = false;
 
   ngOnInit() {
     this.rs.read_db()
@@ -149,10 +152,13 @@ export class SidebarSecondComponent implements OnDestroy {
     this.new_block.emitData(event, block);
   }
 
-  async openPopover(color: string) {
-    if (color === 'medium') {
-      this.popUpService.openModal_Routines();
+  async openPopover(color: string, e:MouseEvent) {
+    e.preventDefault();
+    if (color === 'medium' ) {
+      this.popover.event = e;
+      this.isOpen = true;
     }
   }
+
 }
 
