@@ -15,7 +15,8 @@
         color="{{ item.color }}"
         class="desaturate-color"
         title="{{ item.description }}"
-      >
+        id = "{{item.label}}" 
+        (contextmenu)="openPopover(item.color, $event, item)">
         <ion-avatar slot="start">
           <img
             [src]="'https://picsum.photos/80/80?random=' + index"
@@ -27,3 +28,16 @@
     </ion-list>
   </ion-content>
 </ion-nav>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false" triggerAction="context-menu">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item [button]="true" [detail]="false" (click) = "delete_routine($event)">Delete</ion-item>
+        <ion-item [button]="true" [detail]="false" (click) = "download_routine($event)">Download</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+

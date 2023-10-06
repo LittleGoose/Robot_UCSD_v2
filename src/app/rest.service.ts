@@ -15,6 +15,8 @@ export class RestService {
   upload_db_url : string = `${this.server_url}/save_routine`;
   delete_db_url : string = `${this.server_url}/delete_routine`;
   recent_db_url : string = `${this.server_url}/recent_routine`;
+  download_db_url : string = `${this.server_url}/download_routine`;
+
 
 
   read_db(){
@@ -29,16 +31,10 @@ export class RestService {
     return this.http.delete<any>(this.delete_db_url + `/${name}`);
   }
 
-  // COIDGO PARA IMPLEMENTAR EN UN COMPONENT PARA BORRAR UNA RUTINA
-  // this.rs.delete_routine("test_2")
-  //   .subscribe(
-  //     (response) => {
-  //       console.log(response);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   )
+  download_routine(name){
+    return this.http.get(this.download_db_url + `/${name}`, {responseType: 'blob'});
+  }
+
 
   get_recent_routine(){
     return this.http.get<any>(this.recent_db_url);

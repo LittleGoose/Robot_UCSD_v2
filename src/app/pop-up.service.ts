@@ -69,20 +69,10 @@ export class PopUpService {
   async openModal_Save(name_routine?:string) {
 
     const modal = await this.modalController.create({
-      component: PopUpSaveComponent,
-      componentProps: {
-        name: name_routine // Pass the block as a parameter to the modal
-      }
+      component: PopUpSaveComponent
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role !== 'cancel') {
-        const start_data = new SendDataRoutine();
-        start_data.name = result.role
-        start_data.type_def = "Send_Name_Please"
-
-        this.save_button(start_data)
-      }
     });
 
     await modal.present();
@@ -98,8 +88,12 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role === 'Yes') {
-        this.clearRoutine.emit(result.data);
+      if (result.role !== 'cancel') {
+        const start_data = new SendDataRoutine();
+        start_data.name = result.role
+        start_data.type_def = "Send_Name_Please"
+
+        this.save_button(start_data)
       }
     });
 
