@@ -84,7 +84,7 @@ export class PopUpService {
     const modal = await this.modalController.create({
       component: PopUpClearComponent,
       componentProps: {
-        name: name_routine // Pass the block as a parameter to the modal
+        text: "Hello" // Pass the block as a parameter to the modal
       }
     });
 

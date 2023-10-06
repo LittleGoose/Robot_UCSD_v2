@@ -10,7 +10,6 @@ import { RestService } from '../rest.service';
 import { PopUpService } from '../pop-up.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
-import { PopUpService } from '../pop-up.service';
 
 @Component({
   selector: 'app-sidebar-second',
