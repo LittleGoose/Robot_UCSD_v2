@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { IonContent } from '@ionic/angular';
+import { IonContent , PopoverController } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { ScrollService } from '../scroll.service';
 import { RestService } from '../rest.service';
+import { PopUpService } from '../pop-up.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
-import { PopUpService } from '../pop-up.service';
 
 @Component({
   selector: 'app-sidebar-second',
@@ -18,6 +18,7 @@ import { PopUpService } from '../pop-up.service';
 })
 export class SidebarSecondComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('popover') popover;
   private scrollSubscription: Subscription;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
@@ -67,6 +68,8 @@ export class SidebarSecondComponent implements OnDestroy {
   routines: Routines_Blocks[] = [];
 
   options : Block[] = [];
+
+  isOpen = false;
 
   ngOnInit() {
 
@@ -150,8 +153,13 @@ export class SidebarSecondComponent implements OnDestroy {
     this.new_block.emitData(event, block);
   }
 
+  async openPopover(color: string, e:MouseEvent) {
+    e.preventDefault();
+    if (color === 'medium' ) {
+      this.popover.event = e;
+      this.isOpen = true;
+    }
   }
-  
 
-  
+}
 

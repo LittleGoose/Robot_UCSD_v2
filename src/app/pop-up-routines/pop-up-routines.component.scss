@@ -1,0 +1,37 @@
+ion-title {
+    --color: #000000;
+  }
+  
+  ion-toolbar {
+    --background: #989aa2;
+  }
+
+.botone{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.small-button1{
+  width: 100%;
+  background-color: #f0160f;
+}
+
+.small-button2{
+  width: 100%;
+  background-color: #37abee;
+}
+
+.small-modal{
+  &::part(content)
+  {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    border-radius: 10px;
+  }
+}
+.custom-popover{
+  --max-height: 200px;
+}
