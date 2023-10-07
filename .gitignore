@@ -44,3 +44,4 @@ Thumbs.db
 
 /venv
 /backend/.env
+/.venv
