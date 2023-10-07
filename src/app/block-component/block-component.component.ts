@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList } from '@angular/core';
-import { IonButton, IonContent } from '@ionic/angular';
+import { IonButton, IonContent, PopoverController } from '@ionic/angular';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
 import { PopUpService } from '../pop-up.service';
@@ -7,6 +7,7 @@ import { PopUpComponent } from '../pop-up/pop-up.component';
 import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
+import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
 
 @Component({
   selector: 'app-block-component',
@@ -42,7 +43,8 @@ export class BlockComponentComponent implements AfterViewInit {
   endRect = new DOMRect;
   
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
-    private ionContent: IonContent, private renderer: Renderer2, private rs: RestService) {
+    private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
+    private popoverController: PopoverController) {
 
     this.current_routine.array_block = [];
     //this.current_routine.name = "Test_routine";
@@ -84,6 +86,16 @@ export class BlockComponentComponent implements AfterViewInit {
         this.popUpService.ask_name("respond", this.current_routine.name);
       }
     })
+  }
+
+  async ngOnInit() {
+    // Abre el popover personalizado tan pronto como la página se inicie
+    const popover = await this.popoverController.create({
+      component: PopUpLoadPreviousRoutineComponent, // Reemplaza con tu página de popover personalizado
+      // Coloca las propiedades de posición y otros ajustes según tus necesidades
+    });
+
+    await popover.present();
   }
 
   openPopUp(block: Send_block, event?: MouseEvent,) {
