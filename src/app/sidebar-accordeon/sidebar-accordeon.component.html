@@ -106,7 +106,8 @@
           (dragend)="onDragEnd($event, item)"
           color="{{ item.color }}"
           class="desaturate-color"
-          title="{{ item.description }}">
+          title="{{ item.description }}"
+          (contextmenu)="openPopover(item.color, $event, item)">
           <ion-label>{{ item.label }}</ion-label>
           <br>
         </ion-button>
