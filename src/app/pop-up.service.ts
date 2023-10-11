@@ -97,6 +97,9 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
+      if (result.role !== 'cancel') {
+        this.clearRoutine.emit()
+      }
       
     });
 
