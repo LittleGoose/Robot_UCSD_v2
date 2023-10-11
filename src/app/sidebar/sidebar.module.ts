@@ -10,9 +10,10 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 import { RestService } from '../rest.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SidebarAccordeonComponent } from '../sidebar-accordeon/sidebar-accordeon.component';
 
 @NgModule({
-  declarations: [SidebarFirstComponent, SidebarSecondComponent],
+  declarations: [SidebarFirstComponent, SidebarSecondComponent, SidebarAccordeonComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -21,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
   exports: [
     SidebarFirstComponent,
     SidebarSecondComponent,
+    SidebarAccordeonComponent,
   ],
   providers: [RestService]
 })

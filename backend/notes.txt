@@ -28,7 +28,7 @@ Open new terminal and run: mongosh
 
 ** Stop mongodb (installed with brew MacOS)
 
-brew services stop mongodb-community@7.0
+brew services stop mongodb-community
 
 ** mongodb commands/helpers
 https://www.mongodb.com/developer/products/mongodb/cheat-sheet/

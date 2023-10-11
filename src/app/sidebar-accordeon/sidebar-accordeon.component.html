@@ -1,0 +1,133 @@
+<ion-accordion-group [multiple]="true" #listenerbig>
+  <ion-accordion value="NonVerbal">
+    <ion-item slot="header" color="primary">
+      <ion-icon name="mic-off-outline" slot="start"></ion-icon>
+      <ion-label>Non-Verbal</ion-label>
+    </ion-item>
+    <div slot="content">
+      <!--Inside of the verbal accordeon-->
+      <!--<ion-accordion-group [multiple]="true" #listener_non_verbal (ionChange)="accordionGroupChange($event, 'listener_non_verbal')">-->
+        <ion-accordion value="body-gestures" [ngClass]="{'custom-expanded': isExpanded, 'custom-collapsed': !isExpanded}">
+          <ion-item slot="header" color="light">
+            <ion-icon aria-hidden="true" name="accessibility-outline" slot="start"></ion-icon>
+            <ion-label>Body Gestures</ion-label>
+          </ion-item>
+          <!--Inside of the body-gesture accordeon-->
+          <div slot="content">
+            <ion-list class="my-componente2">
+              <div *ngFor="let item of body_gestures_blocks; let index">
+                <ion-button
+                draggable="true"
+                (dragend)="onDragEnd($event, item)"
+                color="{{ item.color }}"
+                class="desaturate-color"
+                title="{{ item.description }}">
+                <ion-label>{{ item.label }}</ion-label>
+                <br>
+              </ion-button>
+              </div>
+            </ion-list>
+          </div>
+        </ion-accordion>
+        <ion-accordion value="facial-expressions">
+          <ion-item slot="header" color="light">
+            <ion-icon aria-hidden="true" name="happy-outline" slot="start"></ion-icon>
+            <ion-label>Facial Expressions</ion-label>
+          </ion-item>
+          <!--Inside of the facial-expression accordeon-->
+          <div slot="content">
+            <ion-list class="my-componente2">
+              <div *ngFor="let item of facial_expresions_blocks; let index">
+                <ion-button
+                draggable="true"
+                (dragend)="onDragEnd($event, item)"
+                color="{{ item.color }}"
+                class="desaturate-color"
+                title="{{ item.description }}">
+                <ion-label>{{ item.label }}</ion-label>
+                <br>
+              </ion-button>
+              </div>
+            </ion-list>
+          </div>
+        </ion-accordion>
+      <!--</ion-accordion-group>-->
+    </div>
+  </ion-accordion>
+  <ion-accordion value="Verbal" class="my-componente2">
+    <ion-item slot="header" color="primary">
+      <ion-icon aria-hidden="true" name="mic-outline" slot="start"></ion-icon>
+      <ion-label>Verbal</ion-label>
+    </ion-item>
+    <div slot="content">
+      <!--Inside of the non-verbal accordeon-->
+      <ion-button draggable="true"
+        (dragend)="onDragEnd($event, talk)"
+        color="{{ talk.color }}"
+        title="{{ talk.description }}">
+        <ion-label>{{ talk.label }}</ion-label>
+      </ion-button>
+        <ion-accordion value="sounds">
+          <ion-item slot="header" color="light">
+            <ion-icon aria-hidden="true" name="volume-high-outline" slot="start"></ion-icon>
+            <ion-label>Sounds</ion-label>
+          </ion-item>
+          <!--Inside of the sounds accordeon-->
+          <div slot="content">
+            <ion-list class="my-componente2">
+              <div *ngFor="let item of speech_blocks; let index">
+                <ion-button
+                draggable="true"
+                (dragend)="onDragEnd($event, item)"
+                color="{{ item.color }}"
+                class="desaturate-color"
+                title="{{ item.description }}">
+                <ion-label>{{ item.label }}</ion-label>
+                <br>
+              </ion-button>
+              </div>
+            </ion-list>
+          </div>
+        </ion-accordion>
+      <!--</ion-accordion-group>-->
+    </div>
+  </ion-accordion>
+  <ion-accordion value="Actions">
+    <ion-item slot="header" color="primary">
+      <ion-icon aria-hidden="true" name="cog-outline" slot="start"></ion-icon>
+      <ion-label>Actions</ion-label>
+    </ion-item>
+    <!--Inside of the routines accordeon-->
+    <div slot="content">
+      <ion-list class="my-componente2">
+        <div *ngFor="let item of routines_blocks; let index">
+          <ion-button
+          draggable="true"
+          (dragend)="onDragEnd($event, item)"
+          color="{{ item.color }}"
+          class="desaturate-color"
+          title="{{ item.description }}"
+          (contextmenu)="openPopover(item.color, $event, item)">
+          <ion-label>{{ item.label }}</ion-label>
+          <br>
+        </ion-button>
+        </div>
+      </ion-list>
+    </div>
+  </ion-accordion>
+</ion-accordion-group>
+<br>
+<div class="last_routine">
+  <ion-text (click)="openLastRoutine()"><u>Open Last Routine</u></ion-text>
+</div>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false" triggerAction="context-menu">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item [button]="true" [detail]="false" (click) = "delete_routine($event)">Delete</ion-item>
+        <ion-item [button]="true" [detail]="false" (click) = "download_routine($event)">Download</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>

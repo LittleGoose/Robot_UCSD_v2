@@ -18,4 +18,18 @@ export class PopUpClearComponent {
     this.modalController.dismiss(null, 'cancel');
   }
 
+  butomYes()
+  {
+    //this.popUpService.saveRoutine.emit("Routine Saved");
+    //this.popUpService.clearRoutine.emit("Clear Routine");
+    this.modalController.dismiss(null, 'Yes');
+  }
+  butomNo()
+  {
+    this.modalController.dismiss(null, 'cancel');
+  }
+  butomSave(){
+    
+  }
+
 }
