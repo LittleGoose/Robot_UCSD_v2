@@ -65,25 +65,29 @@ export class BlockComponentComponent implements AfterViewInit {
     
     this.popUpService.saveRoutineEvent.subscribe((data) => {
       if(data.type_def === "Send_Name_Please"){
-        let send_routine = new Routines_Blocks(this.current_routine.id, data.name, this.current_routine.description);
+        let send_routine = new Routines();
+        send_routine.id = this.current_routine.id;
+        send_routine.name = data.name
+        send_routine.description = this.current_routine.description
+        send_routine.array_block = this.current_routine.array_block
         this.current_routine.name = data.name;
         this.popUpService.save_button(data, send_routine); //ximena implementar save console.log(this.current_routine.array_block);
         
-        this.rs.upload_routine(this.current_routine.array_block, this.current_routine.name).subscribe(
+        /*this.rs.upload_routine(this.current_routine.array_block, this.current_routine.name).subscribe(
           (response) => {
             console.log(response);
           },
           (error) => {
             console.log(error);
           }
-        );
+        );*/
       
       }
     });
 
     this.popUpService.NameRoutine.subscribe((data) => { // When clicking save this is called
       if(data == "ask"){
-        this.popUpService.ask_name("respond", this.current_routine.name);
+        this.popUpService.ask_name("respond", this.current_routine);
       }
     })
   }

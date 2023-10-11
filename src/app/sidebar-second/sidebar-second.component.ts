@@ -27,10 +27,10 @@ export class SidebarSecondComponent implements OnDestroy {
   constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
     this.pop_up.saveRoutineEvent.subscribe((data) => {
       if(data.type_def  != "Send_Name_Please"){
-        if(!this.options.some(option => option.label === data.routine.label)){
-          data.routine.color = "medium"
-          this.options.push(data.routine);
-        }
+        /*if(!this.options.some(option => option.label === data.routine.label)){
+          //data.routine.color = "medium"
+          //this.options.push(data.routine);
+        }*/
       }
     });
 
