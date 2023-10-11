@@ -123,8 +123,8 @@ def download_routine(name):
         routine = routines.find_one({"label": name})
         routine = routine["file"]
         routine = bson.decode(routine)
-        routine = yaml.dump(routine).encode()
-        return send_file(BytesIO(routine), attachment_filename=name+".yaml", as_attachment=True)
+        routine = yaml.dump(routine)
+        return routine.encode()
     except Exception as e:
         print("An error ocurred: ", e)
         return jsonify({"Status" : "False"})

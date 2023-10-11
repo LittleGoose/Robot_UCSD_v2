@@ -1,67 +1,46 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { IonContent , PopoverController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { IonAccordionGroup, IonicModule } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { ScrollService } from '../scroll.service';
 import { RestService } from '../rest.service';
-import { PopUpService } from '../pop-up.service';
 import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, Block } from '../models/blocks.model';
 import { NewBlockService } from '../new-block.service'
-import { Send_block } from '../models/routines.model';
+import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-sidebar-second',
-  templateUrl: './sidebar-second.component.html',
-  styleUrls: ['./sidebar-second.component.scss'],
+  selector: 'app-sidebar-accordeon',
+  templateUrl: './sidebar-accordeon.component.html',
+  styleUrls: ['./sidebar-accordeon.component.scss'],
 })
-export class SidebarSecondComponent implements OnDestroy {
+export class SidebarAccordeonComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
+  @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
   @ViewChild('popover') popover;
   private scrollSubscription: Subscription;
+  talk: Speech;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
   constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
-    this.pop_up.saveRoutineEvent.subscribe((data) => {
-      if(data.type_def  != "Send_Name_Please"){
-        /*if(!this.options.some(option => option.label === data.routine.label)){
-          //data.routine.color = "medium"
-          //this.options.push(data.routine);
-        }*/
-      }
-    });
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
       this.content.scrollToPoint(positionX, positionY, 500); // Realizar el scroll en este componente
     });
+
+    this.talk = new Speech("", "Talk", "Talk block", "A1", "");
+
   }
 
   ngOnDestroy() {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
-  
-  //rootPage2 = 'Panel2Page';
 
-  // This will be added with the database
-  block_1: Facial_Expression = new Facial_Expression("1", "Happy", "Happy face", "E1", 0);
-  block_2: Facial_Expression = new Facial_Expression("2", "Sad", "Sad face", "E2", 0);
-
-  block_3: Body_Gestures = new Body_Gestures("1", "Nod", "Rotate head", "B1", 0);
-  block_4: Body_Gestures = new Body_Gestures("2", "Turn", "Rotate head", "B2", 0);
-
-  block_5: Tone_Voice = new Tone_Voice("1", "Excited", "Rotate head", "T1");
-  block_6: Tone_Voice = new Tone_Voice("2", "Timid", "Rotate head", "T2");
-
-  block_7: Speech = new Speech("1", "Listen", "Rotate head", "T1", "");
-  block_8: Speech = new Speech("2", "Talk", "Rotate head", "T2", "");
-  block_9: Speech = new Speech("3", "Scream", "Rotate head", "T3", "Hm");
-
-  // block_10: Routines_Blocks = new Routines_Blocks("1", "Dance_1", 1);
-  // block_11: Routines_Blocks = new Routines_Blocks("2", "Conversation_1", 2);
  
   facial_expresions: Facial_Expression[] = [];
   body_gestures: Body_Gestures[] = [];
@@ -69,7 +48,11 @@ export class SidebarSecondComponent implements OnDestroy {
   speech: Speech[] = [];
   routines: Routines_Blocks[] = [];
 
-  options : Block[] = [];
+  facial_expresions_blocks: Facial_Expression[] = [];
+  body_gestures_blocks: Body_Gestures[] = [];
+  tone_of_voice_blocks: Tone_Voice[] = [];
+  speech_blocks: Speech[] = [];
+  routines_blocks: Routines_Blocks[] = [];
 
   isOpen = false;
   pop_over_block: Block;
@@ -85,7 +68,7 @@ export class SidebarSecondComponent implements OnDestroy {
         this.facial_expresions.forEach(element => {
           const block = new Facial_Expression(element.id, element.label, element.description, element.id_in_robot, element.level);
           block.color = "success";
-          this.options.push(block);
+          this.facial_expresions_blocks.push(block);
         });
 
         this.body_gestures = response[1];
@@ -93,7 +76,7 @@ export class SidebarSecondComponent implements OnDestroy {
         this.body_gestures.forEach(element => {
           const block = new Body_Gestures(element.id, element.label, element.description, element.id_in_robot, element.level);
           block.color = "danger";
-          this.options.push(block);
+          this.body_gestures_blocks.push(block);
         });
 
         this.tone_of_voice = response[2];
@@ -101,7 +84,7 @@ export class SidebarSecondComponent implements OnDestroy {
         this.tone_of_voice.forEach(element => {
           const block = new Tone_Voice(element.id, element.label, element.description, element.id_in_robot);
           block.color = "tertiary";
-          this.options.push(block);
+          this.tone_of_voice_blocks.push(block);
         });
         
         this.speech = response[3];
@@ -109,14 +92,19 @@ export class SidebarSecondComponent implements OnDestroy {
         this.speech.forEach(element => {
           const block = new Speech(element.id, element.label, element.description, element.id_in_robot, element.utterance);
           block.color = "warning";
-          this.options.push(block);
+          if(element.label != "Talk"){
+            console.log(element.label);
+            this.speech_blocks.push(block);
+          } else {
+            this.talk = block;
+          }
         });
 
         this.routines = response[4];
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
-          this.options.push(block);
+          this.routines_blocks.push(block);
         });
 
       },
@@ -154,6 +142,17 @@ export class SidebarSecondComponent implements OnDestroy {
 
   onDragEnd(event: DragEvent, block: Block): void {
     this.new_block.emitData(event, block);
+  }
+
+  isExpanded = false;
+
+  onAccordionChange(event: any) {
+    // Toggle the isExpanded variable when the accordion is toggled
+    this.isExpanded = !this.isExpanded;
+  }
+
+  openLastRoutine(){
+    console.log("Open Last Routine")
   }
 
   async openPopover(color: string, e:MouseEvent, item: Block) {
@@ -195,4 +194,3 @@ export class SidebarSecondComponent implements OnDestroy {
   }
 
 }
-
