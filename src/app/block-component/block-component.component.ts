@@ -73,8 +73,11 @@ export class BlockComponentComponent implements AfterViewInit {
         send_routine.description = this.current_routine.description
         send_routine.array_block = this.current_routine.array_block
         this.current_routine.name = data.name;
-        this.popUpService.save_button(data, send_routine); //ximena implementar save console.log(this.current_routine.array_block);
-        
+        this.popUpService.save_button(data, send_routine); 
+      
+      } else if(data.type_def === "Show_Routine"){ //ximena implementar save console.log(this.current_routine.array_block);
+        // Sending it to database
+        console.log(data.routine);
         /*this.rs.upload_routine(this.current_routine.array_block, this.current_routine.name).subscribe(
           (response) => {
             console.log(response);
@@ -83,7 +86,6 @@ export class BlockComponentComponent implements AfterViewInit {
             console.log(error);
           }
         );*/
-      
       }
     });
 
