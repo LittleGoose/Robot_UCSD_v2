@@ -17,25 +17,25 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (local level)
-# client = MongoClient("127.0.0.1", 27017)
-# db = client["ROBOT_UCSD"]  # Access/creation of data base
+client = MongoClient("127.0.0.1", 27017)
+db = client["ROBOT-UCSD"]  # Access/creation of data base
 
 # Connect to mongo client (Atlas - Cloud)
-file = 'config.encrypted'
-conf_file = ConfigParserCrypt()
+# file = 'config.encrypted'
+# conf_file = ConfigParserCrypt()
 
-load_dotenv()
-key = bytes.fromhex(os.getenv("aes_key"))
-conf_file.aes_key = key
+# load_dotenv()
+# key = bytes.fromhex(os.getenv("aes_key"))
+# conf_file.aes_key = key
 
 
-# Read encrypted config file
-conf_file.read_encrypted(file)
-user = conf_file["CREDENTIALS"]["username"]
-password = conf_file["CREDENTIALS"]["password"]
+# # Read encrypted config file
+# conf_file.read_encrypted(file)
+# user = conf_file["CREDENTIALS"]["username"]
+# password = conf_file["CREDENTIALS"]["password"]
 
-client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net") 
-db = client["ROBOT-UCSD"]  # Access/creation of data base
+# client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net") 
+# db = client["ROBOT-UCSD"]  # Access/creation of data base
 
 facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
 body_gestures = db["body_gestures"]  # Creation/Access of table Movements
