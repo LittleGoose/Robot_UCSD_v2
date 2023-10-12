@@ -7,9 +7,12 @@ import { BlockComponentComponent } from '../block-component/block-component.comp
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { PopUpSaveComponent } from '../pop-up-save/pop-up-save.component';
 import { PopUpClearComponent } from '../pop-up-clear/pop-up-clear.component';
+//import { PopUpRoutinesComponent } from '../pop-up-routines/pop-up-routines.component';
+import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
 
 @NgModule({
-  declarations: [BlockComponentComponent, PopUpComponent, PopUpSaveComponent, PopUpClearComponent],
+  declarations: [BlockComponentComponent, PopUpComponent, PopUpSaveComponent, 
+    PopUpClearComponent, PopUpLoadPreviousRoutineComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -20,6 +23,7 @@ import { PopUpClearComponent } from '../pop-up-clear/pop-up-clear.component';
     PopUpComponent,
     PopUpSaveComponent,
     PopUpClearComponent,
+    PopUpLoadPreviousRoutineComponent,
   ],
 })
 export class RoutineAreaModule { }

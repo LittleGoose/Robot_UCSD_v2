@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { PopUpSaveComponent } from './pop-up-save/pop-up-save.component';
-import { Send_block } from './models/routines.model';
+import { Routines, Send_block } from './models/routines.model';
 import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
 import { Block, Routines_Blocks } from './models/blocks.model';
 import { SendData } from './new-block.service';
@@ -22,16 +22,16 @@ export class PopUpService {
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
-  constructor(private modalController: ModalController) {} //private rs: RestService 
+  constructor(private modalController: ModalController, ) {} //private rs: RestService
 
    // TODO llamar al post del restservice para mandar la routine
-  save_button(send_data: SendDataRoutine, routine?: Routines_Blocks){
+  save_button(send_data: SendDataRoutine, routine?: Routines){
     if(routine){
       this.send_data_routine.routine = routine;
-      this.send_data_routine.routine.label = send_data.name;
+      this.send_data_routine.routine.name = send_data.name;
       this.send_data_routine.type_def = "Show_Routine";
 
-      /*this.rs.upload_routine(routine).subscribe(
+      /*this.rs.upload_routine(routine, routine.name).subscribe(
         (response) => {
           console.log(response);
           console.log(routine);
@@ -40,12 +40,14 @@ export class PopUpService {
           console.log(error);
         }
       );*/
+      console.log(routine.array_block); // Aqui Ximenaaaa
 
     } else {
       this.send_data_routine.name = send_data.name;
       this.send_data_routine.type_def = send_data.type_def;
+      this.saveRoutineEvent.emit(this.send_data_routine);
     }
-    this.saveRoutineEvent.emit(this.send_data_routine);
+    
   }
 
   async openModal(block: Send_block) {
@@ -69,10 +71,7 @@ export class PopUpService {
   async openModal_Save(name_routine?:string) {
 
     const modal = await this.modalController.create({
-      component: PopUpSaveComponent,
-      componentProps: {
-        name: name_routine // Pass the block as a parameter to the modal
-      }
+      component: PopUpSaveComponent
     });
 
     modal.onDidDismiss().then((result) => {
@@ -98,25 +97,26 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role === 'Yes') {
-        this.clearRoutine.emit(result.data);
+      if (result.role !== 'cancel') {
+        this.clearRoutine.emit()
       }
+      
     });
 
     await modal.present();
   }
 
-  ask_name(type:string, name?:string){
+  ask_name(type:string, routine?:Routines){
     if(type == "ask"){
       this.NameRoutine.emit(type);
     } else {
-      this.openModal_Save(name);
+      this.openModal_Save(routine.name);
     }
   }
 }
 
 export class SendDataRoutine{
   type_def: string;
-  routine?: Routines_Blocks;
+  routine?: Routines;
   name?: string;
 }

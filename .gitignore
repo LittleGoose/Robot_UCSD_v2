@@ -8,7 +8,9 @@
 /bazel-out
 
 # Node
-/node_modules
+node_modules/*
+!node_modules/file-saver
+
 npm-debug.log
 yarn-error.log
 
@@ -44,3 +46,4 @@ Thumbs.db
 
 /venv
 /backend/.env
+/.venv

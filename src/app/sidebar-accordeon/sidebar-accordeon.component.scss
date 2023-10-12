@@ -1,0 +1,55 @@
+.padding_start{
+    padding-left: 5%!important;
+}
+
+.puzzle-button {
+    width: auto; /* Adjust the button width as needed */
+    height: auto; /* Adjust the button height as needed */
+    background-image: url('../../assets/jigsaw.png'); /* Path to your puzzle image */
+    background-size: cover; /* Scale the image to cover the button */
+    background-repeat: no-repeat; /* Prevent image repetition */
+
+    /* Add a mask to create the puzzle piece shape */
+    mask: url('../../assets/jigsaw.png') no-repeat; /* Use the same image as a mask */
+    mask-size: cover; /* Scale the mask to cover the button */
+    mask-composite: subtract; /* Subtract the mask from the button content */
+
+    /* Add any additional styles you want */
+    color: white; /* Text color */
+    font-size: 20px; /* Text size */
+    text-align: center; /* Text alignment */
+    padding: 10px;
+}
+  
+.puzzle-button:hover {
+    /* Define hover effects if needed */
+    /* For example, change background color on hover */
+    background-color: #007bff; /* Change to your desired color */
+}
+
+.my-componente2{
+    align-items: center;
+    text-align: center;
+    background: ar(--ion-color-primary);
+    color: var(--ion-color-primary);
+    background-color: var(--ion-color-light);
+  }
+
+  ion-accordion-group{
+    ion-accordion {
+        .ion-accordion-toggle-icon {
+            font-size: 50px;
+            color: red;
+        }
+    }
+  }
+
+  .background{
+    background-color: var(--ion-color-light);
+  }
+
+  .last_routine{
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+  }
