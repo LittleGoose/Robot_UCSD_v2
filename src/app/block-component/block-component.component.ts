@@ -110,7 +110,11 @@ export class BlockComponentComponent implements AfterViewInit {
     if(event != undefined){
       if (event.detail === 2) {
         this.current_block = block;
-        this.popUpService.openModal(block);
+        if(this.current_block.class == "speech" && this.current_block.name != "Talk"){
+          // Sounds not showing pop-up
+        } else {
+          this.popUpService.openModal(block);
+        }
       }
     } else {
       if ( block.class != 'routine'){
