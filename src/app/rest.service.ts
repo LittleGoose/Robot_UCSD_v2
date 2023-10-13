@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from './models/blocks.model';
 import { Observable } from 'rxjs/internal/Observable';
+import { Routines } from './models/routines.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,8 +37,8 @@ export class RestService {
   }
 
 
-  get_recent_routine(){
-    return this.http.get<any>(this.recent_db_url);
+  get_recent_routine(): Observable<[Routines_Blocks]>{
+    return this.http.get<[Routines_Blocks]>(this.recent_db_url);
   }
     // COIDGO PARA IMPLEMENTAR EN UN COMPONENT PARA OBTENER LA RUTINA MAS RECIENTE
     // this.rs.get_recent_routine()

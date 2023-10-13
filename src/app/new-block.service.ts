@@ -10,6 +10,9 @@ export class NewBlockService {
 
   newBlockAdded: EventEmitter<SendData> = new EventEmitter<SendData>();
   scrollEvent: EventEmitter<Event> = new EventEmitter<Event>();
+  
+  recentRoutine: EventEmitter<Event> = new EventEmitter<Event>(); // aqui merengues
+
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
@@ -23,6 +26,10 @@ export class NewBlockService {
 
   sendScroll(event: Event){
     this.scrollEvent.emit(event);
+  }
+
+  sendRecentRoutine(event: Event){ // aqui merengues x2
+    this.recentRoutine.emit(event);
   }
 }
 

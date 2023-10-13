@@ -41,7 +41,8 @@ export class BlockComponentComponent implements AfterViewInit {
 
   startRect = new DOMRect;
   endRect = new DOMRect;
-  
+  lol = [];
+
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
     private popoverController: PopoverController) {
@@ -92,6 +93,27 @@ export class BlockComponentComponent implements AfterViewInit {
       if(data == "ask"){
         this.popUpService.ask_name("respond", this.current_routine);
       }
+    })
+
+    this.newBlockService.recentRoutine
+    .subscribe(
+      (data) => {
+          this.rs.get_recent_routine()
+          .subscribe(
+            (response) => {
+                // console.log(response);
+                response.forEach(element => {
+                  this.current_routine.array_block.push(<Send_block[]>element[0]);
+                });
+
+                console.log(this.lol);
+
+                // this.current_routine.array_block = response;
+                // console.log(this.current_routine.array_block);
+            },(error) => {
+                console.log("No Data Found" + error);
+            }
+          )
     })
   }
 
@@ -371,6 +393,8 @@ export class BlockComponentComponent implements AfterViewInit {
   dragMoving(event: Event, block?: Block, send_block?: Send_block, rearenge?: boolean){
     console.log("MOVE");
   }
+
+
 }
 
 

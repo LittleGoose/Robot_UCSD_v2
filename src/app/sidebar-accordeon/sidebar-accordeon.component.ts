@@ -151,8 +151,9 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.isExpanded = !this.isExpanded;
   }
 
-  openLastRoutine(){
+  openLastRoutine(event: any){
     console.log("Open Last Routine")
+    this.new_block.sendRecentRoutine(event);
   }
 
   async openPopover(color: string, e:MouseEvent, item: Block) {

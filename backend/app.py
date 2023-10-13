@@ -137,11 +137,15 @@ def download_routine(name):
 @app.route("/recent_routine", methods=["GET"])
 def get_most_recent_routine():
     try:
+        struct = []
         recent = routines.find_one(sort=[('$natural', -1)])
         recent_routine = bson.decode(recent["file"])
-        return jsonify({"name": recent["label"], "routine": recent_routine})
+        for k, v in recent_routine.items():
+            struct.append(v)
+        print(struct)
+        return jsonify(struct)
     except Exception as e:
-        print("An error ocurred: ", e)
+        return jsonify({"Status": False})
 
 
 # UPDATE/REPLACE
