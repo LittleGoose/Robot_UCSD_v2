@@ -77,15 +77,14 @@ export class BlockComponentComponent implements AfterViewInit {
       
       } else if(data.type_def === "Show_Routine"){ //ximena implementar save console.log(this.current_routine.array_block);
         // Sending it to database
-        console.log(data.routine);
-        /*this.rs.upload_routine(this.current_routine.array_block, this.current_routine.name).subscribe(
+        this.rs.upload_routine(data.routine).subscribe(
           (response) => {
             console.log(response);
           },
           (error) => {
             console.log(error);
           }
-        );*/
+        );
       }
     });
 
