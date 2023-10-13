@@ -16,8 +16,11 @@
   
   <ion-grid class="ion-text-left" id="grid">
   
-  <ion-row *ngFor="let row of current_routine.array_block" #blockRef>
+  <ion-row *ngFor="let row of current_routine.array_block; let i = index" #blockRef>
     <ion-col class="padding" id="padding"></ion-col>
+    <ion-col class="center">
+      <ion-text>{{i}}</ion-text>
+    </ion-col>
     <ion-col size="auto" *ngFor="let block of row">
       <ion-button 
         draggable="true"
