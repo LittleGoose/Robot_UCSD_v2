@@ -315,8 +315,12 @@ export class BlockComponentComponent implements AfterViewInit {
               for(let i = 0; i < this.current_routine.array_block[index_row].length; i++) {
                 if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
                   || this.current_routine.array_block[index_row][i].class == "routine"){
-                  break_var = 1;
-                  break;
+                  if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
+                    // current talk can be added
+                  } else {
+                    break_var = 1;
+                    break;
+                  }
                 }
               }
 
