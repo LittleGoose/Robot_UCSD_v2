@@ -37,8 +37,8 @@ export class RestService {
   }
 
 
-  get_recent_routine(): Observable<[Routines_Blocks]>{
-    return this.http.get<[Routines_Blocks]>(this.recent_db_url);
+  get_recent_routine(): Observable<[any]>{
+    return this.http.get<[any]>(this.recent_db_url);
   }
     // COIDGO PARA IMPLEMENTAR EN UN COMPONENT PARA OBTENER LA RUTINA MAS RECIENTE
     // this.rs.get_recent_routine()

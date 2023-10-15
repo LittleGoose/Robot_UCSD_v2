@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList, Input } from '@angular/core';
 import { IonButton, IonContent, PopoverController } from '@ionic/angular';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
@@ -8,6 +8,7 @@ import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
 import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
+import {OverlayEventDetail} from '@ionic/core'; 
 
 @Component({
   selector: 'app-block-component',
@@ -41,7 +42,10 @@ export class BlockComponentComponent implements AfterViewInit {
 
   startRect = new DOMRect;
   endRect = new DOMRect;
-  lol = [];
+
+  GetChildData(data){  
+    console.log(data);  
+  } 
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
@@ -95,27 +99,31 @@ export class BlockComponentComponent implements AfterViewInit {
       }
     })
 
-    this.newBlockService.recentRoutine
-    .subscribe(
-      (data) => {
+    this.newBlockService.recentRoutine.subscribe((data) => {
+        console.log("lolol");
           this.rs.get_recent_routine()
           .subscribe(
             (response) => {
-                // console.log(response);
                 response.forEach(element => {
-                  this.current_routine.array_block.push(<Send_block[]>element[0]);
+                  this.current_routine.array_block.push([]);
+                  element.forEach(block_item => {
+                    let block = new Send_block();
+                    block.class = block_item.class;
+                    block.name = block_item.name;
+                    block.level = block_item.level;
+                    block.talk = block_item.talk;
+                    block.clear = block_item.clear;
+                    this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
+                  });
                 });
-
-                console.log(this.lol);
-
-                // this.current_routine.array_block = response;
-                // console.log(this.current_routine.array_block);
             },(error) => {
                 console.log("No Data Found" + error);
             }
           )
     })
+ 
   }
+
 
   async ngOnInit() {
     // Abre el popover personalizado tan pronto como la página se inicie
@@ -125,6 +133,35 @@ export class BlockComponentComponent implements AfterViewInit {
     });
 
     await popover.present();
+    await popover.onDidDismiss()
+    .then((detail: OverlayEventDetail) => {
+        if(detail.data == "yes"){
+          this.rs.get_recent_routine()
+          .subscribe(
+            (response) => {
+                response.forEach(element => {
+                  this.current_routine.array_block.push([]);
+                  element.forEach(block_item => {
+                    let block = new Send_block();
+                    block.class = block_item.class;
+                    block.name = block_item.name;
+                    block.level = block_item.level;
+                    block.talk = block_item.talk;
+                    block.clear = block_item.clear;
+                    this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
+                  });
+                });
+            },(error) => {
+                console.log("No Data Found" + error);
+            }
+          )
+        }
+    });
+
+  }
+
+  test(event: any){
+    console.log("test");
   }
 
   openPopUp(block: Send_block, event?: MouseEvent,) {
@@ -176,7 +213,9 @@ export class BlockComponentComponent implements AfterViewInit {
       // Check if the startElement and endElement are defined
       this.reset_edges()
     }, 500); // Adjust the timeout duration as needed
+    
   }
+  
 
   check_cells_positions(){
     this.ionContent.scrollToTop(0);
@@ -393,7 +432,6 @@ export class BlockComponentComponent implements AfterViewInit {
   dragMoving(event: Event, block?: Block, send_block?: Send_block, rearenge?: boolean){
     console.log("MOVE");
   }
-
 
 }
 
