@@ -20,7 +20,6 @@ export class PopUpLoadPreviousRoutineComponent implements OnInit {
   ngOnInit() {}
 
   buttonPressed(event : any) {
-    console.log("Open Last Routine");
     this.popoverController.dismiss("yes");
   }
 
