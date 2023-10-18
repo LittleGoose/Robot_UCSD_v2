@@ -279,7 +279,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
     // Iterate through the coordinates and add unique x values to the Set
 
-    const divide = 4;
+    const divide = 7;
 
     this.reset_edges();
 
