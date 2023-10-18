@@ -18,19 +18,17 @@
   
   <ion-row *ngFor="let row of current_routine.array_block; let i = index" #blockRef>
     <ion-col class="padding" id="padding"></ion-col>
-    <ion-col class="center">
+    <ion-col class="center" id="num">
       <ion-text>{{i}}</ion-text>
     </ion-col>
-    <ion-col size="auto" *ngFor="let block of row">
-      <ion-button 
-        draggable="true"
-        (dragstart)="dragMoving($event, undefined, block, true)"
-        (dragend)="dragFuncion($event, undefined, block, true)" 
-        size="large" 
-        color="{{block.get_color()}}" 
+    <ion-col class=grid-cell size="auto" draggable="true"
+        (dragend)="dragFuncion($event, undefined, block, true)"
+        *ngFor="let block of row">
+      <div class="text-inside"
+        size="large"
         (click)="openPopUp(block, $event)">
         {{block.name}}
-      </ion-button>
+      </div>
     </ion-col>
   </ion-row>
   </ion-grid>

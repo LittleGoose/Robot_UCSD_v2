@@ -7,6 +7,9 @@ $colors: (
   Orange: #e9982f
 );
 
+.padding_every{
+  padding: 1%;
+}
 
 .start-button {
   background-color: transparent; /* Hace que el fondo del botón sea transparente */
@@ -23,13 +26,25 @@ $colors: (
 }
 
 .center{
-  padding-top: 2%!important;
+  //padding-top: 2%!important;
   max-width: 2%!important;
+  height: 5%!important;
   align-items: center;
   justify-content: center;
 }
 
 .grid-cell {
-  padding: 10px; /* Add padding for spacing */
-  text-align: center; /* Center text within cells */
+  //padding: 10px; /* Add padding for spacing */
+  width: 80%;
+  border: 1px solid red;
+  padding: 10px;
+  //width: (box-sizing + 5000px)!important;
+  align-items: center; /* Center text within cells */
+  color: #6002ed;
+  text-align: center;
+}
+
+.text-inside{
+  //margin-top: 10px;
+  border: 1px solid green;
 }

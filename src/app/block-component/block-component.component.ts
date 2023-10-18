@@ -177,7 +177,7 @@ export class BlockComponentComponent implements AfterViewInit {
       // Loop through each cell and calculate its position
       
       cells.forEach((cell) => {
-        if(cell.id === 'padding'){
+        if(cell.id === 'padding' || cell.id === 'num'){
           return;
         }
         // Calculate the cell's position relative to the grid container
@@ -279,7 +279,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
     // Iterate through the coordinates and add unique x values to the Set
 
-    const divide = 7;
+    const divide = 4;
 
     this.reset_edges();
 
@@ -375,10 +375,6 @@ export class BlockComponentComponent implements AfterViewInit {
     } else {
       this.blocks += 1;
     }
-  }
-
-  dragMoving(event: Event, block?: Block, send_block?: Send_block, rearenge?: boolean){
-    console.log("MOVE");
   }
 }
 
