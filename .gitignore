@@ -9,6 +9,8 @@
 
 # Node
 node_modules/
+node_modules/file-saver/
+
 
 npm-debug.log
 yarn-error.log
