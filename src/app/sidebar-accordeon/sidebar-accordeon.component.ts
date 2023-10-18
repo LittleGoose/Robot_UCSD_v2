@@ -152,7 +152,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   openLastRoutine(event: any){
-    console.log("Open Last Routine")
     this.new_block.sendRecentRoutine();
   }
 

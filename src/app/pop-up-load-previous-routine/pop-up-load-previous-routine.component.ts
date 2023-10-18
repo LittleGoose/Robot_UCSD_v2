@@ -19,12 +19,12 @@ export class PopUpLoadPreviousRoutineComponent implements OnInit {
 
   ngOnInit() {}
 
-  buttonPressed(event : any) {
-    this.popoverController.dismiss("yes");
-  }
-
-  NobuttonPressed(event: any){
-    this.popoverController.dismiss();
+  buttonPressed(str?: string) {
+    if(str == "yes"){
+      this.popoverController.dismiss("yes");
+    }else{
+      this.popoverController.dismiss();
+    }
   }
 }
 
