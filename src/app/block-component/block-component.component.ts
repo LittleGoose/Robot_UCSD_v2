@@ -99,29 +99,31 @@ export class BlockComponentComponent implements AfterViewInit {
       }
     })
 
-    this.newBlockService.recentRoutine.subscribe((data) => {
-        console.log("lolol");
-          this.rs.get_recent_routine()
-          .subscribe(
-            (response) => {
-                response.forEach(element => {
-                  this.current_routine.array_block.push([]);
-                  element.forEach(block_item => {
-                    let block = new Send_block();
-                    block.class = block_item.class;
-                    block.name = block_item.name;
-                    block.level = block_item.level;
-                    block.talk = block_item.talk;
-                    block.clear = block_item.clear;
-                    this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
+    this.newBlockService.recentRoutine.subscribe((data) => {          
+      if(this.current_routine.array_block.length != 0){
+        this.current_routine.array_block = [];
+      }
+        this.rs.get_recent_routine()
+            .subscribe(
+              (response) => {
+                  response.forEach(element => {
+                    this.current_routine.array_block.push([]);
+                    element.forEach(block_item => {
+                      let block = new Send_block();
+                      block.class = block_item.class;
+                      block.name = block_item.name;
+                      block.level = block_item.level;
+                      block.talk = block_item.talk;
+                      block.clear = block_item.clear;
+                      this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
+                    });
                   });
-                });
-            },(error) => {
-                console.log("No Data Found" + error);
-            }
-          )
-    })
- 
+              },(error) => {
+                  console.log("No Data Found" + error);
+              }
+            )
+      }
+    )
   }
 
 
@@ -136,6 +138,7 @@ export class BlockComponentComponent implements AfterViewInit {
     await popover.onDidDismiss()
     .then((detail: OverlayEventDetail) => {
         if(detail.data == "yes"){
+          
           this.rs.get_recent_routine()
           .subscribe(
             (response) => {
