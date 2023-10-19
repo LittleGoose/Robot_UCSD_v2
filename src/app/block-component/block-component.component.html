@@ -23,12 +23,17 @@
     </ion-col>
     <ion-col class=grid-cell size="auto" draggable="true"
         (dragend)="dragFuncion($event, undefined, block, true)"
-        *ngFor="let block of row">
-      <div class="text-inside"
-        size="large"
-        (click)="openPopUp(block, $event)">
-        {{block.name}}
-      </div>
+        *ngFor="let block of row;">
+        <ion-icon src="../../assets/semi_cropped.svg" style="height:15px; width:30px; fill: brown; float:left; margin-top: -12px;"></ion-icon>
+        <div class=square>
+          <div class="text-inside" id="text"
+          size="small"
+          (click)="openPopUp(block, $event)">
+            {{block.name}}
+          </div>
+        </div>
+        <ion-icon src="../../assets/anti_semi(1).svg" style="height:15px; width:30px; fill: brown; float:left;"></ion-icon>
+        <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill':'brown', 'margin-top':'-6px', 'width':'calc(100% - 30px)'}"></ion-icon>
     </ion-col>
   </ion-row>
   </ion-grid>

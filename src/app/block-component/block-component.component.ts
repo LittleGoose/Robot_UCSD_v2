@@ -224,7 +224,7 @@ export class BlockComponentComponent implements AfterViewInit {
   dragFuncion(event: DragEvent, block?: Block, send_block?: Send_block, rearenge?: boolean) : boolean{
 
     // Where was the block you grabbed ?
-    const position = { row: 0, column: 0 };
+    const position = { row: -1, column: -1 };
 
     if(rearenge){
       for (let rowIndex = 0; rowIndex < this.current_routine.array_block.length; rowIndex++) {
@@ -323,11 +323,11 @@ export class BlockComponentComponent implements AfterViewInit {
               // Check that you can't add 2 blocks from the same class together 
               // or add other blocks to a row with routine
               for(let i = 0; i < this.current_routine.array_block[index_row].length; i++) {
-                if(this.current_routine.array_block[index_row][i].name != this.current_block.name){ // Dont take into account current
+                if((index_row != position.row && i != position.column) || !rearenge){ // Dont take into account current block if rearanging
                   if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
                     || this.current_routine.array_block[index_row][i].class == "routine"){
                     if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
-                      // current talk can be added
+                      // Talk can be added
                     } else { // Current block cant be added
                       break_var = 1;
                       break;

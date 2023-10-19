@@ -15,16 +15,21 @@
           <!--Inside of the body-gesture accordeon-->
           <div slot="content">
             <ion-list class="my-componente2">
-              <div *ngFor="let item of body_gestures_blocks; let index">
-                <ion-button
-                draggable="true"
-                (dragend)="onDragEnd($event, item)"
-                color="{{ item.color }}"
-                class="desaturate-color"
-                title="{{ item.description }}">
-                <ion-label>{{ item.label }}</ion-label>
+              <div *ngFor="let item of body_gestures_blocks; let index" 
+              draggable="true"
+              (dragend)="onDragEnd($event, item)"
+              title="{{ item.description }}"
+              class="list_puzzle">
+                <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': item.color, 'float':'left', 'margin-top': '-12px'}"></ion-icon>
+                <div class="square blue">
+                  <div id="text"
+                  size="small">
+                  <ion-label>{{ item.label }}</ion-label>
+                  </div>
+                </div>
+                <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': item.color, 'float':'left'}"></ion-icon>
+                <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': item.color, 'margin-top':'-6px', 'width':'calc(100% - 30px)', 'stroke':item.color}"></ion-icon>
                 <br>
-              </ion-button>
               </div>
             </ion-list>
           </div>
