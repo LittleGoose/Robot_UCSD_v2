@@ -328,8 +328,7 @@ export class BlockComponentComponent implements AfterViewInit {
                     || this.current_routine.array_block[index_row][i].class == "routine"){
                     if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
                       // current talk can be added
-                    } else {
-                      console.log("Break?")
+                    } else { // Current block cant be added
                       break_var = 1;
                       break;
                     }
