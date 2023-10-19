@@ -33,10 +33,11 @@ export class BlockComponentComponent implements AfterViewInit {
   blocks: number = 0;
   dif: number = 0;
 
-  cellPositions: { center_x: number; center_y: number}[] = [];
+  cellPositions: { center_x: number; center_y: number, length: number}[] = [];
   // Create a Set to store unique x values
   ColValues = new Set<number>();
   RowValues = new Set<number>();
+  LengthValues = new Set<number>();
   scrollPosition = 0;
 
   startRect = new DOMRect;
@@ -183,10 +184,10 @@ export class BlockComponentComponent implements AfterViewInit {
         // Calculate the cell's position relative to the grid container
         const rect = cell.getBoundingClientRect();
         this.dif = rect.width;
-        const gridRect = grid.getBoundingClientRect();
-        const cellPosition: { center_x: number; center_y: number } = {
+        const cellPosition: { center_x: number; center_y: number, length: number } = {
           center_x: rect.left + rect.width / 2,
-          center_y: rect.top + rect.height / 2
+          center_y: rect.top + rect.height / 2,
+          length: rect.width,
         };
 
         // Add the cell's position to the array
@@ -200,9 +201,13 @@ export class BlockComponentComponent implements AfterViewInit {
     }
     
     this.ColValues = new Set<number>();
+    this.RowValues = new Set<number>();
+    this.LengthValues = new Set<number>();
     // Iterate through the coordinates and add unique x values to the Set
     for (const coord of this.cellPositions) {
       this.ColValues.add(coord.center_y);
+      this.RowValues.add(coord.center_x);
+      this.LengthValues.add(coord.length);
     }
 
     },500);
@@ -300,10 +305,11 @@ export class BlockComponentComponent implements AfterViewInit {
       if(colArray.length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
-      } else {
+      } else { // It has more than 1 block
+        let blocks = 0
         for (const num of this.ColValues) {
-          if(num + (this.dif/divide) > data.event.pageY){
-            if(num - (this.dif/divide) < data.event.pageY){
+          if(num + 15 > data.event.pageY){
+            if(num - 15 < data.event.pageY){
 
               // Add to previous row (not new row)
               
@@ -317,13 +323,16 @@ export class BlockComponentComponent implements AfterViewInit {
               // Check that you can't add 2 blocks from the same class together 
               // or add other blocks to a row with routine
               for(let i = 0; i < this.current_routine.array_block[index_row].length; i++) {
-                if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
-                  || this.current_routine.array_block[index_row][i].class == "routine"){
-                  if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
-                    // current talk can be added
-                  } else {
-                    break_var = 1;
-                    break;
+                if(this.current_routine.array_block[index_row][i].name != this.current_block.name){ // Dont take into account current
+                  if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
+                    || this.current_routine.array_block[index_row][i].class == "routine"){
+                    if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
+                      // current talk can be added
+                    } else {
+                      console.log("Break?")
+                      break_var = 1;
+                      break;
+                    }
                   }
                 }
               }
@@ -340,25 +349,27 @@ export class BlockComponentComponent implements AfterViewInit {
                   index_col++;
                 }
               }
-              
-              this.delete_previous(position, rearenge);
+              console.log("First")
               this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
+              this.delete_previous(position, rearenge, index_row, index_col);
               return true;
             } else {
-              this.delete_previous(position, rearenge);
+              console.log("Second")
               this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
+              this.delete_previous(position, rearenge, index_row, index_col);
               return true;
             }
             break;
           }
+          blocks += this.current_routine.array_block[index_row].length;
           index_row++;
         }
       }
 
       // Dropped in new row
       if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
-        this.delete_previous(position, rearenge);
         this.current_routine.array_block.push([this.current_block]);
+        this.delete_previous(position, rearenge);
         return true;
       }
 
@@ -366,14 +377,22 @@ export class BlockComponentComponent implements AfterViewInit {
     }
   }
 
-  delete_previous(position:{row:number, column:number}, rearenge?: boolean){
+  delete_previous(position:{row:number, column:number}, rearenge?: boolean, index_col?:number, index_row?:number){
     if(rearenge){
-      this.current_routine.array_block[position.row].splice(position.column, 1)
-      if(this.current_routine.array_block[position.row].length == 0){
+      if(index_col != undefined){
+        if(position.row >= index_col && this.current_routine.array_block[index_col].length == 1){ // Calculate new position
+          position.row += 1
+        }
+        if (position.column >= index_row && position.row == index_col){
+          position.column += 1
+        }
+      }
+      this.current_routine.array_block[position.row].splice(position.column, 1) // Erase position
+      if(this.current_routine.array_block[position.row].length == 0){ // If row is now empty erase
         this.current_routine.array_block.splice(position.row, 1);
       }
     } else {
-      this.blocks += 1;
+      this.blocks -= 1;
     }
   }
 }
