@@ -21,19 +21,21 @@
     <ion-col class="center" id="num">
       <ion-text>{{i}}</ion-text>
     </ion-col>
-    <ion-col class=grid-cell size="auto" draggable="true"
-      (dragend)="dragFuncion($event, undefined, block, true)"
+    <ion-col size="auto" class=grid-cell
       *ngFor="let block of row;">
-      <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'9px'}"></ion-icon>
-      <div [ngClass]="{'red': block.get_color() === 'danger', 'yellow' : block.get_color() === 'warning', 'green' : block.get_color() === 'success', 'medium' : block.get_color() === 'medium' }">
-        <div id="text"
-        size="small">
-        <ion-label>{{ block.name }}</ion-label>
+      <ion-item-group class="group_obj" draggable="true"
+      (dragend)="dragFuncion($event, undefined, block, true)">
+        <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-top': '-14px', 'margin-left':'9px'}"></ion-icon>
+        <div [ngClass]="{'red': block.get_color() === 'danger', 'yellow' : block.get_color() === 'warning', 'green' : block.get_color() === 'success', 'medium' : block.get_color() === 'medium' }">
+          <div id="text"
+          size="small">
+          <ion-label>{{ block.name }}</ion-label>
+          </div>
         </div>
-      </div>
-      <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '34px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'width':'10px', 'stroke':'none', 'float':'left'}"></ion-icon>
-      <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'14px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-left':'-2px'}"></ion-icon>
-      <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '34px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 40px + 4px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
+        <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '34px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'width':'10px', 'stroke':'none', 'float':'left'}"></ion-icon>
+        <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'14px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-left':'-2px'}"></ion-icon>
+        <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '1px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 40px + 4px)', 'stroke':'none', 'float':'left'}"></ion-icon>
+      </ion-item-group>
     </ion-col>
   </ion-row>
   </ion-grid>

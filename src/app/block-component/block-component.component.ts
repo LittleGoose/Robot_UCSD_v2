@@ -323,7 +323,7 @@ export class BlockComponentComponent implements AfterViewInit {
               // Check that you can't add 2 blocks from the same class together 
               // or add other blocks to a row with routine
               for(let i = 0; i < this.current_routine.array_block[index_row].length; i++) {
-                if((index_row != position.row && i != position.column) || !rearenge){ // Dont take into account current block if rearanging
+                if((rearenge && (index_row != position.row || i != position.column)) || !rearenge){ // Dont take into account current block if rearanging
                   if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
                     || this.current_routine.array_block[index_row][i].class == "routine"){
                     if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
