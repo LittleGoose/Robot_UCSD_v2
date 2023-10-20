@@ -20,15 +20,15 @@
               (dragend)="onDragEnd($event, item)"
               title="{{ item.description }}"
               class="list_puzzle">
-                <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': item.color, 'float':'left', 'margin-top': '-12px'}"></ion-icon>
-                <div class="square blue">
+                <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'-1px'}"></ion-icon>
+                <div class="square red">
                   <div id="text"
                   size="small">
                   <ion-label>{{ item.label }}</ion-label>
                   </div>
                 </div>
-                <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': item.color, 'float':'left'}"></ion-icon>
-                <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': item.color, 'margin-top':'-6px', 'width':'calc(100% - 30px)', 'stroke':item.color}"></ion-icon>
+                <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-left':'-1px'}"></ion-icon>
+                <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 30px + 2px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
                 <br>
               </div>
             </ion-list>
@@ -42,16 +42,21 @@
           <!--Inside of the facial-expression accordeon-->
           <div slot="content">
             <ion-list class="my-componente2">
-              <div *ngFor="let item of facial_expresions_blocks; let index">
-                <ion-button
-                draggable="true"
-                (dragend)="onDragEnd($event, item)"
-                color="{{ item.color }}"
-                class="desaturate-color"
-                title="{{ item.description }}">
-                <ion-label>{{ item.label }}</ion-label>
+              <div *ngFor="let item of facial_expresions_blocks; let index" 
+              draggable="true"
+              (dragend)="onDragEnd($event, item)"
+              title="{{ item.description }}"
+              class="list_puzzle">
+                <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'-1px'}"></ion-icon>
+                <div class="square green">
+                  <div id="text"
+                  size="small">
+                  <ion-label>{{ item.label }}</ion-label>
+                  </div>
+                </div>
+                <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-left':'-1px'}"></ion-icon>
+                <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'margin-left':'-1px', 'width':'calc(100% - 30px + 2px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
                 <br>
-              </ion-button>
               </div>
             </ion-list>
           </div>
@@ -66,12 +71,21 @@
     </ion-item>
     <div slot="content">
       <!--Inside of the non-verbal accordeon-->
-      <ion-button draggable="true"
+      <div draggable="true"
         (dragend)="onDragEnd($event, talk)"
-        color="{{ talk.color }}"
-        title="{{ talk.description }}">
-        <ion-label>{{ talk.label }}</ion-label>
-      </ion-button>
+        title="{{ talk.description }}"
+        class="list_puzzle">
+          <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+talk.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'-1px'}"></ion-icon>
+          <div class="square yellow">
+            <div id="text"
+            size="small">
+            <ion-label>{{ talk.label }}</ion-label>
+            </div>
+          </div>
+          <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+talk.color+')', 'float':'left', 'margin-left':'-1px'}"></ion-icon>
+          <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+talk.color+')', 'margin-top':'-6px', 'margin-left':'-1px', 'width':'calc(100% - 30px + 2px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
+          <br>
+        </div>
         <ion-accordion value="sounds">
           <ion-item slot="header" color="light">
             <ion-icon aria-hidden="true" name="volume-high-outline" slot="start"></ion-icon>
@@ -80,16 +94,21 @@
           <!--Inside of the sounds accordeon-->
           <div slot="content">
             <ion-list class="my-componente2">
-              <div *ngFor="let item of speech_blocks; let index">
-                <ion-button
-                draggable="true"
-                (dragend)="onDragEnd($event, item)"
-                color="{{ item.color }}"
-                class="desaturate-color"
-                title="{{ item.description }}">
-                <ion-label>{{ item.label }}</ion-label>
+              <div *ngFor="let item of speech_blocks; let index" 
+              draggable="true"
+              (dragend)="onDragEnd($event, item)"
+              title="{{ item.description }}"
+              class="list_puzzle">
+                <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'-1px'}"></ion-icon>
+                <div class="square yellow">
+                  <div id="text"
+                  size="small">
+                  <ion-label>{{ item.label }}</ion-label>
+                  </div>
+                </div>
+                <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-left':'-1px'}"></ion-icon>
+                <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'margin-left':'-1px', 'width':'calc(100% - 30px + 2px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
                 <br>
-              </ion-button>
               </div>
             </ion-list>
           </div>
@@ -105,18 +124,22 @@
     <!--Inside of the routines accordeon-->
     <div slot="content">
       <ion-list class="my-componente2">
-        <div *ngFor="let item of routines_blocks; let index">
-          <ion-button
+        <div *ngFor="let item of routines_blocks; let index" 
           draggable="true"
           (dragend)="onDragEnd($event, item)"
-          color="{{ item.color }}"
-          class="desaturate-color"
           title="{{ item.description }}"
-          (contextmenu)="openPopover(item.color, $event, item)">
-          <ion-label>{{ item.label }}</ion-label>
-          <br>
-        </ion-button>
-        </div>
+          class="list_puzzle">
+            <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'-1px'}"></ion-icon>
+            <div class="square medium">
+              <div id="text"
+              size="small">
+              <ion-label>{{ item.label }}</ion-label>
+              </div>
+            </div>
+            <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-left':'-1px'}"></ion-icon>
+            <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'margin-left':'-1px', 'width':'calc(100% - 30px + 2px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
+            <br>
+          </div>
       </ion-list>
     </div>
   </ion-accordion>

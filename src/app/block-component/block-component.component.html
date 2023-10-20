@@ -22,18 +22,17 @@
       <ion-text>{{i}}</ion-text>
     </ion-col>
     <ion-col class=grid-cell size="auto" draggable="true"
-        (dragend)="dragFuncion($event, undefined, block, true)"
-        *ngFor="let block of row;">
-        <ion-icon src="../../assets/semi_cropped.svg" style="height:15px; width:30px; fill: brown; float:left; margin-top: -12px;"></ion-icon>
-        <div class=square>
-          <div class="text-inside" id="text"
-          size="small"
-          (click)="openPopUp(block, $event)">
-            {{block.name}}
-          </div>
+      (dragend)="dragFuncion($event, undefined, block, true)"
+      *ngFor="let block of row;">
+      <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'-1px'}"></ion-icon>
+      <div [ngClass]="{'red': block.get_color() === 'danger', 'yellow' : block.get_color() === 'warning', 'green' : block.get_color() === 'success', 'medium' : block.get_color() === 'medium' }">
+        <div id="text"
+        size="small">
+        <ion-label>{{ block.name }}</ion-label>
         </div>
-        <ion-icon src="../../assets/anti_semi(1).svg" style="height:15px; width:30px; fill: brown; float:left;"></ion-icon>
-        <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill':'brown', 'margin-top':'-6px', 'width':'calc(100% - 30px)'}"></ion-icon>
+      </div>
+      <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-left':'-1px'}"></ion-icon>
+      <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 30px + 3px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
     </ion-col>
   </ion-row>
   </ion-grid>

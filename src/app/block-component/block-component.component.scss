@@ -19,6 +19,7 @@ $colors: (
   border-radius: 8px; /* Añade esquinas redondeadas al botón */
   cursor: pointer; /* Cambia el cursor al estilo de mano al pasar por encima del botón */
   max-width: 100%!important;
+  margin-top: 10px;
 }
 
 .padding{
@@ -38,14 +39,14 @@ $colors: (
   width: 80%;
   //width: (box-sizing + 5000px)!important;
   align-items: center; /* Center text within cells */
-  color: #6002ed;
+  //color: #6002ed;
   text-align: center;
-  margin-bottom: -15px;
+  margin-bottom: -45px;
 }
 
 .text-inside{
   //margin-top: 10px;
-  border: 1px solid green;
+  //border: 1px solid green;
 }
 
 .image{
@@ -55,6 +56,40 @@ $colors: (
 }
 
 .square{
-  border: 1px solid red;
   padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.red{
+  background: var(--ion-color-danger);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.green{
+  background: var(--ion-color-success);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.yellow{
+  background: var(--ion-color-warning);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.medium{
+  background: var(--ion-color-medium);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
 }

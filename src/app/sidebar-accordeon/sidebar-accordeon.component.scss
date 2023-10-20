@@ -57,12 +57,26 @@
 
   .square{
     padding: 10px;
+    margin-top: 10px;
     width: fit-content;
     color: black;
+    box-shadow: 5px 7px 5px black
   }
 
-  .blue{
-    background: var(--ion-color-tertiary);
+  .red{
+    background: var(--ion-color-danger);
+  }
+
+  .green{
+    background: var(--ion-color-success);
+  }
+
+  .yellow{
+    background: var(--ion-color-warning);
+  }
+
+  .medium{
+    background: var(--ion-color-medium);
   }
 
   .list_puzzle{
