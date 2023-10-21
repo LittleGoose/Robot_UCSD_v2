@@ -33,15 +33,14 @@ export class BlockComponentComponent implements AfterViewInit {
   blocks: number = 0;
   dif: number = 0;
 
-  cellPositions: { center_x: number; center_y: number, length: number}[] = [];
-  // Create a Set to store unique x values
-  ColValues = new Set<number>();
-  RowValues = new Set<number>();
-  LengthValues = new Set<number>();
+  cellPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
   scrollPosition = 0;
 
   startRect = new DOMRect;
   endRect = new DOMRect;
+
+  isToastOpenClass = false;
+  isToastOpenRoutine = false;
   
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
@@ -175,39 +174,29 @@ export class BlockComponentComponent implements AfterViewInit {
       const cells = grid.querySelectorAll('ion-col');
 
       // Initialize an array to store cell positions
-      // Loop through each cell and calculate its position
+      // Loop through each number cell and calculate its position
       
       cells.forEach((cell) => {
-        if(cell.id === 'padding' || cell.id === 'num'){
-          return;
-        }
-        // Calculate the cell's position relative to the grid container
-        const rect = cell.getBoundingClientRect();
-        this.dif = rect.width;
-        const cellPosition: { center_x: number; center_y: number, length: number } = {
-          center_x: rect.left + rect.width / 2,
-          center_y: rect.top + rect.height / 2,
-          length: rect.width,
-        };
+        if(cell.id === 'num'){
+          // Calculate the cell's position relative to the grid container
+          const rect = cell.getBoundingClientRect();
+          this.dif = rect.width;
+          const cellPosition: { center_x: number; center_y: number, length: number, height:number } = {
+            center_x: rect.left + rect.width / 2,
+            center_y: rect.top + rect.height / 2,
+            length: rect.width,
+            height: rect.height,
+          };
 
-        // Add the cell's position to the array
-        this.cellPositions.push(cellPosition);
+          // Add the cell's position to the array
+          this.cellPositions.push(cellPosition);
+        }
       });
 
       // Now, cellPositions contains the positions of all cells in the grid
 
     } else {
       console.error('Grid element not found.');
-    }
-    
-    this.ColValues = new Set<number>();
-    this.RowValues = new Set<number>();
-    this.LengthValues = new Set<number>();
-    // Iterate through the coordinates and add unique x values to the Set
-    for (const coord of this.cellPositions) {
-      this.ColValues.add(coord.center_y);
-      this.RowValues.add(coord.center_x);
-      this.LengthValues.add(coord.length);
     }
 
     },500);
@@ -252,7 +241,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
     if(block == undefined){ // If block is undefined then it was a previous block
       this.current_block = send_block;
-      console.log("Change position");
+      //console.log("Change position");
     } else { // You are grabbing from the second sidebar
       switch(data.block.constructor.name){
         case "Facial_Expression":
@@ -280,8 +269,6 @@ export class BlockComponentComponent implements AfterViewInit {
     let index_row = 0;
     let index_col = 0;
 
-    const colArray: number[] = Array.from(this.ColValues);
-
     // Iterate through the coordinates and add unique x values to the Set
 
     const divide = 10;
@@ -302,19 +289,20 @@ export class BlockComponentComponent implements AfterViewInit {
       return false;
 
     } else {
-      if(colArray.length == 0){
+      if(this.cellPositions.length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
       } else { // It has more than 1 block
         let blocks = 0
-        for (const num of this.ColValues) {
-          if(num + 15 > data.event.pageY){
-            if(num - 15 < data.event.pageY){
+        for (const num of this.cellPositions) {
+          if(num.center_y + num.height/2 > data.event.pageY){
+            if(num.center_y - num.height/2 < data.event.pageY){
 
               // Add to previous row (not new row)
               
               // Routines can't be added in a row with other blocks
               if(this.current_block.class == "routine"){
+                this.setOpenRoutine(true)
                 break;
               }
 
@@ -329,6 +317,9 @@ export class BlockComponentComponent implements AfterViewInit {
                     if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
                       // Talk can be added
                     } else { // Current block cant be added
+                      if(this.current_routine.array_block[index_row][i].class == "routine"){
+                        this.setOpenRoutine(true)
+                      }
                       break_var = 1;
                       break;
                     }
@@ -337,36 +328,41 @@ export class BlockComponentComponent implements AfterViewInit {
               }
 
               if(break_var == 1){
+                this.setOpenClass(true);
                 break;
               }
 
               for (const coord of this.cellPositions) { // Calculate where in the row it should be added
-                if (coord.center_y == num){
+                if (coord.center_y == num.center_y){
                   if(coord.center_x > data.event.pageX){
                     break;
                   }
                   index_col++;
                 }
               }
-              console.log("First")
+              //console.log("First")
               this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
               this.delete_previous(position, rearenge, index_row, index_col);
               return true;
             } else {
-              console.log("Second")
+              //console.log("Second")
               this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
               this.delete_previous(position, rearenge, index_row, index_col);
               return true;
             }
             break;
           }
-          blocks += this.current_routine.array_block[index_row].length;
+          if(this.current_routine.array_block.length > index_row){
+            blocks += this.current_routine.array_block[index_row].length
+          } else {
+            blocks += 1
+          }
           index_row++;
         }
       }
 
       // Dropped in new row
-      if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
+      if(data.event.pageY > this.cellPositions[this.cellPositions.length - 1].center_y + this.cellPositions[0].height/2){
         this.current_routine.array_block.push([this.current_block]);
         this.delete_previous(position, rearenge);
         return true;
@@ -393,6 +389,14 @@ export class BlockComponentComponent implements AfterViewInit {
     } else {
       this.blocks -= 1;
     }
+  }
+
+  setOpenClass(isOpen: boolean) {
+    this.isToastOpenClass = isOpen;
+  }
+
+  setOpenRoutine(isOpen: boolean) {
+    this.isToastOpenRoutine = isOpen;
   }
 }
 

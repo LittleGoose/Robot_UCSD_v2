@@ -20,6 +20,7 @@ $colors: (
   cursor: pointer; /* Cambia el cursor al estilo de mano al pasar por encima del botón */
   max-width: 100%!important;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .padding{
@@ -28,17 +29,19 @@ $colors: (
 
 .center{
   //padding-top: 2%!important;
-  max-width: 2%!important;
+  width: 4%!important;
+  max-width: 4%!important;
   height: 5%!important;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+  //border: 1px solid green;
 }
 
 .grid-cell {
   //padding: -10px; /* Add padding for spacing */
-  width: 100%;
-  height: 100%;
+  //width: 100%;
+  //height: 100%;
   //width: (box-sizing + 5000px)!important;
   align-items: center; /* Center text within cells */
   //color: #6002ed;
@@ -104,4 +107,36 @@ $colors: (
   margin-top: 10px;
   width: fit-content;
   color: black;
+}
+
+.red_2{
+  background: var(--ion-color-danger);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
+}
+
+.green_2{
+  background: var(--ion-color-success);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
+}
+
+.yellow_2{
+  background: var(--ion-color-warning);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
+}
+
+.medium_2{
+  background: var(--ion-color-medium);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
 }
