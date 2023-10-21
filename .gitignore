@@ -8,8 +8,9 @@
 /bazel-out
 
 # Node
-# node_modules/*
-# !node_modules/file-saver
+node_modules/*
+!node_modules/file-saver
+!node_modules/angular-draggable-droppable
 
 npm-debug.log
 yarn-error.log
