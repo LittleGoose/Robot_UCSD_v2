@@ -13,13 +13,8 @@
         <app-sidebar-accordeon></app-sidebar-accordeon>
       </ion-content>
       <ion-content contentId="right-content" class="third">
-        <ion-header>
-          <ion-toolbar class="small-toolbar">
-            <ion-title></ion-title>
-          </ion-toolbar>
-        </ion-header>
         <div #botonesContainer class="botones-container"></div>
-        <app-block-component *ngIf="mostrarBloque"></app-block-component>
+        <app-block-component></app-block-component>
       </ion-content>
     </ion-split-pane>
   

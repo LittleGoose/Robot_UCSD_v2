@@ -36,15 +36,15 @@ export class BlockComponentComponent implements AfterViewInit {
   blocks: number = 0;
   dif: number = 0;
 
-  cellPositions: { center_x: number; center_y: number}[] = [];
-  // Create a Set to store unique x values
-  ColValues = new Set<number>();
-  RowValues = new Set<number>();
+  cellPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
   scrollPosition = 0;
 
   startRect = new DOMRect;
   endRect = new DOMRect;
 
+  isToastOpenClass = false;
+  isToastOpenRoutine = false;
+  
   GetChildData(data){  
     console.log(data);  
   } 
@@ -173,7 +173,11 @@ export class BlockComponentComponent implements AfterViewInit {
     if(event != undefined){
       if (event.detail === 2) {
         this.current_block = block;
-        this.popUpService.openModal(block);
+        if(this.current_block.class == "speech" && this.current_block.name != "Talk"){
+          // Sounds not showing pop-up
+        } else {
+          this.popUpService.openModal(block);
+        }
       }
     } else {
       if ( block.class != 'routine'){
@@ -235,35 +239,29 @@ export class BlockComponentComponent implements AfterViewInit {
       const cells = grid.querySelectorAll('ion-col');
 
       // Initialize an array to store cell positions
-      // Loop through each cell and calculate its position
+      // Loop through each number cell and calculate its position
       
       cells.forEach((cell) => {
-        if(cell.id === 'padding'){
-          return;
-        }
-        // Calculate the cell's position relative to the grid container
-        const rect = cell.getBoundingClientRect();
-        this.dif = rect.width;
-        const gridRect = grid.getBoundingClientRect();
-        const cellPosition: { center_x: number; center_y: number } = {
-          center_x: rect.left + rect.width / 2,
-          center_y: rect.top + rect.height / 2
-        };
+        if(cell.id === 'num'){
+          // Calculate the cell's position relative to the grid container
+          const rect = cell.getBoundingClientRect();
+          this.dif = rect.width;
+          const cellPosition: { center_x: number; center_y: number, length: number, height:number } = {
+            center_x: rect.left + rect.width / 2,
+            center_y: rect.top + rect.height / 2,
+            length: rect.width,
+            height: rect.height,
+          };
 
-        // Add the cell's position to the array
-        this.cellPositions.push(cellPosition);
+          // Add the cell's position to the array
+          this.cellPositions.push(cellPosition);
+        }
       });
 
       // Now, cellPositions contains the positions of all cells in the grid
 
     } else {
       console.error('Grid element not found.');
-    }
-    
-    this.ColValues = new Set<number>();
-    // Iterate through the coordinates and add unique x values to the Set
-    for (const coord of this.cellPositions) {
-      this.ColValues.add(coord.center_y);
     }
 
     },500);
@@ -280,7 +278,7 @@ export class BlockComponentComponent implements AfterViewInit {
   dragFuncion(event: DragEvent, block?: Block, send_block?: Send_block, rearenge?: boolean) : boolean{
 
     // Where was the block you grabbed ?
-    const position = { row: 0, column: 0 };
+    const position = { row: -1, column: -1 };
 
     if(rearenge){
       for (let rowIndex = 0; rowIndex < this.current_routine.array_block.length; rowIndex++) {
@@ -308,7 +306,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
     if(block == undefined){ // If block is undefined then it was a previous block
       this.current_block = send_block;
-      console.log("Change position");
+      //console.log("Change position");
     } else { // You are grabbing from the second sidebar
       switch(data.block.constructor.name){
         case "Facial_Expression":
@@ -336,11 +334,9 @@ export class BlockComponentComponent implements AfterViewInit {
     let index_row = 0;
     let index_col = 0;
 
-    const colArray: number[] = Array.from(this.ColValues);
-
     // Iterate through the coordinates and add unique x values to the Set
 
-    const divide = 7;
+    const divide = 10;
 
     this.reset_edges();
 
@@ -358,18 +354,20 @@ export class BlockComponentComponent implements AfterViewInit {
       return false;
 
     } else {
-      if(colArray.length == 0){
+      if(this.cellPositions.length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
-      } else {
-        for (const num of this.ColValues) {
-          if(num + (this.dif/divide) > data.event.pageY){
-            if(num - (this.dif/divide) < data.event.pageY){
+      } else { // It has more than 1 block
+        let blocks = 0
+        for (const num of this.cellPositions) {
+          if(num.center_y + num.height/2 > data.event.pageY){
+            if(num.center_y - num.height/2 < data.event.pageY){
 
               // Add to previous row (not new row)
               
               // Routines can't be added in a row with other blocks
               if(this.current_block.class == "routine"){
+                this.setOpenRoutine(true)
                 break;
               }
 
@@ -378,44 +376,60 @@ export class BlockComponentComponent implements AfterViewInit {
               // Check that you can't add 2 blocks from the same class together 
               // or add other blocks to a row with routine
               for(let i = 0; i < this.current_routine.array_block[index_row].length; i++) {
-                if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
-                  || this.current_routine.array_block[index_row][i].class == "routine"){
-                  break_var = 1;
-                  break;
+                if((rearenge && (index_row != position.row || i != position.column)) || !rearenge){ // Dont take into account current block if rearanging
+                  if(this.current_routine.array_block[index_row][i].class == this.current_block.class 
+                    || this.current_routine.array_block[index_row][i].class == "routine"){
+                    if(this.current_block.name == "Talk" && this.current_routine.array_block[index_row][i].name == "Talk"){
+                      // Talk can be added
+                    } else { // Current block cant be added
+                      if(this.current_routine.array_block[index_row][i].class == "routine"){
+                        this.setOpenRoutine(true)
+                      }
+                      break_var = 1;
+                      break;
+                    }
+                  }
                 }
               }
 
               if(break_var == 1){
+                this.setOpenClass(true);
                 break;
               }
 
               for (const coord of this.cellPositions) { // Calculate where in the row it should be added
-                if (coord.center_y == num){
+                if (coord.center_y == num.center_y){
                   if(coord.center_x > data.event.pageX){
                     break;
                   }
                   index_col++;
                 }
               }
-              
-              this.delete_previous(position, rearenge);
+              //console.log("First")
               this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
+              this.delete_previous(position, rearenge, index_row, index_col);
               return true;
             } else {
-              this.delete_previous(position, rearenge);
+              //console.log("Second")
               this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
+              this.delete_previous(position, rearenge, index_row, index_col);
               return true;
             }
             break;
+          }
+          if(this.current_routine.array_block.length > index_row){
+            blocks += this.current_routine.array_block[index_row].length
+          } else {
+            blocks += 1
           }
           index_row++;
         }
       }
 
       // Dropped in new row
-      if(data.event.pageY > colArray[colArray.length - 1] + (this.dif/divide)){
-        this.delete_previous(position, rearenge);
+      if(data.event.pageY > this.cellPositions[this.cellPositions.length - 1].center_y + this.cellPositions[0].height/2){
         this.current_routine.array_block.push([this.current_block]);
+        this.delete_previous(position, rearenge);
         return true;
       }
 
@@ -423,19 +437,31 @@ export class BlockComponentComponent implements AfterViewInit {
     }
   }
 
-  delete_previous(position:{row:number, column:number}, rearenge?: boolean){
+  delete_previous(position:{row:number, column:number}, rearenge?: boolean, index_col?:number, index_row?:number){
     if(rearenge){
-      this.current_routine.array_block[position.row].splice(position.column, 1)
-      if(this.current_routine.array_block[position.row].length == 0){
+      if(index_col != undefined){
+        if(position.row >= index_col && this.current_routine.array_block[index_col].length == 1){ // Calculate new position
+          position.row += 1
+        }
+        if (position.column >= index_row && position.row == index_col){
+          position.column += 1
+        }
+      }
+      this.current_routine.array_block[position.row].splice(position.column, 1) // Erase position
+      if(this.current_routine.array_block[position.row].length == 0){ // If row is now empty erase
         this.current_routine.array_block.splice(position.row, 1);
       }
     } else {
-      this.blocks += 1;
+      this.blocks -= 1;
     }
   }
 
-  dragMoving(event: Event, block?: Block, send_block?: Send_block, rearenge?: boolean){
-    console.log("MOVE");
+  setOpenClass(isOpen: boolean) {
+    this.isToastOpenClass = isOpen;
+  }
+
+  setOpenRoutine(isOpen: boolean) {
+    this.isToastOpenRoutine = isOpen;
   }
 }
 

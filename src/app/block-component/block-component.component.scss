@@ -7,6 +7,9 @@ $colors: (
   Orange: #e9982f
 );
 
+.padding_every{
+  padding: 1%;
+}
 
 .start-button {
   background-color: transparent; /* Hace que el fondo del botón sea transparente */
@@ -16,15 +19,126 @@ $colors: (
   border-radius: 8px; /* Añade esquinas redondeadas al botón */
   cursor: pointer; /* Cambia el cursor al estilo de mano al pasar por encima del botón */
   max-width: 100%!important;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .padding{
   max-width: 2%!important;
 }
 
+.center{
+  //padding-top: 2%!important;
+  width: 4%!important;
+  max-width: 4%!important;
+  height: 5%!important;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  //border: 1px solid green;
+}
+
 .grid-cell {
-  padding: 10px; /* Add padding for spacing */
-  text-align: center; /* Center text within cells */
+  //padding: -10px; /* Add padding for spacing */
+  //width: 100%;
+  //height: 100%;
+  //width: (box-sizing + 5000px)!important;
+  align-items: center; /* Center text within cells */
+  //color: #6002ed;
+  text-align: center;
+  margin-bottom: -13px;
+  margin-top: -12px;
+  //padding-bottom: -50px;
+  //border: 1px solid green;
+}
+
+.group_obj{
+  //padding: 10px; /* Add padding for spacing */
+  width: 100%;
+  height: 10%;
+  //width: (box-sizing + 5000px)!important;
+  align-items: center; /* Center text within cells */
+  //color: #6002ed;
+  text-align: center;
+  //padding-bottom: -50px;
+  //border: 1px solid;
+}
+
+.image{
+  height:15px; 
+  width:30px; 
+  float:left;
+}
+
+.square{
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.red{
+  background: var(--ion-color-danger);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.green{
+  background: var(--ion-color-success);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.yellow{
+  background: var(--ion-color-warning);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.medium{
+  background: var(--ion-color-medium);
+  padding: 10px;
+  margin-top: 10px;
+  width: fit-content;
+  color: black;
+}
+
+.red_2{
+  background: var(--ion-color-danger);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
+}
+
+.green_2{
+  background: var(--ion-color-success);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
+}
+
+.yellow_2{
+  background: var(--ion-color-warning);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
+}
+
+.medium_2{
+  background: var(--ion-color-medium);
+  padding: 10px;
+  width: fit-content;
+  color: black;
+  margin-bottom:-6px;
 }
 
 .my-button{
