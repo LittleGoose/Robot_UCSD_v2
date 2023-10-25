@@ -19,7 +19,8 @@
               draggable="true"
               (dragend)="onDragEnd($event, item)"
               title="{{ item.description }}"
-              class="list_puzzle">
+              class="list_puzzle"
+              (contextmenu)="openPopover(item.color, $event, item)">
                 <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
                 <div class="square red">
                   <div id="text"
@@ -47,7 +48,8 @@
               draggable="true"
               (dragend)="onDragEnd($event, item)"
               title="{{ item.description }}"
-              class="list_puzzle">
+              class="list_puzzle"
+              (contextmenu)="openPopover(item.color, $event, item)">
               <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
                 <div class="square green">
                   <div id="text"
@@ -76,7 +78,8 @@
       <div draggable="true"
         (dragend)="onDragEnd($event, talk)"
         title="{{ talk.description }}"
-        class="list_puzzle">
+        class="list_puzzle"
+        (contextmenu)="openPopover(talk.color, $event, talk)">
         <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+talk.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
           <div class="square yellow">
             <div id="text"
@@ -101,7 +104,8 @@
               draggable="true"
               (dragend)="onDragEnd($event, item)"
               title="{{ item.description }}"
-              class="list_puzzle">
+              class="list_puzzle"
+              (contextmenu)="openPopover(item.color, $event, item)">
               <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
                 <div class="square yellow">
                   <div id="text"
@@ -132,7 +136,8 @@
           draggable="true"
           (dragend)="onDragEnd($event, item)"
           title="{{ item.description }}"
-          class="list_puzzle">
+          class="list_puzzle"
+          (contextmenu)="openPopover(item.color, $event, item)">
           <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
             <div class="square medium">
               <div id="text"
