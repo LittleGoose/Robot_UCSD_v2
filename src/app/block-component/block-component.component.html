@@ -1,10 +1,10 @@
 <ion-content [scrollEvents]="true"
   (ionScroll)="onScroll($event)">
 
+
   <ion-grid class="ion-text-center ion-align-items-center" #grid>
     
     <ion-row>
-      
       <ion-col>
         <div class="start-button">
           <ion-title #start>START</ion-title>
@@ -71,7 +71,6 @@
   </ion-row>
   
   </ion-grid>
-
   <ion-toast
     [isOpen]="isToastOpenClass"
     message="You can't add that block at this time (there's already a block of the same type)."
@@ -85,5 +84,4 @@
     [duration]="2000"
     (didDismiss)="setOpenRoutine(false)"
   ></ion-toast>
-
 </ion-content>

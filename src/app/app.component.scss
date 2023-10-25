@@ -50,3 +50,22 @@ app-sidebar-second {
   bottom: 20px; /* Adjust the distance from the bottom as needed */
   right: 140px; /* Adjust the distance from the right as needed */
 }
+
+.tabs{
+  max-width: 8%!important;
+  position: fixed;
+  bottom: 20px; /* Adjust the distance from the bottom as needed */
+  right: 270px; /* Adjust the distance from the right as needed */
+
+}
+
+.small-toolbar{
+  height: 20px; /* Ajusta la altura a tu preferencia */
+  --background: #34344fd0; 
+  
+}
+
+.botones-container {
+  display: flex;
+  flex-wrap: nowrap; /* Para que los elementos no se envuelvan a la siguiente línea */
+}

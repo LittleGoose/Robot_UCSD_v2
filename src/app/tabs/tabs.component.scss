@@ -1,0 +1,16 @@
+.tabs-container app-tabs {
+  display: inline-block; 
+  height: 80px;
+  line-height: 80px; 
+  list-style: none;
+  padding: 0 10px;
+}
+.my-button{
+  --border-width: 0;
+  border-bottom: none !important;
+  color: black;
+}
+
+.icon-cerrar {
+  
+}

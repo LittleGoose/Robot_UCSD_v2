@@ -156,7 +156,7 @@
 </ion-accordion-group>
 <br>
 <div class="last_routine">
-  <ion-text (click)="openLastRoutine()"><u>Open Last Routine</u></ion-text>
+  <ion-text (click)="openLastRoutine($event)"><u>Open Last Routine</u></ion-text>
 </div>
 
 <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false" triggerAction="context-menu">

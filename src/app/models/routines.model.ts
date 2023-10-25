@@ -3,7 +3,7 @@ export class Send_block {
     class: string = "";
     level: number = 0;
     talk: string = "";
-    clear: string= "";
+    clear: string= "";s
   
     get_color(){
         
