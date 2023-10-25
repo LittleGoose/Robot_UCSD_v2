@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Block, Routines_Blocks } from './models/blocks.model';
-import { RestService } from './rest.service';
 import { SendDataRoutine } from './pop-up.service';
 
 @Injectable({
@@ -10,10 +9,13 @@ export class NewBlockService {
 
   newBlockAdded: EventEmitter<SendData> = new EventEmitter<SendData>();
   scrollEvent: EventEmitter<Event> = new EventEmitter<Event>();
+
+  recentRoutine: EventEmitter<Event> = new EventEmitter<Event>();
+
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
-  constructor() { }
+  constructor() {}
 
   emitData(event: DragEvent, block: Block) {
     this.send_data.event = event;
@@ -24,6 +26,11 @@ export class NewBlockService {
   sendScroll(event: Event){
     this.scrollEvent.emit(event);
   }
+
+  sendRecentRoutine(){
+    this.recentRoutine.emit();
+  }
+
 }
 
 export class SendData{
