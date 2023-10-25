@@ -9,10 +9,11 @@ import { PopUpSaveComponent } from '../pop-up-save/pop-up-save.component';
 import { PopUpClearComponent } from '../pop-up-clear/pop-up-clear.component';
 //import { PopUpRoutinesComponent } from '../pop-up-routines/pop-up-routines.component';
 import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
+import { TabsComponent } from '../tabs/tabs.component';
 
 @NgModule({
   declarations: [BlockComponentComponent, PopUpComponent, PopUpSaveComponent, 
-    PopUpClearComponent, PopUpLoadPreviousRoutineComponent],
+    PopUpClearComponent, PopUpLoadPreviousRoutineComponent, TabsComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -24,6 +25,7 @@ import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routi
     PopUpSaveComponent,
     PopUpClearComponent,
     PopUpLoadPreviousRoutineComponent,
+    TabsComponent 
   ],
 })
 export class RoutineAreaModule { }
