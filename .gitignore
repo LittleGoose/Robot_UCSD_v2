@@ -8,7 +8,7 @@
 /bazel-out
 
 # Node
-node_modules/file-saver/
+/node_modules/
 
 
 npm-debug.log
