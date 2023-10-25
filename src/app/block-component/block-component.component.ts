@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { IonButton, IonContent, PopoverController } from '@ionic/angular';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
@@ -8,6 +8,8 @@ import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
 import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
+import { TabsComponent } from '../tabs/tabs.component';
+
 
 @Component({
   selector: 'app-block-component',
@@ -21,6 +23,7 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChildren('blockRef') buttons: QueryList<QueryList<IonButton>>;
   @ViewChild('blockRef', { read: ElementRef }) buttonRef: ElementRef;
   @ViewChild('grid', { read: ElementRef }) gridRef: ElementRef;
+  @ViewChild('botonesContainer', { read: ViewContainerRef }) botonesContainer: ViewContainerRef;
 
   current_routine: Routines = new Routines();
   block1: Send_block = new Send_block();
@@ -44,7 +47,7 @@ export class BlockComponentComponent implements AfterViewInit {
   
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController, private componentFactoryResolver: ComponentFactoryResolver) {
 
     this.current_routine.array_block = [];
     //this.current_routine.name = "Test_routine";
@@ -370,6 +373,10 @@ export class BlockComponentComponent implements AfterViewInit {
   dragMoving(event: Event, block?: Block, send_block?: Send_block, rearenge?: boolean){
     console.log("MOVE");
   }
+
+  
+
+  
 }
 
 
