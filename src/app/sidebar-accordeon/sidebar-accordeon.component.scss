@@ -1,55 +1,90 @@
-.padding_start{
-    padding-left: 5%!important;
+/* Estilos para la barra lateral de sidebar-second */
+.sidebar {
+  background-color: #34344fd0;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  border-radius: 10px;
+  position: fixed;
+  z-index: 1;
 }
 
-.puzzle-button {
-    width: auto; /* Adjust the button width as needed */
-    height: auto; /* Adjust the button height as needed */
-    background-image: url('../../assets/jigsaw.png'); /* Path to your puzzle image */
-    background-size: cover; /* Scale the image to cover the button */
-    background-repeat: no-repeat; /* Prevent image repetition */
-
-    /* Add a mask to create the puzzle piece shape */
-    mask: url('../../assets/jigsaw.png') no-repeat; /* Use the same image as a mask */
-    mask-size: cover; /* Scale the mask to cover the button */
-    mask-composite: subtract; /* Subtract the mask from the button content */
-
-    /* Add any additional styles you want */
-    color: white; /* Text color */
-    font-size: 20px; /* Text size */
-    text-align: center; /* Text alignment */
-    padding: 10px;
-}
-  
-.puzzle-button:hover {
-    /* Define hover effects if needed */
-    /* For example, change background color on hover */
-    background-color: #007bff; /* Change to your desired color */
+/* Estilo para el contenido principal de sidebar-second */
+.content {
+  position: relative;
+  z-index: 0;
+  padding-left: 60px;
 }
 
-.my-componente2{
-    align-items: center;
-    text-align: center;
-    background: ar(--ion-color-primary);
-    color: var(--ion-color-primary);
-    background-color: var(--ion-color-light);
-  }
+/* Estilos para la cabecera de la barra lateral de sidebar-second */
+ion-header .custom-header {
+  --background: #141637;
+  border-radius: 20px;
+  width: 100%;
+  height: 85px;
+  position: relative;
+  z-index: 1;
+}
 
-  ion-accordion-group{
-    ion-accordion {
-        .ion-accordion-toggle-icon {
-            font-size: 50px;
-            color: red;
-        }
-    }
-  }
+ion-header ion-title {
+  color: #f2f2f8d0;
+  font-family: 'Liberation Sans', sans-serif;
+  text-align: right;
+  font-size: 22px;
+  position: absolute;
+  top: 18px;
+  left: 35px;
+}
 
-  .background{
-    background-color: var(--ion-color-light);
-  }
+/* Estilos para el acordeón y sus elementos en sidebar-second */
+ion-accordion-group {
+  background-color: #141637;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  top: 9vh;
+  width: 100%;
+  height: 120vh;
+  border-radius: 0;
+}
 
-  .last_routine{
-    text-align: center;
-    align-items: center;
-    justify-items: center;
-  }
+
+/* Estilos para el acordeón y sus elementos */
+ion-accordion-group.custom {
+  background-color: #141637;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  top: 9vh;
+  width: 100%;
+  height: 120vh;
+  border-radius: 0;
+}
+
+div[slot='content'] {
+  background: rgba(var(--ion-color-rose-rgb), 0.25);
+}
+
+/* Estilos para el contenido del acordeón */
+ion-accordion div[slot='content'] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--ion-color-rose-rgb), 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Estilo personalizado para los bloques en el sidebar */
+ion-button.custom-block {
+  /* Agrega tus estilos personalizados aquí */
+  background-color: #141637; /* Cambia el color de fondo según tus preferencias */
+  color: white; /* Cambia el color del texto */
+  border: none; /* Elimina el borde si lo deseas */
+  /* Agrega más estilos personalizados si es necesario */
+}

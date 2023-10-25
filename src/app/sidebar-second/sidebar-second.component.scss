@@ -1,187 +1,191 @@
 ion-menu ion-content {
-    --background: var(--ion-item-background, var(--ion-background-color, #e78bc2));
-  }
-  
-  ion-menu.md ion-content {
-    --padding-start: -10px;
-    --padding-end: 5px;
-    --padding-top: 20px;
-    --padding-bottom: 20px;
-  }
+  --background: var(--ion-item-background, var(--ion-background-color, #e78bc2));
+}
 
-  //ion-content.content::-webkit-scrollbar {
-    //width: 2px; /* Ajusta el valor según tu preferencia */
-  //}
+ion-menu.md ion-content {
+  --padding-start: -10px;
+  --padding-end: 5px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+}
 
-  //::-webkit-scrollbar {
-    //width: 6px; /* Ancho de la barra de scroll */
-    //height: 10px;
-  //}
+//ion-content.content::-webkit-scrollbar {
+  //width: 2px; /* Ajusta el valor según tu preferencia */
+//}
 
-  //::-webkit-scrollbar-thumb {
-    //background-color: #4029d6; /* Color de la barra de desplazamiento */
-  //}
-  ion-item::before {
-    content: ""; /* Contenido vacío */
-    position: absolute;
-    top: 100%; /* Coloca el mensaje debajo del elemento */
-    left: 0;
-    background-color: #007bff; /* Color de fondo del mensaje */
-    color: white; /* Color del texto del mensaje */
-    padding: 5px; /* Espacio alrededor del mensaje */
-    opacity: 0; /* Inicialmente oculto */
-    transition: opacity 0.3s; /* Transición suave para mostrar/ocultar */
-  }
+//::-webkit-scrollbar {
+  //width: 6px; /* Ancho de la barra de scroll */
+  //height: 10px;
+//}
 
-  
-  /* Estilo para mostrar el texto adicional en hover */
-  ion-item:hover::before {
-    content: attr(title);
-    opacity: 1; /* Muestra el texto adicional cuando se hace hover */
-    position: absolute;
-    top: 100%; /* Coloca el texto debajo del elemento */
-    left: 0;
-    background-color: #88b1dd;
-    color: rgb(24, 23, 23);
-    padding: 5px;
-    opacity: 0; /* Inicialmente oculto */
-    transition: opacity 0.4s; /* Transición suave para mostrar/ocultar */
-  }
+//::-webkit-scrollbar-thumb {
+  //background-color: #4029d6; /* Color de la barra de desplazamiento */
+//}
+ion-item::before {
+  content: ""; /* Contenido vacío */
+  position: absolute;
+  top: 100%; /* Coloca el mensaje debajo del elemento */
+  left: 0;
+  background-color: #007bff; /* Color de fondo del mensaje */
+  color: white; /* Color del texto del mensaje */
+  padding: 5px; /* Espacio alrededor del mensaje */
+  opacity: 0; /* Inicialmente oculto */
+  transition: opacity 0.3s; /* Transición suave para mostrar/ocultar */
+}
 
-  ion-item:hover {
-    content: attr(title);
-    display: block; /* Muestra la descripción cuando se hace hover en el ion-item */
-    font-size: 20px; /* Tamaño de fuente cuando se hace hover */
-    color: #f07de0; /* Color de texto cuando se hace hover */
-  }
 
-  ion-item::part(tooltip) {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .descripcion {
-    display: none; /* Oculta la descripción por defecto */
-    font-size: 18px; /* Tamaño de fuente normal */
-    color: #333; /* Color de texto normal */
-  }
+/* Estilo para mostrar el texto adicional en hover */
+ion-item:hover::before {
+  content: attr(title);
+  opacity: 1; /* Muestra el texto adicional cuando se hace hover */
+  position: absolute;
+  top: 100%; /* Coloca el texto debajo del elemento */
+  left: 0;
+  background-color: #88b1dd;
+  color: rgb(24, 23, 23);
+  padding: 5px;
+  opacity: 0; /* Inicialmente oculto */
+  transition: opacity 0.4s; /* Transición suave para mostrar/ocultar */
+}
 
-  
-  
-  ion-menu.md ion-list {
-    padding: 0px 0;
-  }
-  
-  ion-menu.md ion-list#inbox-list {
-    border-bottom: 1px solid var(--ion-color-step-150, #b50d80);
-  }
-  
-  ion-menu.md ion-list#inbox-list ion-list-header {
-    font-size: 22px;
-    font-weight: 600;
-  
-    min-height: 20px;
-  }
-  
-  ion-menu.md ion-list#labels-list ion-list-header {
-    font-size: 16px;
-  
-    margin-bottom: 20px;
-  
-    color: #2416e6;
-  
-    min-height: 26px;
-  }
-  
-  ion-menu.md ion-item {
-    --padding-start: 10px;
-    --padding-end: 10px;
-    border-radius: 4px;
-  }
-  
-  ion-menu.md ion-item.selected {
-    --background: rgba(var(--ion-color-primary-rgb), 0.14);
-  }
-  
-  ion-menu.md ion-item.selected ion-icon {
-    color: var(--ion-color-primary);
-  }
-  
-  ion-menu.md ion-item ion-icon {
-    color: #0fe424;
-  }
-  
-  ion-menu.md ion-item ion-label {
-    font-weight: 500;
-  }
-  
-  ion-menu.ios ion-content {
-    --padding-bottom: 20px;
-  }
-  
-  ion-menu.ios ion-list {
-    padding: 20px 0 0 0;
-  }
-  
-  ion-menu.ios ion-note {
-    line-height: 24px;
-    margin-bottom: 20px;
-  }
-  
-  ion-menu.ios ion-item {
-    --padding-start: 16px;
-    --padding-end: 16px;
-    --min-height: 50px;
-  }
-  
-  ion-menu.ios ion-item.selected ion-icon {
-    color: var(--ion-color-primary);
-  }
-  
-  ion-menu.ios ion-item ion-icon {
-    font-size: 24px;
-    color: #cfdc1a;
-  }
-  
-  ion-menu.ios ion-list#labels-list ion-list-header {
-    margin-bottom: 8px;
-  }
-  
-  ion-menu.ios ion-list-header,
-  ion-menu.ios ion-note {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  
-  ion-menu.ios ion-note {
-    margin-bottom: 100px;
-  }
-  
-  ion-note {
-    display: inline-block;
-    font-size: 16px;
-  
-    color: var(--ion-color-medium-shade);
-  }
-  
-  ion-item.selected {
-    --color: var(--ion-color-primary);
-  }
+ion-item:hover {
+  content: attr(title);
+  display: block; /* Muestra la descripción cuando se hace hover en el ion-item */
+  font-size: 20px; /* Tamaño de fuente cuando se hace hover */
+  color: #f07de0; /* Color de texto cuando se hace hover */
+}
 
-  .scrollable-content {
-    overflow: auto; /* Allow scrolling if content overflows */
-    max-height: 100%; /* Ensure content doesn't exceed the available space */
-    background-color:aqua;
-  }
+ion-item::part(tooltip) {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-  .my-componente2.scrollable-content{
-    background-color: #f02626;
+.descripcion {
+  display: none; /* Oculta la descripción por defecto */
+  font-size: 18px; /* Tamaño de fuente normal */
+  color: #333; /* Color de texto normal */
+}
 
-  }
 
-  .desaturate-color{
-    filter: saturate(0.8);
-    //filter: brightness(0.7);
-  }
+
+ion-menu.md ion-list {
+  padding: 0px 0;
+}
+
+ion-menu.md ion-list#inbox-list {
+  border-bottom: 1px solid var(--ion-color-step-150, #b50d80);
+}
+
+ion-menu.md ion-list#inbox-list ion-list-header {
+  font-size: 22px;
+  font-weight: 600;
+
+  min-height: 20px;
+}
+
+ion-menu.md ion-list#labels-list ion-list-header {
+  font-size: 16px;
+
+  margin-bottom: 20px;
+
+  color: #2416e6;
+
+  min-height: 26px;
+}
+
+ion-menu.md ion-item {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border-radius: 4px;
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #0fe424;
+}
+
+ion-menu.md ion-item ion-label {
+  font-weight: 500;
+}
+
+ion-menu.ios ion-content {
+  --padding-bottom: 20px;
+}
+
+ion-menu.ios ion-list {
+  padding: 20px 0 0 0;
+}
+
+ion-menu.ios ion-note {
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 24px;
+  color: #cfdc1a;
+}
+
+ion-menu.ios ion-list#labels-list ion-list-header {
+  margin-bottom: 8px;
+}
+
+ion-menu.ios ion-list-header,
+ion-menu.ios ion-note {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+ion-menu.ios ion-note {
+  margin-bottom: 100px;
+}
+
+ion-note {
+  display: inline-block;
+  font-size: 16px;
+
+  color: var(--ion-color-medium-shade);
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+}
+
+.scrollable-content {
+  overflow: auto; /* Allow scrolling if content overflows */
+  max-height: 100%; /* Ensure content doesn't exceed the available space */
+  background-color:aqua;
+}
+
+.my-componente2.scrollable-content{
+  background-color: #f02626;
+
+}
+
+.desaturate-color{
+  filter: saturate(0.8);
+  //filter: brightness(0.7);
+}
+
+
+
+

@@ -1,0 +1,21 @@
+/* Importar estilos de Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/spacing.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Importar estilos de Material Design */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* Define tus estilos personalizados aquí */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #166c9b;
+}
+
+/* Otros estilos personalizados... */

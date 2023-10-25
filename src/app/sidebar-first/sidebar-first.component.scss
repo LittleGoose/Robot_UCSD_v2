@@ -1,120 +1,104 @@
-ion-menu ion-content {
-    --background: var(--ion-item-background, var(--ion-background-color, #e78bc2));
-    max-width: fit-content;
-  }
-   
+/* Estilos para el contenido del acordeón */
+ion-accordion div[slot='content'] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--ion-color-rose-rgb), 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
 
-  .f-exp ion-button {
-    width: 100%;
-    height: 100px;  /*100%*/
-    font-size: 1rem;
-    justify-content: flex-start;
-    text-align: left;
-  }
-  
-  .f-exp{
-    width: 100%!important; /* Ancho personalizado en píxeles */
-    height: 70px; /* Alto personalizado en píxeles */
-    font-size: 9px;
-    justify-content: flex-start;
-    text-align: left;
-  }
-  
-  .f-exp ion-label {
-    font-size: 1rem; /* Centrar el texto horizontalmente */
-    justify-content: flex-start;
-    text-align: left;
-  }
-  
-  
-  /*  CSS DEL ICONO DEL CIRCULO*/
-  .circulo_azul {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #007bff; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-  }
-  
-  .circulo_morado {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #5260ff; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-  }
-  
-  .circulo_verde {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #2dd36f; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-  }
-  
-  .circulo_amarillo {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #ffc409; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-  }
-  
-  .circulo_naranja {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #eea53f; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-  }
-  
-  .circulo_rojo {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #eb445a; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-    
-  }
+/* Estilos para el botón */
+ion-button {
+  background-color: var(--ion-color-tertiary);
+  color: #fff;
+  z-index: 2;
+  position: relative;
+  margin-top: 20px;
+  border-radius: 5px;
+  width: 150px;
+  text-align: center;
+}
 
-  .circulo {
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    background-color: #92949c; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; /* Color del ícono */
-    
-  }
-  
-  ion-icon {
-    font-size: 24px; /* Tamaño del ícono */
-  }
+ion-button:hover {
+  background-color: #ff6f61;
+}
 
-  .my-componente1{
-    max-width: 100%!important;
-  }
+ion-button:active {
+  background-color: #cc4c3e;
+}
 
-  ion-button [slot="start"] {
-    justify-content: flex-start;
-  }
+/* Estilos para los círculos de colores */
+.circulo {
+  width: 30px;
+  height: 30px;
+  background-color: #92949c;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.circulo_azul {
+  background-color: #007bff;
+}
+
+.circulo_morado {
+  background-color: #5260ff;
+}
+
+.circulo_verde {
+  background-color: #2dd36f;
+}
+
+.circulo_amarillo {
+  background-color: #ffc409;
+}
+
+.circulo_naranja {
+  background-color: #eea53f;
+}
+
+.circulo_rojo {
+  background-color: #eb445a;
+}
+
+/* Estilos para los íconos */
+ion-icon {
+  font-size: 24px;
+}
+
+/* Estilos para elementos específicos */
+.my-componente1 {
+  max-width: 100% !important;
+}
+
+ion-button [slot="start"] {
+  justify-content: flex-start;
+}
+
+/* Estilos específicos para elementos con clase 'f-exp' */
+.f-exp ion-button {
+  width: 100%;
+  height: 100px;
+  font-size: 1rem;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.f-exp {
+  width: 100% !important;
+  height: 70px;
+  font-size: 9px;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.f-exp ion-label {
+  font-size: 1rem;
+  justify-content: flex-start;
+  text-align: left;
+}

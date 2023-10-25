@@ -14,12 +14,12 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (local level)
-client = MongoClient("127.0.0.1", 27017)
-db = client["ROBOT-UCSD"]  # Access/creation of data base
+# client = MongoClient("127.0.0.1", 27017)
+# db = client["ROBOT-UCSD"]  # Access/creation of data base
 
 # Connect to mongo client (Atlas - Cloud)
 load_dotenv()
-user = os.getenv("user")
+user = os.getenv("username")
 password = os.getenv("password")
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 

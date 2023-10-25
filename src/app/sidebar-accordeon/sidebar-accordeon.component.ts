@@ -12,6 +12,7 @@ import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
 
+
 @Component({
   selector: 'app-sidebar-accordeon',
   templateUrl: './sidebar-accordeon.component.html',
