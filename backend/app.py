@@ -20,7 +20,6 @@ app.config['JSON_SORT_KEYS'] = False
 # Connect to mongo client (Atlas - Cloud)
 load_dotenv()
 user = os.getenv("user")
-print(user)
 password = os.getenv("password")
 print(password)
 
@@ -94,18 +93,20 @@ def fetch_from_db():
 def save_routine():
     if request.method == 'POST':
         routine = loads(request.data)
-    
+        print(routine)
+        print(routine["routine"]["name"])
+
         try:
-            if (routines.find_one({"label": routine["routine_name"]})) is None:
+            if (routines.find_one({"label": routine["routine"]["name"]})) is None:
                 db_routine = {}
                 db_routine["user"] = "TESTUSER"
                 db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
-                db_routine["label"] = routine["routine_name"]
+                db_routine["label"] = routine["routine"]["name"]
 
                 file = {}
 
-                for i in range(0, len(routine["routine"])):
-                    file["Segment" + str(i+1)] = routine["routine"][i]
+                for i in range(0, len(routine["routine"]["array_block"])):
+                    file["Segment" + str(i+1)] = routine["routine"]["array_block"][i]
 
                 db_routine["file"] = bson.encode(file)
 
@@ -137,11 +138,15 @@ def download_routine(name):
 @app.route("/recent_routine", methods=["GET"])
 def get_most_recent_routine():
     try:
+        struct = []
         recent = routines.find_one(sort=[('$natural', -1)])
         recent_routine = bson.decode(recent["file"])
-        return jsonify({"name": recent["label"], "routine": recent_routine})
+        for k, v in recent_routine.items():
+            struct.append(v)
+        print(struct)
+        return jsonify(struct)
     except Exception as e:
-        print("An error ocurred: ", e)
+        return jsonify({"Status": False})
 
 
 # UPDATE/REPLACE
