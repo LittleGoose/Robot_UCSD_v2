@@ -44,8 +44,8 @@ export class AppComponent implements OnInit {
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver) {
 
   }
-  //rootPage2 = 'Panel2Page';
   
+
   ngOnInit() {
     // Recuperar el valor de mostrarBloque del almacenamiento local
     const mostrarBloqueLocalStorage = localStorage.getItem('mostrarBloque');
@@ -86,7 +86,6 @@ export class AppComponent implements OnInit {
 
 
   mostrarBloque = false;
-  buttons: { label: string }[] = []; // Arreglo para almacenar los botones
   id_contador = 0; // Variable para rastrear la cantidad de botones
   tabDataList: TabData[] = [];
   tabsComponentList: TabsComponent[] = [];
@@ -94,23 +93,25 @@ export class AppComponent implements OnInit {
 
   agregarTabAlContainer() {
       //Creando informacion del tab
-      const id_actual = this.id_contador;
-      const buttonLabel = `Tab ${id_actual}`;
-      const dataInfo = "Alguna información aquí" + '${id}'; // Puedes establecer la información según tus necesidades
+      var id_actual = this.id_contador;
+      var tabTitle = `Tab ${id_actual}`;
+      let now = new Date();
+      let horaCreacion = `${now.getHours()}` + ":" + `${now.getMinutes()}` + ":" + `${now.getSeconds()}`;
+      var dataInfo = "Tab creado a las: " + `${horaCreacion}`; // Puedes establecer la información según tus necesidades
      
       
       
-      const nuevoTab = this.crearTab()
-      this.tabsComponentList.push(nuevoTab)
-      
+      var nuevoTab = this.crearTab(tabTitle, dataInfo);
+      //nuevoTab.updateTabTitle(buttonLabel);
+      this.tabsComponentList.push(nuevoTab);
+      var lastIndex = this.tabsComponentList.length - 1;
+      this.tabsComponentList[lastIndex].updateTabTitle(tabTitle);
       nuevoTab.removeTabEvent.subscribe(() => {
         this.cerrarTab(nuevoTab);
       });
       
       // Escucha eventos o realiza otras acciones según sea necesario.
       this.mostrarBloque = true ;
-      this.buttons.push({ label: buttonLabel });
-      console.log( this.buttons)
 
       // Incrementa la cantidad de botones
       this.id_contador++;
@@ -120,27 +121,22 @@ export class AppComponent implements OnInit {
   }
 
 
-  crearTab() {
+  crearTab(tabName?: string, extraInfo?: string) {
     //Se crea el boton
-    const buttonComponent = TabsComponent;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(buttonComponent);
-    const componentRef = componentFactory.create(this.botonesContainer.parentInjector);
+    var buttonComponent = TabsComponent;
+    var componentFactory = this.componentFactoryResolver.resolveComponentFactory(buttonComponent);
+    var componentRef = componentFactory.create(this.botonesContainer.parentInjector);
     // Agrega el botón al contenedor.
     this.botonesContainer.insert(componentRef.hostView);
-    const tab = componentRef.instance as TabsComponent;
+    var tab = componentRef.instance as TabsComponent;
     //Guardando datos para acceder a ellos despues
-    const datosTab = new TabData(componentRef.hostView, tab);
+    var datosTab = new TabData(componentRef.hostView, tab, tabName, extraInfo);
     this.tabDataList.push(datosTab);
-
     return tab;
   }
 
   cerrarTab(tabComponent: TabsComponent) {
-    // Maneja el cierre del componente personalizado
-    //console.log(this.botonesContainer.)
-    const msg = "cerrando tab desde el padre, con un total" + 
-                this.tabsComponentList.length.toString() + " elemtos"
-    console.log(msg)
+    // Maneja el cierre del componente personalizado    
     const index = this.tabsComponentList.indexOf(tabComponent);
     if (index !== -1) {
       this.tabsComponentList.splice(index, 1);
@@ -152,29 +148,30 @@ export class AppComponent implements OnInit {
     }
 
     const size = this.tabDataList.length;
-    let i =0;
+    let positon =0;
     let tabEncontrado = false;
-    while(i < size && !tabEncontrado) //tabEncontrado == false, if(!tabEncontrado)
+    while(positon < size && !tabEncontrado) //tabEncontrado == false, if(!tabEncontrado)
     {
         //Si el tab existe en la lista de tabDataList
-        if (this.tabDataList[i].tabComponent === tabComponent)
+        if (this.tabDataList[positon].tabComponent === tabComponent)
         {
-          const hostView = this.tabDataList[i].hostView;
+          console.log("Tab a borrar: " + `${this.tabDataList[positon].tabName}`);
+          const hostView = this.tabDataList[positon].hostView;
           const indexHost = this.botonesContainer.indexOf(hostView);
           if (indexHost !== -1){
             this.botonesContainer.remove(indexHost) //NO BORRAR 
             tabEncontrado = true;
           }
         }
-        i++;
+        if(!tabEncontrado)
+          positon++;
     }
 
     if (tabEncontrado){
-      this.tabDataList.splice(i,1);
+      this.tabDataList.splice(positon, 1);
     }
+    
   }
-  
-
   
  
 }
