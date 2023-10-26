@@ -37,6 +37,7 @@ export class BlockComponentComponent implements AfterViewInit {
   dif: number = 0;
 
   cellPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
+  allPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
   scrollPosition = 0;
 
   startRect = new DOMRect;
@@ -124,6 +125,7 @@ export class BlockComponentComponent implements AfterViewInit {
                   console.log("No Data Found" + error);
               }
             )
+            this.check_cells_positions();
       }
     )
   }
@@ -160,6 +162,7 @@ export class BlockComponentComponent implements AfterViewInit {
                 console.log("No Data Found" + error);
             }
           )
+          this.check_cells_positions();
         }
     });
 
@@ -233,6 +236,7 @@ export class BlockComponentComponent implements AfterViewInit {
     const grid = document.getElementById('grid');
 
     this.cellPositions = [];
+    this.allPositions = [];
 
     if (grid) {
       // Get all cell elements within the grid
@@ -255,6 +259,19 @@ export class BlockComponentComponent implements AfterViewInit {
 
           // Add the cell's position to the array
           this.cellPositions.push(cellPosition);
+        } else if(cell.id == "block"){
+          // Calculate the cell's position relative to the grid container
+          const rect = cell.getBoundingClientRect();
+          this.dif = rect.width;
+          const cellPosition: { center_x: number; center_y: number, length: number, height:number } = {
+            center_x: rect.left + rect.width / 2,
+            center_y: rect.top + rect.height / 2,
+            length: rect.width,
+            height: rect.height,
+          };
+
+          // Add the cell's position to the array
+          this.allPositions.push(cellPosition);
         }
       });
 
@@ -354,7 +371,7 @@ export class BlockComponentComponent implements AfterViewInit {
       return false;
 
     } else {
-      if(this.cellPositions.length == 0){
+      if(this.cellPositions.length == 0 && this.current_routine.array_block[0].length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
       } else { // It has more than 1 block
@@ -384,6 +401,8 @@ export class BlockComponentComponent implements AfterViewInit {
                     } else { // Current block cant be added
                       if(this.current_routine.array_block[index_row][i].class == "routine"){
                         this.setOpenRoutine(true)
+                      } else {
+                        this.setOpenClass(true);
                       }
                       break_var = 1;
                       break;
@@ -393,12 +412,11 @@ export class BlockComponentComponent implements AfterViewInit {
               }
 
               if(break_var == 1){
-                this.setOpenClass(true);
                 break;
               }
 
-              for (const coord of this.cellPositions) { // Calculate where in the row it should be added
-                if (coord.center_y == num.center_y){
+              for (let coord of this.allPositions) { // Calculate where in the row it should be added
+                if (coord.center_y < num.center_y + 1 && coord.center_y > num.center_y - 1){
                   if(coord.center_x > data.event.pageX){
                     break;
                   }
