@@ -35,20 +35,19 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
     this.talk = new Speech("", "Talk", "Talk block", "A1", "");
 
-    this.new_block.newTab.subscribe((data) =>{
+    this.new_block.newTab.subscribe((response) =>{
       this.routines_blocks = [];
-
       this.rs.get_routines().subscribe(
-        (data) =>{
+        (response) =>{
+          this.routines = response[0];
+
           this.routines.forEach(element => {
             const block = new Routines_Blocks(element.id, element.label, element.description);
             block.color = "medium";
             this.routines_blocks.push(block);
           });
-        })
-
-      console.log(this.routines_blocks)
-    })
+        });
+    });
 
   }
 

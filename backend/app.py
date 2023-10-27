@@ -187,6 +187,8 @@ def delete_routine(name):
 @app.route("/fetch_routines_from_db", methods=["GET"])
 def fetch_routines_from_db():
     try:
+        routines = db["routines"]  # Creation/Access of table Routines
+
         data = []
 
         routines_entries = []
