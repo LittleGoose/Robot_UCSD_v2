@@ -182,5 +182,26 @@ def delete_routine(name):
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
 
+# Fetch entries from all tables to send to sidebar angular component
+# Return entries in a json format
+@app.route("/fetch_routines_from_db", methods=["GET"])
+def fetch_routines_from_db():
+    try:
+        data = []
+
+        routines_entries = []
+        for entry in routines.find():
+            routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
+                                    "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
+
+        data.append(routines_entries)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"Status" : "An error ocurred: " + str(e)})
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

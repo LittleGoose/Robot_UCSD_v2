@@ -371,7 +371,7 @@ export class BlockComponentComponent implements AfterViewInit {
       return false;
 
     } else {
-      if(this.cellPositions.length == 0 && this.current_routine.array_block[0].length == 0){
+      if(this.cellPositions.length == 0 && this.current_routine.array_block.length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
       } else { // It has more than 1 block

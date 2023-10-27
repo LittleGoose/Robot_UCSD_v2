@@ -117,6 +117,8 @@ export class AppComponent implements OnInit {
 
       // Almacena mostrarBloque en el almacenamiento local
       localStorage.setItem('mostrarBloque', 'true');
+
+      this.new_block.newTabClicked();
   }
 
 
