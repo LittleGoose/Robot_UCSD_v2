@@ -19,7 +19,7 @@ app.config['JSON_SORT_KEYS'] = False
 
 # Connect to mongo client (Atlas - Cloud)
 load_dotenv()
-user = os.getenv("user")
+user = os.getenv("MONGO_USR")
 password = os.getenv("password")
 print(password)
 
