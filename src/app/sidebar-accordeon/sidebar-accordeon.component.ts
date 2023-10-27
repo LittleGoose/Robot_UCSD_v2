@@ -141,6 +141,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   onDragEnd(event: DragEvent, block: Block): void {
+    event.preventDefault();
     this.new_block.emitData(event, block);
   }
 

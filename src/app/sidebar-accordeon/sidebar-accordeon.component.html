@@ -4,7 +4,7 @@
       <ion-icon name="mic-off-outline" slot="start"></ion-icon>
       <ion-label>Non-Verbal</ion-label>
     </ion-item>
-    <div slot="content">
+    <ion-item-group slot="content">
       <!--Inside of the verbal accordeon-->
       <!--<ion-accordion-group [multiple]="true" #listener_non_verbal (ionChange)="accordionGroupChange($event, 'listener_non_verbal')">-->
         <ion-accordion value="body-gestures" [ngClass]="{'custom-expanded': isExpanded, 'custom-collapsed': !isExpanded}">
@@ -21,11 +21,11 @@
               title="{{ item.description }}"
               class="list_puzzle"
               (contextmenu)="openPopover(item.color, $event, item)">
-                <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
+              <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
                 <div class="square red">
                   <div id="text"
                   size="small">
-                  <ion-label>{{ item.label }}</ion-label>
+                  <ion-button class="button" color="{{item.color}}">{{ item.label }}</ion-button>
                   </div>
                 </div>
                 <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'width':'10px', 'stroke':'none', 'float':'left'}"></ion-icon>
@@ -66,7 +66,7 @@
           </div>
         </ion-accordion>
       <!--</ion-accordion-group>-->
-    </div>
+    </ion-item-group>
   </ion-accordion>
   <ion-accordion value="Verbal" class="my-componente2">
     <ion-item slot="header" color="primary">
@@ -132,7 +132,7 @@
     <!--Inside of the routines accordeon-->
     <div slot="content">
       <ion-list class="my-componente2">
-        <div *ngFor="let item of routines_blocks; let index" 
+        <ion-item-group *ngFor="let item of routines_blocks; let index" 
           draggable="true"
           (dragend)="onDragEnd($event, item)"
           title="{{ item.description }}"
@@ -149,7 +149,7 @@
             <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-left':'-2px'}"></ion-icon>
             <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 40px + 4px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
             <br>
-          </div>
+          </ion-item-group>
       </ion-list>
     </div>
   </ion-accordion>
