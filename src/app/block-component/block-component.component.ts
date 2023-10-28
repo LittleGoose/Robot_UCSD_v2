@@ -128,44 +128,25 @@ export class BlockComponentComponent implements AfterViewInit {
             this.check_cells_positions();
       }
     )
+
+    this.popUpService.retrieve_past_routine.subscribe((data) => {
+      this.current_routine = data;
+      this.check_cells_positions();
+    })
+
+    this.popUpService.save_current_routine.subscribe((data) =>
+    {
+      this.popUpService.retrieve_routine("store", this.current_routine);
+    })
+
+    this.popUpService.retrieve_current_routine.subscribe((data) =>{
+      this.current_routine = data;
+    })
   }
 
 
   async ngOnInit() {
-    // Abre el popover personalizado tan pronto como la página se inicie
-    const popover = await this.popoverController.create({
-      component: PopUpLoadPreviousRoutineComponent, // Reemplaza con tu página de popover personalizado
-      // Coloca las propiedades de posición y otros ajustes según tus necesidades
-    });
-
-    await popover.present();
-    await popover.onDidDismiss()
-    .then((detail: OverlayEventDetail) => {
-        if(detail.data == "yes"){
-          
-          this.rs.get_recent_routine()
-          .subscribe(
-            (response) => {
-                response.forEach(element => {
-                  this.current_routine.array_block.push([]);
-                  element.forEach(block_item => {
-                    let block = new Send_block();
-                    block.class = block_item.class;
-                    block.name = block_item.name;
-                    block.level = block_item.level;
-                    block.talk = block_item.talk;
-                    block.clear = block_item.clear;
-                    this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
-                  });
-                });
-            },(error) => {
-                console.log("No Data Found" + error);
-            }
-          )
-          this.check_cells_positions();
-        }
-    });
-
+    this.popUpService.retrieve_routine("get");
   }
 
   test(event: any){

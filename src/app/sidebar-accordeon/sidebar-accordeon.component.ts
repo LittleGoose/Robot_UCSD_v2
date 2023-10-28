@@ -19,11 +19,15 @@ import { saveAs } from 'file-saver';
 })
 export class SidebarAccordeonComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('full', { static: false }) full: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
   @ViewChild('popover') popover;
+  
   private scrollSubscription: Subscription;
+  
   talk: Speech;
+  scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
   constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
@@ -36,7 +40,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.talk = new Speech("", "Talk", "Talk block", "A1", "");
 
     this.new_block.newTab.subscribe((response) =>{
-      this.routines_blocks = [];
+      //this.routines_blocks = [];
+      let incoming_routines: Routines_Blocks[] = [];
       this.rs.get_routines().subscribe(
         (response) =>{
           this.routines = response[0];
@@ -44,10 +49,14 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.routines.forEach(element => {
             const block = new Routines_Blocks(element.id, element.label, element.description);
             block.color = "medium";
-            this.routines_blocks.push(block);
+            incoming_routines.push(block);
           });
-        });
-    });
+
+          if(this.routines_blocks.length != incoming_routines.length){
+            this.routines_blocks = incoming_routines;
+          }
+        });        
+      });
 
   }
 
@@ -147,7 +156,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    console.log('scroll', ev.detail);
+    this.scroll_position = ev.detail.scrollTop
   }
 
   handleScrollEnd() {
@@ -192,6 +201,17 @@ export class SidebarAccordeonComponent implements OnDestroy {
         console.log(error);
       }
     )
+
+    let i = 0;
+    for(let item in this.routines_blocks){
+      if(this.routines_blocks[item].label == this.pop_over_block.label){
+        this.routines_blocks.splice(i, 1);
+      }
+      i++;
+    }
+
+    this.isOpen = false;
+
   }
 
   download_routine(ev: Event){
