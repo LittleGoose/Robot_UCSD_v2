@@ -82,7 +82,7 @@ export class BlockComponentComponent implements AfterViewInit {
         this.current_routine.name = data.name;
         this.popUpService.save_button(data, send_routine); 
       
-      } else if(data.type_def === "Show_Routine"){ //ximena implementar save console.log(this.current_routine.array_block);
+      } else if(data.type_def === "Show_Routine"){
         // Sending it to database
         this.rs.upload_routine(data.routine).subscribe(
           (response) => {

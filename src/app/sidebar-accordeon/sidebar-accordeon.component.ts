@@ -113,6 +113,17 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
 
+    ////
+    this.rs.get_routine_text_preview()
+    .subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+
     this.generateItems();
 
   }

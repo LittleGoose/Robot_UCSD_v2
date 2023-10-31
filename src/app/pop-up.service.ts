@@ -22,9 +22,8 @@ export class PopUpService {
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
-  constructor(private modalController: ModalController, ) {} //private rs: RestService
+  constructor(private modalController: ModalController, ) {}
 
-   // TODO llamar al post del restservice para mandar la routine
   save_button(send_data: SendDataRoutine, routine?: Routines){
     if(routine){
       this.send_data_routine.routine = routine;
