@@ -57,6 +57,10 @@ export class AppComponent implements OnInit {
             break;
         }
       }
+      if (this.tabDataList.length === 0)
+      {
+        this.agregarTabAlContainer();
+      }
     });
   }
   
