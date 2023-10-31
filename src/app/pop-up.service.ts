@@ -77,8 +77,9 @@ export class PopUpService {
     await modal.present();
   }
 
-  async openModal_Clear() {
+  async openModal_Clear(dataExtra?: string) {
 
+    console.log("data extra:" + `${dataExtra}`)
     const modal = await this.modalController.create({
       component: PopUpClearComponent,
       componentProps: {
@@ -88,7 +89,7 @@ export class PopUpService {
 
     modal.onDidDismiss().then((result) => {
       if (result.role === 'Yes') {
-        this.clearRoutine.emit()
+        this.clearRoutine.emit(dataExtra)
       }
       
     });

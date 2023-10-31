@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, TextValueAccessor } from '@ionic/angular';
 import { RoutineAreaModule } from './routine-area/routine-area.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { ScrollDetail } from '@ionic/angular';
@@ -43,6 +43,21 @@ export class AppComponent implements OnInit {
     // Aqui termina las funciones para hacer el scroll
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver) {
     console.log("on constructor app");
+
+    this.popUpService.clearRoutine.subscribe((idTabACerrar) => {
+      console.log("cerrando tab, data: " + `${idTabACerrar}`)
+      //var totalTabs = this.tabDataList.length;
+
+      for(let index = 0; index < this.tabDataList.length; index++)
+      {
+        //var tabActual = this.tabDataList[index];
+        if (this.tabDataList[index].tabId == idTabACerrar)
+        {
+            this.cerrarTab(this.tabDataList[index].tabComponent);
+            break;
+        }
+      }
+    });
   }
   
 
@@ -89,6 +104,8 @@ export class AppComponent implements OnInit {
     this.agregarTabAlContainer();
   }
 
+  
+
 
   mostrarBloque = false;
   id_contador = 0; // Variable para rastrear la cantidad de botones
@@ -99,7 +116,7 @@ export class AppComponent implements OnInit {
   agregarTabAlContainer() {
       //Creando informacion del tab
       var id_actual = this.id_contador;
-      var tabId = id_actual;
+      var tabId = "tabid_" + id_actual.toString();
       var tabTitle = "New Routine";
       let now = new Date();
       let horaCreacion = `${now.getHours()}` + ":" + `${now.getMinutes()}` + ":" + `${now.getSeconds()}`;
@@ -112,8 +129,8 @@ export class AppComponent implements OnInit {
       this.tabsComponentList[lastIndex].updateTabTitle(tabTitle);
       nuevoTab.removeTabEvent.subscribe(() => {
         //FIXME: Primero esperar a que el usuario responda "YES" para luego cerrar el tab
-        this.popUpService.openModal_Clear();  
-        this.cerrarTab(nuevoTab);
+        this.popUpService.openModal_Clear(tabId);  
+        //this.cerrarTab(nuevoTab);
       });
       
       // Escucha eventos o realiza otras acciones según sea necesario.
@@ -127,7 +144,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  crearTab(tabName: string, extraInfo: string, tabId: number) {
+  crearTab(tabName: string, extraInfo: string, tabId: string) {
     //Se crea el boton
     var buttonComponent = TabsComponent;
     var componentFactory = this.componentFactoryResolver.resolveComponentFactory(buttonComponent);
@@ -161,7 +178,7 @@ export class AppComponent implements OnInit {
         //Si el tab existe en la lista de tabDataList
         if (this.tabDataList[positon].tabComponent === tabComponent)
         {
-          console.log("Tab a borrar: " + `${this.tabDataList[positon].tabName}`);
+          console.log("Tab a borrar -> ID(" + `${this.tabDataList[positon].tabId}` + "), nombre("+ `${this.tabDataList[positon].tabName}` + ")");
           const hostView = this.tabDataList[positon].hostView;
           const indexHost = this.botonesContainer.indexOf(hostView);
           if (indexHost !== -1){
