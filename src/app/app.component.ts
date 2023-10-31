@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
     // Aqui termina las funciones para hacer el scroll
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver) {
-
+    console.log("on constructor app");
   }
   
 
@@ -50,6 +50,11 @@ export class AppComponent implements OnInit {
     // Recuperar el valor de mostrarBloque del almacenamiento local
     const mostrarBloqueLocalStorage = localStorage.getItem('mostrarBloque');
     this.mostrarBloque = mostrarBloqueLocalStorage === 'true'; // Convertir a boolean
+  }
+  
+  ngAfterViewInit(){
+    //NOTE: Se agrega un tab inmediamente al crear la app
+    this.agregarTabAlContainer();
   }
 
   onIonInfinite(ev: any) {
@@ -80,8 +85,8 @@ export class AppComponent implements OnInit {
     this.popUpService.ask_name("ask");
   }
 
-  clearRoutine(){
-    this.popUpService.openModal_Clear();
+  onNewPressed(){
+    this.agregarTabAlContainer();
   }
 
 
@@ -94,19 +99,20 @@ export class AppComponent implements OnInit {
   agregarTabAlContainer() {
       //Creando informacion del tab
       var id_actual = this.id_contador;
-      var tabTitle = `Tab ${id_actual}`;
+      var tabId = id_actual;
+      var tabTitle = "New Routine";
       let now = new Date();
       let horaCreacion = `${now.getHours()}` + ":" + `${now.getMinutes()}` + ":" + `${now.getSeconds()}`;
       var dataInfo = "Tab creado a las: " + `${horaCreacion}`; // Puedes establecer la información según tus necesidades
-     
-      
-      
-      var nuevoTab = this.crearTab(tabTitle, dataInfo);
+          
+      var nuevoTab = this.crearTab(tabTitle, dataInfo, tabId);
       //nuevoTab.updateTabTitle(buttonLabel);
       this.tabsComponentList.push(nuevoTab);
       var lastIndex = this.tabsComponentList.length - 1;
       this.tabsComponentList[lastIndex].updateTabTitle(tabTitle);
       nuevoTab.removeTabEvent.subscribe(() => {
+        //FIXME: Primero esperar a que el usuario responda "YES" para luego cerrar el tab
+        this.popUpService.openModal_Clear();  
         this.cerrarTab(nuevoTab);
       });
       
@@ -121,7 +127,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  crearTab(tabName?: string, extraInfo?: string) {
+  crearTab(tabName: string, extraInfo: string, tabId: number) {
     //Se crea el boton
     var buttonComponent = TabsComponent;
     var componentFactory = this.componentFactoryResolver.resolveComponentFactory(buttonComponent);
@@ -130,7 +136,7 @@ export class AppComponent implements OnInit {
     this.botonesContainer.insert(componentRef.hostView);
     var tab = componentRef.instance as TabsComponent;
     //Guardando datos para acceder a ellos despues
-    var datosTab = new TabData(componentRef.hostView, tab, tabName, extraInfo);
+    var datosTab = new TabData(componentRef.hostView, tab, tabName, extraInfo, tabId);
     this.tabDataList.push(datosTab);
     return tab;
   }
@@ -170,7 +176,6 @@ export class AppComponent implements OnInit {
     if (tabEncontrado){
       this.tabDataList.splice(positon, 1);
     }
-    
   }
   
  

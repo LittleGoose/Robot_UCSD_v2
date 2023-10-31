@@ -87,7 +87,7 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role !== 'cancel') {
+      if (result.role === 'Yes') {
         this.clearRoutine.emit()
       }
       

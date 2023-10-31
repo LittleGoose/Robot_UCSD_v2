@@ -13,14 +13,16 @@
         <app-sidebar-accordeon></app-sidebar-accordeon>
       </ion-content>
       <ion-content contentId="right-content" class="third">
-        <div #botonesContainer class="botones-container"></div>
+        <div class="tabs-container">
+          <div #botonesContainer class="botones-container"></div>
+        </div>
         <app-block-component></app-block-component>
       </ion-content>
     </ion-split-pane>
   
-  <ion-button size="large" color="medium" class="clear" (click)="clearRoutine()">NEW</ion-button>
+  <ion-button size="large" color="medium" class="clear" (click)="onNewPressed()">NEW</ion-button>
   <ion-button size="large" color="success" class="save" (click)="saveRoutine()">SAVE</ion-button>
-  <ion-button size="large" color="secondary" class= "tabs" (click)="agregarTabAlContainer()">New Tab</ion-button>
+  <!-- <ion-button size="large" color="secondary" class= "tabs" (click)="agregarTabAlContainer()">New Tab</ion-button> -->
 </ion-app>
 
 
