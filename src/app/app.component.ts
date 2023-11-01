@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
   @ViewChild('botonesContainer', { read: ViewContainerRef  }) botonesContainer: ViewContainerRef;
 
   block_view: boolean = true;
+  text: String;
 
     // Aqui termina las funciones para hacer el scroll
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver,
@@ -220,6 +221,17 @@ export class AppComponent implements OnInit {
   Switch_View(){
     this.popUpService.retrieve_routine("save_routine");
     this.block_view = !this.block_view;
+    ////
+    this.rs.get_routine_text_preview()
+    .subscribe(
+      (response) => {
+        //console.log(response);
+        this.text = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
   
  
