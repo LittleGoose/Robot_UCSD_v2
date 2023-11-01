@@ -1,4 +1,4 @@
-/* Estilos para la barra lateral de sidebar-second */
+
 .sidebar {
   background-color: #34344fd0;
   width: 100%;
@@ -17,6 +17,16 @@
   padding-left: 60px;
 }
 
+ion-header ion-title {
+  color: #f2f2f8d0;
+  font-family: 'Liberation Sans', sans-serif;
+  text-align: right;
+  font-size: 22px;
+  position: absolute;
+  top: 18px;
+  left: 35px;
+}
+
 /* Estilos para la cabecera de la barra lateral de sidebar-second */
 ion-header .custom-header {
   --background: #141637;
@@ -27,15 +37,6 @@ ion-header .custom-header {
   z-index: 1;
 }
 
-ion-header ion-title {
-  color: #f2f2f8d0;
-  font-family: 'Liberation Sans', sans-serif;
-  text-align: right;
-  font-size: 22px;
-  position: absolute;
-  top: 18px;
-  left: 35px;
-}
 
 /* Estilos para el acordeón y sus elementos en sidebar-second */
 ion-accordion-group {
@@ -50,41 +51,49 @@ ion-accordion-group {
   border-radius: 0;
 }
 
-
-/* Estilos para el acordeón y sus elementos */
-ion-accordion-group.custom {
-  background-color: #141637;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  z-index: 2;
-  top: 9vh;
-  width: 100%;
-  height: 120vh;
-  border-radius: 0;
-}
-
-div[slot='content'] {
-  background: rgba(var(--ion-color-rose-rgb), 0.25);
-}
-
-/* Estilos para el contenido del acordeón */
-ion-accordion div[slot='content'] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(var(--ion-color-rose-rgb), 0.1);
-  padding: 30px;
+/* Estilos para el contenido del acordeón de "body-gestures" */
+ion-accordion[value="body-gestures"] div[slot='content'] {
+  background-color: #222121c6; /* Cambia el color de fondo según tus preferencias */
+  padding: 15px;
   border-radius: 10px;
   text-align: center;
 }
 
-/* Estilo personalizado para los bloques en el sidebar */
-ion-button.custom-block {
-  /* Agrega tus estilos personalizados aquí */
-  background-color: #141637; /* Cambia el color de fondo según tus preferencias */
+/* Estilos para los botones dentro del acordeón de "body-gestures" */
+ion-accordion[value="body-gestures"] ion-button {
+  background-color: #0074e4; /* Cambia el color de fondo según tus preferencias */
   color: white; /* Cambia el color del texto */
-  border: none; /* Elimina el borde si lo deseas */
-  /* Agrega más estilos personalizados si es necesario */
+  margin: 5px;
 }
+
+/* Estilos para el contenido del acordeón de "facial-expressions" */
+ion-accordion[value="facial-expressions"] div[slot='content'] {
+  background-color: #222121c6; /* Cambia el color de fondo según tus preferencias */
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Estilos para los botones dentro del acordeón de "facial-expressions" */
+ion-accordion[value="facial-expressions"] ion-button {
+  background-color: #0074e4; /* Cambia el color de fondo según tus preferencias */
+  color: white; /* Cambia el color del texto */
+  margin: 5px;
+}
+
+/* Estilos para el contenido del acordeón de "sounds" */
+ion-accordion[value="sounds"] div[slot='content'] {
+  background-color: #222121c6; /* Cambia el color de fondo según tus preferencias */
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Estilos para los botones dentro del acordeón de "sounds" */
+ion-accordion[value="sounds"] ion-button {
+  background-color: #0074e4; /* Cambia el color de fondo según tus preferencias */
+  color: white; /* Cambia el color del texto */
+  margin: 5px;
+}
+
+/* Estilos para la barra lateral de sidebar-second */

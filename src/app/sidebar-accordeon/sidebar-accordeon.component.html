@@ -1,12 +1,11 @@
 <ion-header class="sidebar">
-
   <ion-toolbar class="custom-header">
-    
-    <ion-title>Menu</ion-title>
+    <ion-avatar slot="start">
+      <ion-img src="IMG_0143.jpg"></ion-img>
+    </ion-avatar>
+    <ion-title>EVA</ion-title>
   </ion-toolbar>
 </ion-header>
-
-
 
 <ion-accordion-group [multiple]="true" expand="inset" #listenerbig>
   <ion-accordion value="NonVerbal">
@@ -17,7 +16,7 @@
     <div slot="content">
       <!-- Inside of the non-verbal accordion -->
       <ion-accordion value="body-gestures" class="custom-accordion">
-        <ion-item slot="header" color="light">
+        <ion-item slot="header" color="primary">
           <ion-icon aria-hidden="true" name="accessibility-outline" slot="start"></ion-icon>
           <ion-label>Body Gestures</ion-label>
         </ion-item>
@@ -39,7 +38,7 @@
         </div>
       </ion-accordion>
       <ion-accordion value="facial-expressions" class="inset">
-        <ion-item slot="header" color="light">
+        <ion-item slot="header" color="primary">
           <ion-icon aria-hidden="true" name="happy-outline" slot="start"></ion-icon>
           <ion-label>Facial Expressions</ion-label>
         </ion-item>
@@ -73,7 +72,7 @@
         <ion-label>{{ talk.label }}</ion-label>
       </ion-button>
       <ion-accordion value="sounds" class="expand-inset">
-        <ion-item slot="header" color="light">
+        <ion-item slot="header" color="primary">
           <ion-icon aria-hidden="true" name="volume-high-outline" slot="start"></ion-icon>
           <ion-label>Sounds</ion-label>
         </ion-item>
