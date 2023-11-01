@@ -10,6 +10,7 @@ import { RestService } from '../rest.service';
 import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
 import { TabsComponent } from '../tabs/tabs.component';
 import {OverlayEventDetail} from '@ionic/core'; 
+import { PopUpNameDuplicateComponent } from '../pop-up-name-duplicate/pop-up-name-duplicate.component';
 
 @Component({
   selector: 'app-block-component',
@@ -85,9 +86,25 @@ export class BlockComponentComponent implements AfterViewInit {
       
       } else if(data.type_def === "Show_Routine"){
         // Sending it to database
-        this.rs.upload_routine(data.routine).subscribe(
+        this.rs.upload_routine(data.routine, "0").subscribe(
           (response) => {
             console.log(response);
+            if(response["Code"] == 1){
+              this.popUpService.openDuplicateModal(data.name);
+              this.popUpService.replaceRoutineEvent.subscribe((respone) => {
+                if(respone == 1){
+                  console.log(respone);
+                  this.rs.upload_routine(data.routine, "1").subscribe(
+                    (respone) => {
+                      console.log(respone);
+                    },
+                    (error) => {
+                      console.log(error);
+                    }
+                  )
+                }
+              })
+            }
           },
           (error) => {
             console.log(error);

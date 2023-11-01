@@ -25,8 +25,8 @@ export class RestService {
     return this.http.get<[Facial_Expression[], Body_Gestures[], Tone_Voice[], Speech[], Routines_Blocks[]]>(this.fetch_db_url);
   }
 
-  upload_routine(routine): Observable<any>{
-    return this.http.post<any>(this.upload_db_url, {routine});
+  upload_routine(routine, replace): Observable<any>{
+    return this.http.post<any>(this.upload_db_url + `/${replace}`, {routine});
   }
 
   delete_routine(name): Observable<any>{

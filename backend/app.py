@@ -88,14 +88,15 @@ def fetch_from_db():
 # CREATE
 # Receive a the routine object to enconde in binary
 # Add to entry and upload to database
-@app.route("/save_routine", methods=["POST"])
-def save_routine():
+@app.route("/save_routine//<replace>", methods=["POST"])
+def save_routine(replace):
     if request.method == 'POST':
         routine = loads(request.data)
         print(routine)
         print(routine["routine"]["name"])
 
         try:
+            
             if (routines.find_one({"label": routine["routine"]["name"]})) is None:
                 db_routine = {}
                 db_routine["user"] = "TESTUSER"
@@ -110,9 +111,26 @@ def save_routine():
                 db_routine["file"] = bson.encode(file)
 
                 routines.insert_one(db_routine)
-                return jsonify({"Status" : "Insert completed"})
-            else:
-                return jsonify({"Status" : f"Routine {routine['routine_name']} already exists"})
+                return jsonify({"Status" : "Insert completed", "Code" : 0})
+        
+            elif (routines.find_one({"label": routine["routine"]["name"]})) is not None and replace == "1": 
+                db_routine = {}
+                db_routine["user"] = "TESTUSER"
+                db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
+                db_routine["label"] = routine["routine"]["name"]
+
+                file = {}
+
+                for i in range(0, len(routine["routine"]["array_block"])):
+                    file["Segment" + str(i+1)] = routine["routine"]["array_block"][i]
+
+                db_routine["file"] = bson.encode(file)
+
+                routines.insert_one(db_routine)
+                return jsonify({"Status" : "Insert completed", "Code" : 0})
+            
+            elif (routines.find_one({"label": routine["routine"]["name"]})) is not None:
+                return jsonify({"Status" : "Routine already exists", "Code" : 1})
         except Exception as e:
             return jsonify({"Status" : "An error ocurred: " + str(e)})
 
@@ -185,7 +203,6 @@ def load_current_routine_txt():
     try:
         recent = routines.find_one(sort=[('$natural', -1)])
         recent_routine = bson.decode(recent["file"])
-        print(recent_routine)
         return yaml.dump(recent_routine)
     except Exception as e:
         return jsonify({"Status": e})
