@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component,  Output, EventEmitter} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule, TextValueAccessor } from '@ionic/angular';
 import { RoutineAreaModule } from './routine-area/routine-area.module';
@@ -38,6 +38,7 @@ import { TabData } from './models/tabsdata';
 })
 
 export class AppComponent implements OnInit {
+  @Output() agregarTab: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('botonesContainer', { read: ViewContainerRef  }) botonesContainer: ViewContainerRef;
 
     // Aqui termina las funciones para hacer el scroll

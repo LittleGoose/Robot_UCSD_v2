@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 import { IonAccordionGroup, IonicModule } from '@ionic/angular';
 import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
@@ -18,6 +18,12 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./sidebar-accordeon.component.scss'],
 })
 export class SidebarAccordeonComponent implements OnDestroy {
+  @Output() agregarTabEvent = new EventEmitter<void>();
+
+  onModifyClick(): void {
+    this.agregarTabEvent.emit();
+  }
+  
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
@@ -114,7 +120,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
     )
 
     this.generateItems();
-
   }
 
   private generateItems() {
@@ -192,5 +197,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
   }
+
+  
 
 }
