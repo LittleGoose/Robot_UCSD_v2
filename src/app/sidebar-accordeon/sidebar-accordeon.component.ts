@@ -11,6 +11,7 @@ import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, 
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
+import { TabServiceService } from '../tab-service.service';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -20,8 +21,12 @@ import { saveAs } from 'file-saver';
 export class SidebarAccordeonComponent implements OnDestroy {
   @Output() agregarTabEvent = new EventEmitter<void>();
 
+  //onModifyClick(): void {
+    //this.agregarTabEvent.emit();
+  //}
+
   onModifyClick(): void {
-    this.agregarTabEvent.emit();
+    this.tabService.addTabToContainer();
   }
   
   @ViewChild(IonContent) content: IonContent;
@@ -32,7 +37,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   talk: Speech;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService, private tabService: TabServiceService) {
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {

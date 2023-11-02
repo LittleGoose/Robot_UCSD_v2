@@ -19,9 +19,7 @@ import { TabsComponent } from './tabs/tabs.component';
 import {  ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { Routines, Send_block } from './models/routines.model';
 import { TabData } from './models/tabsdata';
-
-
-
+import { TabServiceService } from './tab-service.service';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +40,7 @@ export class AppComponent implements OnInit {
   @ViewChild('botonesContainer', { read: ViewContainerRef  }) botonesContainer: ViewContainerRef;
 
     // Aqui termina las funciones para hacer el scroll
-  constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver, private tabService: TabServiceService) {
     console.log("on constructor app");
 
     this.popUpService.clearRoutine.subscribe((idTabACerrar) => {
@@ -66,10 +64,15 @@ export class AppComponent implements OnInit {
   }
   
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Recuperar el valor de mostrarBloque del almacenamiento local
     const mostrarBloqueLocalStorage = localStorage.getItem('mostrarBloque');
     this.mostrarBloque = mostrarBloqueLocalStorage === 'true'; // Convertir a boolean
+
+    this.tabService.tabAdded.subscribe(() => {
+      this.agregarTabAlContainer();
+    });
+
   }
   
   ngAfterViewInit(){
