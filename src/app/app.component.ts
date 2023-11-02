@@ -22,6 +22,8 @@ import { Routines, Send_block } from './models/routines.model';
 import { TabData } from './models/tabsdata';
 import {OverlayEventDetail} from '@ionic/core'; 
 
+import * as yaml from 'js-yaml';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -227,26 +229,28 @@ export class AppComponent implements OnInit {
   
   Switch_View(){
 
-    //ASK IVY
-    this.popUpService.retrieve_routine("save_routine");
-
-    console.log(this.routine);
-    
+    this.popUpService.retrieve_routine("save_routine");    
     this.block_view = !this.block_view;
+
+    console.log(this.routine.array_block);
 
     this.rs.get_routine_text_preview()
     .subscribe(
       (response) => {
-        // console.log(response);
         if(document.getElementById("myText")){
-          document.getElementById("myText").innerHTML = response;
+          let display_data = {} as any;
+
+          for(let i=0; i< this.routine.array_block.length; i++){
+            let Segment = "Segment" + i;
+            display_data[Segment] = this.routine.array_block[i];
+          }
+
+          document.getElementById("myText").innerHTML = yaml.dump(display_data);;
         }
       },
       (error) => {
         console.log(error);
       }
     )
-  }
-  
- 
+  } 
 }
