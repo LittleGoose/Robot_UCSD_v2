@@ -15,7 +15,7 @@ import { BlockComponentComponent } from './block-component/block-component.compo
 import { PopUpLoadPreviousRoutineComponent } from './pop-up-load-previous-routine/pop-up-load-previous-routine.component';
 
 import { OnInit } from '@angular/core';
-import { Facial_Expression } from './models/blocks.model';
+import { Facial_Expression, Routines_Blocks } from './models/blocks.model';
 import { TabsComponent } from './tabs/tabs.component';
 import {  ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { Routines, Send_block } from './models/routines.model';
@@ -31,7 +31,7 @@ import {OverlayEventDetail} from '@ionic/core';
     RoutineAreaModule, 
     SidebarModule,
     FormsModule,
-    HttpClientModule, ],
+    HttpClientModule ],
   providers:[PopUpService, RestService, NewBlockService, BlockComponentComponent ],
 
 })
@@ -41,11 +41,17 @@ export class AppComponent implements OnInit {
 
   block_view: boolean = true;
   text: String;
+  routine: Routines;
 
     // Aqui termina las funciones para hacer el scroll
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver,
     private popoverController: PopoverController, private rs: RestService) {
-
+      this.popUpService.retrieve_current_routine.subscribe(
+        (data) =>{
+          // this.current_routine = data;
+          // console.log(data);
+          this.routine = data;
+        })
   }
   //rootPage2 = 'Panel2Page';
   
@@ -61,6 +67,7 @@ export class AppComponent implements OnInit {
     });
 
     let current_routine: Routines = new Routines();
+    // this.popUpService.retrieve_routine("save_routine");
 
     await popover.present();
     await popover.onDidDismiss()
@@ -219,13 +226,21 @@ export class AppComponent implements OnInit {
   }
   
   Switch_View(){
+
+    //ASK IVY
     this.popUpService.retrieve_routine("save_routine");
+
+    console.log(this.routine);
+    
     this.block_view = !this.block_view;
-    ////
+
     this.rs.get_routine_text_preview()
     .subscribe(
       (response) => {
-        document.getElementById("myText").innerHTML = response;
+        // console.log(response);
+        if(document.getElementById("myText")){
+          document.getElementById("myText").innerHTML = response;
+        }
       },
       (error) => {
         console.log(error);
