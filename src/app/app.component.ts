@@ -54,6 +54,25 @@ export class AppComponent implements OnInit {
           // console.log(data);
           this.routine = data;
         })
+
+        this.rs.get_routine_text_preview()
+        .subscribe(
+          (response) => {
+            if(document.getElementById("myText")){
+              let display_data = {} as any;
+    
+              for(let i=0; i< this.routine.array_block.length; i++){
+                let Segment = "Segment" + i;
+                display_data[Segment] = this.routine.array_block[i];
+              }
+    
+              document.getElementById("myText").innerHTML = yaml.dump(display_data);;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        )  
   }
   //rootPage2 = 'Panel2Page';
   
@@ -228,29 +247,9 @@ export class AppComponent implements OnInit {
   }
   
   Switch_View(){
-
-    this.popUpService.retrieve_routine("save_routine");    
+    this.popUpService.retrieve_routine("save_routine");
+    this.popUpService.retrieve_routine("get");    
     this.block_view = !this.block_view;
-
     console.log(this.routine.array_block);
-
-    this.rs.get_routine_text_preview()
-    .subscribe(
-      (response) => {
-        if(document.getElementById("myText")){
-          let display_data = {} as any;
-
-          for(let i=0; i< this.routine.array_block.length; i++){
-            let Segment = "Segment" + i;
-            display_data[Segment] = this.routine.array_block[i];
-          }
-
-          document.getElementById("myText").innerHTML = yaml.dump(display_data);;
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
   } 
 }
