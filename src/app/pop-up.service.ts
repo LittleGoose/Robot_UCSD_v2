@@ -40,7 +40,6 @@ export class PopUpService {
       this.send_data_routine.routine.name = send_data.name;
       this.send_data_routine.type_def = "Show_Routine";
       this.saveRoutineEvent.emit(this.send_data_routine);
-
     } else {
       this.send_data_routine.name = send_data.name;
       this.send_data_routine.type_def = send_data.type_def;
@@ -92,7 +91,7 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role !== 'cancel') {
+      if (result.role !== 'cancel' && result.role !== 'backdrop') {
         const start_data = new SendDataRoutine();
         start_data.name = result.role
         start_data.type_def = "Send_Name_Please"
