@@ -20,7 +20,7 @@
           </ion-row>          
         </ion-grid>
         <app-block-component *ngIf="block_view"></app-block-component>
-        <ion-text *ngIf="!block_view">{{text}}</ion-text>
+        <pre *ngIf="!block_view" id="myText"></pre>
       </ion-content>
     </ion-split-pane>
   

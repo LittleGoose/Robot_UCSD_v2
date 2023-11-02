@@ -225,8 +225,7 @@ export class AppComponent implements OnInit {
     this.rs.get_routine_text_preview()
     .subscribe(
       (response) => {
-        //console.log(response);
-        this.text = response;
+        document.getElementById("myText").innerHTML = response;
       },
       (error) => {
         console.log(error);
