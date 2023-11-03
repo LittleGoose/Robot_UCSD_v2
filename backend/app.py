@@ -10,6 +10,9 @@ import os
 from dotenv import load_dotenv
 from io import BytesIO
 
+import talker
+
+
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
@@ -226,7 +229,24 @@ def fetch_routines_from_db():
     except Exception as e:
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
-
+@app.route("/start_ros_nodes", methods=["GET"])
+def start_ros_nodes():
+    html_string = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>FlaskApp</title>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+        <h2>Welcome to FlaskApp!</h2>
+    </body>
+    </html>
+    """
+    while True:
+        talker.main()
+        render_template(html_string)
 
 
 
