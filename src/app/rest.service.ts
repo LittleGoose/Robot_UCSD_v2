@@ -42,7 +42,7 @@ export class RestService {
   }
 
   get_routine_text_preview(){
-    return this.http.get(this.get_text_url, {responseType: 'text'});
+    return this.http.get(this.get_text_url);
   }
 
   get_routines(){

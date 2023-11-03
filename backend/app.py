@@ -182,13 +182,7 @@ def delete_routine(name):
 
 @app.route("/load_current_routine_txt", methods=["GET"])
 def load_current_routine_txt():
-    try:
-        recent = routines.find_one(sort=[('$natural', -1)])
-        recent_routine = bson.decode(recent["file"])
-        print(recent_routine)
-        return yaml.dump(recent_routine)
-    except Exception as e:
-        return jsonify({"Status": e})
+    return jsonify({"Status" : "Load completed"})
 
 # Fetch entries from all tables to send to sidebar angular component
 # Return entries in a json format
