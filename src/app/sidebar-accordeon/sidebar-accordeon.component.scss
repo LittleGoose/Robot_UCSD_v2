@@ -95,4 +95,7 @@
 
   .button{
     margin: -10px;
+    border-color: none !important; 
+    border-width: 0px !important;
+    --box-shadow: none !important;
   }
