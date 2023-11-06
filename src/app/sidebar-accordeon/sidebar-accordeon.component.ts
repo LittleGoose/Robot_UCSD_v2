@@ -28,6 +28,11 @@ export class SidebarAccordeonComponent implements OnDestroy {
   onModifyClick(): void {
     this.tabService.addTabToContainer();
   }
+  // Funcion de doble click 
+  onDoubleClick(event: MouseEvent, index: number) {
+    //console.log('Doble clic en el ítem número ' + index);
+    this.tabService.addTabToContainer();
+  }
   
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
@@ -203,6 +208,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
     )
   }
 
+  
   
 
 }
