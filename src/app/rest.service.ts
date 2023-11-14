@@ -17,7 +17,7 @@ export class RestService {
   delete_db_url : string = `${this.server_url}/delete_routine`;
   recent_db_url : string = `${this.server_url}/recent_routine`;
   download_db_url : string = `${this.server_url}/download_routine`;
-
+  download_routines_url : string = `${this.server_url}/fetch_routines_from_db`;
 
 
   read_db(){
@@ -40,14 +40,9 @@ export class RestService {
   get_recent_routine(): Observable<[any]>{
     return this.http.get<[any]>(this.recent_db_url);
   }
-    // COIDGO PARA IMPLEMENTAR EN UN COMPONENT PARA OBTENER LA RUTINA MAS RECIENTE
-    // this.rs.get_recent_routine()
-    // .subscribe(
-    //   (response) => {
-    //     console.log(response);
-    //   },(error) => {
-    //     console.log("No Data Found" + error);
-    //   }
-    // )
+
+  get_routines(){
+    return this.http.get<[Routines_Blocks[]]>(this.download_routines_url);
+  }
 
 }

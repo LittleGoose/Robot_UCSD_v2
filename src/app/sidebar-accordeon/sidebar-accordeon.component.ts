@@ -11,6 +11,7 @@ import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, 
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
+import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -19,11 +20,15 @@ import { saveAs } from 'file-saver';
 })
 export class SidebarAccordeonComponent implements OnDestroy {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('full', { static: false }) full: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
   @ViewChild('popover') popover;
+  
   private scrollSubscription: Subscription;
+  
   talk: Speech;
+  scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
   constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
@@ -35,13 +40,31 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
     this.talk = new Speech("", "Talk", "Talk block", "A1", "");
 
+    this.new_block.newTab.subscribe((response) =>{
+      //this.routines_blocks = [];
+      let incoming_routines: Routines_Blocks[] = [];
+      this.rs.get_routines().subscribe(
+        (response) =>{
+          this.routines = response[0];
+
+          this.routines.forEach(element => {
+            const block = new Routines_Blocks(element.id, element.label, element.description);
+            block.color = "medium";
+            incoming_routines.push(block);
+          });
+
+          if(this.routines_blocks.length != incoming_routines.length){
+            this.routines_blocks = incoming_routines;
+          }
+        });        
+      });
+
   }
 
   ngOnDestroy() {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
 
- 
   facial_expresions: Facial_Expression[] = [];
   body_gestures: Body_Gestures[] = [];
   tone_of_voice: Tone_Voice[] = [];
@@ -56,6 +79,10 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
   isOpen = false;
   pop_over_block: Block;
+
+  routine_images: string[] = [];
+
+  only_once = true;
 
   ngOnInit() {
 
@@ -107,6 +134,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.routines_blocks.push(block);
         });
 
+        console.log("Done")
+
       },
       (error) => {
         console.log("No Data Found" + error);
@@ -116,6 +145,41 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.generateItems();
 
   }
+
+  // This function is to create images when accordeon changes
+
+  /*accordionGroupChange(ev: any){
+    const collapsedItems = this.values.filter((value) => value !== ev.detail.value);
+    const selectedValue = ev.detail.value;
+
+    console.log(
+      `Expanded: ${selectedValue === undefined ? 'None' : ev.detail.value} | Collapsed: ${collapsedItems.join(', ')}`
+    );
+
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    if(this.routines_blocks.length > 0 && this.only_once){
+      let i = 0;
+      console.log("Start")
+      this.routines_blocks.forEach(element => {
+        console.log(element);
+        var name = "block_"+i;
+        console.log(name)
+        var node = document.getElementById(name);
+        domtoimage.toPng(node)
+          .then(function (dataUrl) { 
+              this.routine_images.push(dataUrl);
+              //console.log(img)
+              //document.body.appendChild(img);
+          })
+          .catch(function (error) {
+              console.error('oops, something went wrong!', error);
+          });
+        i+=1;
+      });
+      this.only_once = false;
+    }
+  };*/
 
   private generateItems() {
 
@@ -133,14 +197,53 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    console.log('scroll', ev.detail);
+    this.scroll_position = ev.detail.scrollTop
   }
 
   handleScrollEnd() {
     console.log('scroll end');
   }
 
+  onDragStart(event: DragEvent, block: Block, index:number): void {
+    //event.preventDefault();
+    //this.new_block.emitData(event, block);
+    //console.log("DragStart");
+    //var img = new Image();
+    //var drag_icon = document.createElement("div")
+    //var text = document.createElement("text")
+    //text.innerText = "This"
+    //drag_icon.appendChild(text)
+    //drag_icon.className = "drag-icon";
+    //drag_icon.style.position = "absolute";
+    //drag_icon.style.top = "-100px";
+    //drag_icon.style.right = "0px";
+    //var name = "block_"+index;
+    //var node = document.getElementById(name);
+
+    //console.log(node)
+
+    var img = new Image();
+    const drag = event.dataTransfer;
+    console.log("Before:", img)
+
+    /*domtoimage.toPng(node)
+        .then(function (dataUrl) { 
+            img.src = dataUrl;
+            //console.log(img)
+            //document.body.appendChild(img);
+        })
+        .catch(function (error) {
+            console.error('oops, something went wrong!', error);
+        });*/
+    //drag.setData('text/uri-list', src);
+    console.log(this.routine_images)
+    img.src = this.routine_images[index]
+    console.log("After", img.src)
+    drag.setDragImage(img, 0, 0);
+  }
+
   onDragEnd(event: DragEvent, block: Block): void {
+    event.preventDefault();
     this.new_block.emitData(event, block);
   }
 
@@ -177,6 +280,17 @@ export class SidebarAccordeonComponent implements OnDestroy {
         console.log(error);
       }
     )
+
+    let i = 0;
+    for(let item in this.routines_blocks){
+      if(this.routines_blocks[item].label == this.pop_over_block.label){
+        this.routines_blocks.splice(i, 1);
+      }
+      i++;
+    }
+
+    this.isOpen = false;
+
   }
 
   download_routine(ev: Event){
