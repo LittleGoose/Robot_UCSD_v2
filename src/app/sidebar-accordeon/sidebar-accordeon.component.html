@@ -135,6 +135,7 @@
         <ion-list class="my-componente2"> <!--(dragstart)="onDragStart($event, item, i)"-->
           <ion-item-group *ngFor="let item of routines_blocks; index as i" (dblclick)="onDoubleClick($event, i)" 
             draggable="true"
+            (dragstart)="onDragStart($event, item, i)"
             (dragend)="onDragEnd($event, item)"
             title="{{ item.description }}"
             class="list_puzzle"
