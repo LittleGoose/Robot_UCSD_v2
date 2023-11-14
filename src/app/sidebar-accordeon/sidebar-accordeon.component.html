@@ -68,6 +68,8 @@
       <!--</ion-accordion-group>-->
     </div>
   </ion-accordion>
+
+
   <ion-accordion value="Verbal" class="my-componente2">
     <ion-item slot="header" color="primary">
       <ion-icon aria-hidden="true" name="mic-outline" slot="start"></ion-icon>
@@ -79,7 +81,7 @@
         (dragend)="onDragEnd($event, talk)"
         title="{{ talk.description }}"
         class="list_puzzle"
-        (contextmenu)="openPopover(talk.color, $event, talk)">
+        (contextmenu)="openPopoverSecond(talk.color, $event, talk)">
         <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+talk.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
           <div class="square yellow">
             <div id="text"
@@ -92,6 +94,19 @@
           <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+talk.color+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 40px + 4px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
           <br>
         </div>
+        <!-- SEGUNDO POPOVER -->
+        <ion-popover #popoversecond [isOpen]="isOpenTwo" (didDismiss)="isOpenTwo = false" triggerAction="context-menu">
+          <ng-template>
+            <ion-content>
+              <ion-list>
+                <ion-item [button]="true" [detail]="false" >Angry</ion-item>
+                <ion-item [button]="true" [detail]="false" >Sad</ion-item>
+                <ion-item [button]="true" [detail]="false" >Happy</ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+        <!-- FIN DEL SEGUNDO POPOVER -->
         <ion-accordion value="sounds">
           <ion-item slot="header" color="light">
             <ion-icon aria-hidden="true" name="volume-high-outline" slot="start"></ion-icon>
