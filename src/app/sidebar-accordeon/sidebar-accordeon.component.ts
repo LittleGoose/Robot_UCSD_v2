@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 import { IonAccordionGroup, IonicModule } from '@ionic/angular';
 import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
@@ -11,6 +11,7 @@ import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, 
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
+import { TabServiceService } from '../tab-service.service';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -18,6 +19,21 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./sidebar-accordeon.component.scss'],
 })
 export class SidebarAccordeonComponent implements OnDestroy {
+  @Output() agregarTabEvent = new EventEmitter<void>();
+
+  //onModifyClick(): void {
+    //this.agregarTabEvent.emit();
+  //}
+
+  onModifyClick(): void {
+    this.tabService.addTabToContainer();
+  }
+  // Funcion de doble click 
+  onDoubleClick(event: MouseEvent, index: number) {
+    //console.log('Doble clic en el ítem número ' + index);
+    this.tabService.addTabToContainer();
+  }
+  
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('full', { static: false }) full: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
@@ -30,7 +46,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService, private tabService: TabServiceService) {
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
@@ -137,7 +153,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
     )
 
     this.generateItems();
-
   }
 
   private generateItems() {
@@ -227,5 +242,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
   }
+
+  
+  
 
 }
