@@ -19,12 +19,16 @@ export class PopUpService {
   saveRoutine: EventEmitter<SendDataRoutine> = new EventEmitter<SendDataRoutine>();
   clearRoutine: EventEmitter<string> = new EventEmitter<string>();
   saveRoutineEvent: EventEmitter<SendDataRoutine> = new EventEmitter<SendDataRoutine>();
+  retrieve_past_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
+  retrieve_current_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
+  save_current_routine: EventEmitter<string> = new EventEmitter<string>();
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
+  current_routine: Routines = new Routines();
+
   constructor(private modalController: ModalController, ) {} //private rs: RestService
 
-   // TODO llamar al post del restservice para mandar la routine
   save_button(send_data: SendDataRoutine, routine?: Routines){
     if(routine){
       this.send_data_routine.routine = routine;
@@ -103,6 +107,23 @@ export class PopUpService {
     } else {
       this.openModal_Save(routine.name);
     }
+  }
+
+  push_routine(routine: Routines){
+    // Only when starting the app
+    this.retrieve_past_routine.emit(routine);
+  }
+
+  retrieve_routine(action:string, routine?: Routines){
+    if(action=="store"){
+      // When changing the view
+      this.current_routine = routine;     
+    } else if(action == "get"){
+      this.retrieve_current_routine.emit(this.current_routine);
+    } else if(action == "save_routine"){
+      this.save_current_routine.emit("save");
+    }
+
   }
 }
 

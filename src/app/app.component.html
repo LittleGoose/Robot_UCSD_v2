@@ -13,10 +13,15 @@
         <app-sidebar-accordeon ></app-sidebar-accordeon>
       </ion-content>
       <ion-content contentId="right-content" class="third">
-        <div class="tabs-container">
-          <div #botonesContainer class="botones-container"></div>
-        </div>
-        <app-block-component></app-block-component>
+        <ion-grid>
+          <ion-row>
+            <ion-col><div #botonesContainer class="botones-container"></div></ion-col>
+            <ion-col class="ion-text-right" size="auto"><ion-button (click)="Switch_View()">Switch To<br>YAML View</ion-button></ion-col>
+          </ion-row>          
+        </ion-grid>
+        <app-block-component *ngIf="block_view"></app-block-component>
+
+        <pre style="padding: 15px;" *ngIf="!block_view" id="myText"></pre>
       </ion-content>
     </ion-split-pane>
   

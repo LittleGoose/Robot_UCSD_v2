@@ -37,6 +37,7 @@ export class BlockComponentComponent implements AfterViewInit {
   dif: number = 0;
 
   cellPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
+  allPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
   scrollPosition = 0;
 
   startRect = new DOMRect;
@@ -82,7 +83,7 @@ export class BlockComponentComponent implements AfterViewInit {
         this.current_routine.name = data.name;
         this.popUpService.save_button(data, send_routine); 
       
-      } else if(data.type_def === "Show_Routine"){ //ximena implementar save console.log(this.current_routine.array_block);
+      } else if(data.type_def === "Show_Routine"){
         // Sending it to database
         this.rs.upload_routine(data.routine).subscribe(
           (response) => {
@@ -124,45 +125,30 @@ export class BlockComponentComponent implements AfterViewInit {
                   console.log("No Data Found" + error);
               }
             )
+            this.check_cells_positions();
       }
     )
+
+    this.popUpService.retrieve_past_routine.subscribe((data) => {
+      this.current_routine = data;
+      this.check_cells_positions();
+      this.popUpService.retrieve_routine("store", this.current_routine); //Change to store when retrieving past routine
+      console.log("Past routine retrieved")
+    })
+
+    this.popUpService.save_current_routine.subscribe((data) =>
+    {
+      this.popUpService.retrieve_routine("store", this.current_routine);
+    })
+
+    this.popUpService.retrieve_current_routine.subscribe((data) =>{
+      this.current_routine = data;
+    })
   }
 
 
   async ngOnInit() {
-    // Abre el popover personalizado tan pronto como la página se inicie
-    const popover = await this.popoverController.create({
-      component: PopUpLoadPreviousRoutineComponent, // Reemplaza con tu página de popover personalizado
-      // Coloca las propiedades de posición y otros ajustes según tus necesidades
-    });
-
-    await popover.present();
-    await popover.onDidDismiss()
-    .then((detail: OverlayEventDetail) => {
-        if(detail.data == "yes"){
-          
-          this.rs.get_recent_routine()
-          .subscribe(
-            (response) => {
-                response.forEach(element => {
-                  this.current_routine.array_block.push([]);
-                  element.forEach(block_item => {
-                    let block = new Send_block();
-                    block.class = block_item.class;
-                    block.name = block_item.name;
-                    block.level = block_item.level;
-                    block.talk = block_item.talk;
-                    block.clear = block_item.clear;
-                    this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
-                  });
-                });
-            },(error) => {
-                console.log("No Data Found" + error);
-            }
-          )
-        }
-    });
-
+    this.popUpService.retrieve_routine("get");
   }
 
   test(event: any){
@@ -233,6 +219,7 @@ export class BlockComponentComponent implements AfterViewInit {
     const grid = document.getElementById('grid');
 
     this.cellPositions = [];
+    this.allPositions = [];
 
     if (grid) {
       // Get all cell elements within the grid
@@ -255,6 +242,19 @@ export class BlockComponentComponent implements AfterViewInit {
 
           // Add the cell's position to the array
           this.cellPositions.push(cellPosition);
+        } else if(cell.id == "block"){
+          // Calculate the cell's position relative to the grid container
+          const rect = cell.getBoundingClientRect();
+          this.dif = rect.width;
+          const cellPosition: { center_x: number; center_y: number, length: number, height:number } = {
+            center_x: rect.left + rect.width / 2,
+            center_y: rect.top + rect.height / 2,
+            length: rect.width,
+            height: rect.height,
+          };
+
+          // Add the cell's position to the array
+          this.allPositions.push(cellPosition);
         }
       });
 
@@ -354,7 +354,7 @@ export class BlockComponentComponent implements AfterViewInit {
       return false;
 
     } else {
-      if(this.cellPositions.length == 0){
+      if(this.cellPositions.length == 0 && this.current_routine.array_block.length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
       } else { // It has more than 1 block
@@ -384,6 +384,8 @@ export class BlockComponentComponent implements AfterViewInit {
                     } else { // Current block cant be added
                       if(this.current_routine.array_block[index_row][i].class == "routine"){
                         this.setOpenRoutine(true)
+                      } else {
+                        this.setOpenClass(true);
                       }
                       break_var = 1;
                       break;
@@ -393,12 +395,11 @@ export class BlockComponentComponent implements AfterViewInit {
               }
 
               if(break_var == 1){
-                this.setOpenClass(true);
                 break;
               }
 
-              for (const coord of this.cellPositions) { // Calculate where in the row it should be added
-                if (coord.center_y == num.center_y){
+              for (let coord of this.allPositions) { // Calculate where in the row it should be added
+                if (coord.center_y < num.center_y + 1 && coord.center_y > num.center_y - 1){
                   if(coord.center_x > data.event.pageX){
                     break;
                   }
