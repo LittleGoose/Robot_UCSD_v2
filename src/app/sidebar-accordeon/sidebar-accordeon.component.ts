@@ -146,6 +146,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.routines_blocks.push(block);
         });
 
+        console.log(this.routines_blocks);
+
       },
       (error) => {
         console.log("No Data Found" + error);

@@ -55,35 +55,35 @@ export class AppComponent implements OnInit {
           // this.current_routine = data;
           // console.log(data);
           this.routine = data;
-        })
+        });
+
+        this.tabService.tabAdded.subscribe(() => {
+          this.agregarTabAlContainer();
+        });
     
-    console.log("on constructor app");
+      console.log("on constructor app");
 
-    this.popUpService.clearRoutine.subscribe((idTabACerrar) => {
-      console.log("cerrando tab, data: " + `${idTabACerrar}`)
-      //var totalTabs = this.tabDataList.length;
+      this.popUpService.clearRoutine.subscribe((idTabACerrar) => {
+        console.log("cerrando tab, data: " + `${idTabACerrar}`)
+        //var totalTabs = this.tabDataList.length;
 
-      for(let index = 0; index < this.tabDataList.length; index++)
-      {
-        //var tabActual = this.tabDataList[index];
-        if (this.tabDataList[index].tabId == idTabACerrar)
+        for(let index = 0; index < this.tabDataList.length; index++)
         {
-            this.cerrarTab(this.tabDataList[index].tabComponent);
-            break;
+          //var tabActual = this.tabDataList[index];
+          if (this.tabDataList[index].tabId == idTabACerrar)
+          {
+              this.cerrarTab(this.tabDataList[index].tabComponent);
+              break;
+          }
         }
-      }
-      if (this.tabDataList.length === 0)
-      {
-        this.agregarTabAlContainer();
-      }
-    });
+        if (this.tabDataList.length === 0)
+        {
+          this.agregarTabAlContainer();
+        }
+      });
   }
   
   async ngOnInit() {
-    // Recuperar el valor de mostrarBloque del almacenamiento local
-    const mostrarBloqueLocalStorage = localStorage.getItem('mostrarBloque');
-    this.mostrarBloque = mostrarBloqueLocalStorage === 'true'; // Convertir a boolean
-
     // Abre el popover personalizado tan pronto como la página se inicie
     const popover = await this.popoverController.create({
       component: PopUpLoadPreviousRoutineComponent, // Reemplaza con tu página de popover personalizado
@@ -123,9 +123,10 @@ export class AppComponent implements OnInit {
           //this.check_cells_positions();
         }
     });
-    this.tabService.tabAdded.subscribe(() => {
-      this.agregarTabAlContainer();
-    });
+
+    // Recuperar el valor de mostrarBloque del almacenamiento local
+    const mostrarBloqueLocalStorage = localStorage.getItem('mostrarBloque');
+    this.mostrarBloque = mostrarBloqueLocalStorage === 'true'; // Convertir a boolean
 
   }
   
@@ -165,9 +166,6 @@ export class AppComponent implements OnInit {
   onNewPressed(){
     this.agregarTabAlContainer();
   }
-
-  
-
 
   mostrarBloque = false;
   id_contador = 0; // Variable para rastrear la cantidad de botones
