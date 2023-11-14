@@ -143,7 +143,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
-          this.routines_blocks.push(block);
+          //this.routines_blocks.push(block);
         });
 
         console.log(this.routines_blocks);
