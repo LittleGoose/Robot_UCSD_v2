@@ -21,7 +21,6 @@ app.config['JSON_SORT_KEYS'] = False
 load_dotenv()
 user = os.getenv("MONGO_USR")
 password = os.getenv("password")
-print(password)
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 
 db = client["ROBOT-UCSD"]  # Access/creation of data base
@@ -181,6 +180,9 @@ def delete_routine(name):
     except Exception as e:
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
+@app.route("/load_current_routine_txt", methods=["GET"])
+def load_current_routine_txt():
+    return jsonify({"Status" : "Load completed"})
 
 # Fetch entries from all tables to send to sidebar angular component
 # Return entries in a json format

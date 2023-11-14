@@ -29,7 +29,6 @@ export class PopUpService {
 
   constructor(private modalController: ModalController, ) {} //private rs: RestService
 
-   // TODO llamar al post del restservice para mandar la routine
   save_button(send_data: SendDataRoutine, routine?: Routines){
     if(routine){
       this.send_data_routine.routine = routine;
@@ -82,8 +81,9 @@ export class PopUpService {
     await modal.present();
   }
 
-  async openModal_Clear() {
+  async openModal_Clear(dataExtra?: string) {
 
+    console.log("data extra:" + `${dataExtra}`)
     const modal = await this.modalController.create({
       component: PopUpClearComponent,
       componentProps: {
@@ -92,8 +92,8 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role !== 'cancel') {
-        this.clearRoutine.emit()
+      if (result.role === 'Yes') {
+        this.clearRoutine.emit(dataExtra)
       }
       
     });

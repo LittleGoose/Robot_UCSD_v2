@@ -65,7 +65,15 @@ app-sidebar-second {
   
 }
 
-.botones-container {
+.tabs-container {
+  //display: flex;
+  //flex-wrap: nowrap;
+  //overflow-x: auto; /* Agrega desplazamiento horizontal si los elementos desbordan */
+}
+
+.col{
+  //border: 1px solid;
   display: flex;
-  flex-wrap: nowrap; /* Para que los elementos no se envuelvan a la siguiente línea */
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Agrega desplazamiento horizontal si los elementos desbordan */
 }

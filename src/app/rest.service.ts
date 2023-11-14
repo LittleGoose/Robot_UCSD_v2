@@ -17,6 +17,7 @@ export class RestService {
   delete_db_url : string = `${this.server_url}/delete_routine`;
   recent_db_url : string = `${this.server_url}/recent_routine`;
   download_db_url : string = `${this.server_url}/download_routine`;
+  get_text_url : string = `${this.server_url}/load_current_routine_txt`;
   download_routines_url : string = `${this.server_url}/fetch_routines_from_db`;
 
 
@@ -36,9 +37,12 @@ export class RestService {
     return this.http.get(this.download_db_url + `/${name}`, {responseType: 'blob'});
   }
 
-
   get_recent_routine(): Observable<[any]>{
     return this.http.get<[any]>(this.recent_db_url);
+  }
+
+  get_routine_text_preview(){
+    return this.http.get(this.get_text_url);
   }
 
   get_routines(){

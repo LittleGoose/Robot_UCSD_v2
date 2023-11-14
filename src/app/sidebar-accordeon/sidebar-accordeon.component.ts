@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 import { IonAccordionGroup, IonicModule } from '@ionic/angular';
 import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
@@ -12,6 +12,7 @@ import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
 import domtoimage from 'dom-to-image';
+import { TabServiceService } from '../tab-service.service';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -19,6 +20,21 @@ import domtoimage from 'dom-to-image';
   styleUrls: ['./sidebar-accordeon.component.scss'],
 })
 export class SidebarAccordeonComponent implements OnDestroy {
+  @Output() agregarTabEvent = new EventEmitter<void>();
+
+  //onModifyClick(): void {
+    //this.agregarTabEvent.emit();
+  //}
+
+  onModifyClick(): void {
+    this.tabService.addTabToContainer();
+  }
+  // Funcion de doble click 
+  onDoubleClick(event: MouseEvent, index: number) {
+    //console.log('Doble clic en el ítem número ' + index);
+    this.tabService.addTabToContainer();
+  }
+  
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('full', { static: false }) full: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
@@ -31,7 +47,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService, private tabService: TabServiceService) {
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
@@ -131,10 +147,11 @@ export class SidebarAccordeonComponent implements OnDestroy {
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
-          this.routines_blocks.push(block);
+          //this.routines_blocks.push(block);
         });
 
         console.log("Done")
+        console.log(this.routines_blocks);
 
       },
       (error) => {
@@ -143,7 +160,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
     )
 
     this.generateItems();
-
   }
 
   // This function is to create images when accordeon changes
@@ -306,5 +322,4 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
   }
-
 }

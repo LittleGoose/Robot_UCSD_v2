@@ -132,8 +132,8 @@
       </ion-item>
       <!--Inside of the routines accordeon-->
       <div slot="content">
-        <ion-list class="my-componente2">
-          <ion-item-group *ngFor="let item of routines_blocks; index as i" 
+        <ion-list class="my-componente2"> <!--(dragstart)="onDragStart($event, item, i)"-->
+          <ion-item-group *ngFor="let item of routines_blocks; index as i" (dblclick)="onDoubleClick($event, i)" 
             draggable="true"
             (dragstart)="onDragStart($event, item, i)"
             (dragend)="onDragEnd($event, item)"
@@ -170,6 +170,7 @@
       <ion-list>
         <ion-item [button]="true" [detail]="false" (click) = "delete_routine($event)">Delete</ion-item>
         <ion-item [button]="true" [detail]="false" (click) = "download_routine($event)">Download</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="onModifyClick()">Modify</ion-item>
       </ion-list>
     </ion-content>
   </ng-template>

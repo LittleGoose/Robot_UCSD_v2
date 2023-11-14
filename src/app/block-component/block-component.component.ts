@@ -83,7 +83,7 @@ export class BlockComponentComponent implements AfterViewInit {
         this.current_routine.name = data.name;
         this.popUpService.save_button(data, send_routine); 
       
-      } else if(data.type_def === "Show_Routine"){ //ximena implementar save console.log(this.current_routine.array_block);
+      } else if(data.type_def === "Show_Routine"){
         // Sending it to database
         this.rs.upload_routine(data.routine).subscribe(
           (response) => {
@@ -132,6 +132,8 @@ export class BlockComponentComponent implements AfterViewInit {
     this.popUpService.retrieve_past_routine.subscribe((data) => {
       this.current_routine = data;
       this.check_cells_positions();
+      this.popUpService.retrieve_routine("store", this.current_routine); //Change to store when retrieving past routine
+      console.log("Past routine retrieved")
     })
 
     this.popUpService.save_current_routine.subscribe((data) =>

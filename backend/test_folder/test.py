@@ -27,17 +27,22 @@ routines = db["routines"]  # Creation/Access of table Routines
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-@app.route("/", methods=["GET"])
-def get_most_recent_routine():
+@app.route("/load_current_routine_txt", methods=["GET"])
+def load_current_routine_txt():
     try:
         recent = routines.find_one(sort=[('$natural', -1)])
         recent_routine = bson.decode(recent["file"])
         print(recent_routine)
-        return jsonify({"name": recent["label"], "routine": recent_routine})
+        return yaml.dump(recent_routine)
     except Exception as e:
-        print("An error ocurred: ", e)
+        return jsonify({"Status": e})
+
+# @app.route("/load_current_routine", methods=["POST"])
+# def load_current_routine(routine):
+#     # if request.method == 'POST':
+#     # routine = loads(request.data)
+#     print(yaml.dump(routine))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-get_most_recent_routine()
