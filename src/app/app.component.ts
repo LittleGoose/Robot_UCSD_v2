@@ -270,7 +270,7 @@ export class AppComponent implements OnInit {
               let display_data = {} as any;
     
               for(let i=0; i< this.routine.array_block.length; i++){
-                let Segment = "Segment" + i;
+                let Segment = "Line_" + (i+1);
                 display_data[Segment] = this.routine.array_block[i];
               }
     

@@ -12,7 +12,7 @@ export class RestService {
 
   // ngOnInit(){}
   server_url : string = "http://127.0.0.1:5000"; // este tiene que quedarse como "http://127.0.0.1:5000" en modo de desarrollo 
-  fetch_db_url : string = `${this.server_url}/fetch_tables_from_db`;
+  fetch_db_url : string = `${this.server_url}/fetch_collections_from_db`;
   upload_db_url : string = `${this.server_url}/save_routine`;
   delete_db_url : string = `${this.server_url}/delete_routine`;
   recent_db_url : string = `${this.server_url}/recent_routine`;

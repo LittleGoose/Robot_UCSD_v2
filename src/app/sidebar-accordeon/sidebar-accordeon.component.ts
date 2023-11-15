@@ -143,6 +143,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
           }
         });
 
+        // TO DO: BORRAR? PQ HAY UN GET ROUTINES
         this.routines = response[4];
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
@@ -150,8 +151,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
           //this.routines_blocks.push(block);
         });
 
-        console.log("Done")
-        console.log(this.routines_blocks);
+        // console.log("Done")
+        // console.log(this.routines_blocks);
 
       },
       (error) => {
