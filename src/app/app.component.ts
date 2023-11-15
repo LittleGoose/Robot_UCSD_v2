@@ -23,7 +23,7 @@ import { TabData } from './models/tabsdata';
 import { TabServiceService } from './tab-service.service';
 import {OverlayEventDetail} from '@ionic/core'; 
 
-/*import * as yaml from 'js-yaml';*/
+import * as yaml from 'js-yaml';
 
 @Component({
   selector: 'app-root',
@@ -274,7 +274,7 @@ export class AppComponent implements OnInit {
                 display_data[Segment] = this.routine.array_block[i];
               }
     
-              //document.getElementById("myText").innerHTML = yaml.dump(display_data);;
+              document.getElementById("myText").innerHTML = yaml.dump(display_data);;
             }
           },
           (error) => {

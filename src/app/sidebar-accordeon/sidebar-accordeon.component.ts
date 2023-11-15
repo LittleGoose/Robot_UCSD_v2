@@ -11,7 +11,7 @@ import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, 
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
-import domtoimage from 'dom-to-image';
+// import domtoimage from 'dom-to-image';
 import { TabServiceService } from '../tab-service.service';
 
 @Component({
