@@ -171,8 +171,10 @@ def get_most_recent_routine():
 
         # Find most recent routine in database
         recent = routines.find_one(sort=[('$natural', -1)])
+        name = recent["label"]
         recent = bson.decode(recent["file"])
-
+        
+        struct.append = [name]
         # Append the arrays of behavior blocks,
         # each array corresponding to the number of line 
         # they were originally placed in
