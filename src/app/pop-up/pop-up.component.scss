@@ -39,4 +39,47 @@
 
   .button_save{
     padding-top: 5%;
+    margin-right: 10px;
+    width: 150px;   // Ajusta según tu preferencia
+    height: 70px; 
+    margin-left: 210px;
+    margin-top: 25%;
+  }
+
+ 
+
+ 
+
+  .my_select {
+    margin-right: 180px;
+    width: auto; 
+    height: 70px; 
+    margin-left: 180px;
+    margin-top: 5%;
+    font-size: 25px; 
+
+  }
+
+  .this {
+
+    margin-right: 20px;
+  }
+
+  ion-select .select-text {
+    font-size: 25px; /* Ajusta el valor según sea necesario */
+  }
+
+  .ion-select {
+    --placeholder-color: #971e49;
+    --placeholder-opacity: 1;
+     width: 100%;
+     font-size: 25px; 
+     padding: 10px; 
+     border-radius: 10px;
+    --ion-color-base: var(--ion-color-primary);
+
+  }
+
+  ion-select::part(text) {
+    color: #0c22e4;
   }
