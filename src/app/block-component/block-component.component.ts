@@ -149,6 +149,8 @@ export class BlockComponentComponent implements AfterViewInit {
     this.popUpService.retrieve_past_routine.subscribe((data) => {
       this.current_routine = data;
       this.check_cells_positions();
+      this.popUpService.retrieve_routine("store", this.current_routine); //Change to store when retrieving past routine
+      console.log("Past routine retrieved")
     })
 
     this.popUpService.save_current_routine.subscribe((data) =>

@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-
-import { SidebarFirstComponent } from '../sidebar-first/sidebar-first.component';
-import { SidebarSecondComponent } from '../sidebar-second/sidebar-second.component';
-
 import { ScrollDetail } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
@@ -13,15 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { SidebarAccordeonComponent } from '../sidebar-accordeon/sidebar-accordeon.component';
 
 @NgModule({
-  declarations: [SidebarFirstComponent, SidebarSecondComponent, SidebarAccordeonComponent],
+  declarations: [SidebarAccordeonComponent],
   imports: [
     CommonModule,
     IonicModule,
     HttpClientModule
   ],
   exports: [
-    SidebarFirstComponent,
-    SidebarSecondComponent,
     SidebarAccordeonComponent,
   ],
   providers: [RestService]

@@ -9,8 +9,18 @@
   --border-width: 0;
   border-bottom: none !important;
   color: black;
+  width: fit-content;
+  border-radius: 10px;
 }
 
-.icon-cerrar {
-  
+.my-icon-close {
+  color: red;
+}
+
+.my-icon-close:hover {
+  color: #ff00007e;
+}
+
+ion-label {
+  text-transform:none;
 }

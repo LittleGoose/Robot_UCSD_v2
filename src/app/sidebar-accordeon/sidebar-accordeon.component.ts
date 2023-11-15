@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 import { IonAccordionGroup, IonicModule } from '@ionic/angular';
 import { IonContent } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
@@ -11,6 +11,8 @@ import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, 
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
+// import domtoimage from 'dom-to-image';
+import { TabServiceService } from '../tab-service.service';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -18,6 +20,21 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./sidebar-accordeon.component.scss'],
 })
 export class SidebarAccordeonComponent implements OnDestroy {
+  @Output() agregarTabEvent = new EventEmitter<void>();
+
+  //onModifyClick(): void {
+    //this.agregarTabEvent.emit();
+  //}
+
+  onModifyClick(): void {
+    this.tabService.addTabToContainer();
+  }
+  // Funcion de doble click 
+  onDoubleClick(event: MouseEvent, index: number) {
+    //console.log('Doble clic en el ítem número ' + index);
+    this.tabService.addTabToContainer();
+  }
+  
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('full', { static: false }) full: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
@@ -30,7 +47,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService) {
+  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService, private tabService: TabServiceService) {
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
@@ -64,7 +81,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
 
- 
   facial_expresions: Facial_Expression[] = [];
   body_gestures: Body_Gestures[] = [];
   tone_of_voice: Tone_Voice[] = [];
@@ -79,6 +95,10 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
   isOpen = false;
   pop_over_block: Block;
+
+  routine_images: string[] = [];
+
+  only_once = true;
 
   ngOnInit() {
 
@@ -127,8 +147,11 @@ export class SidebarAccordeonComponent implements OnDestroy {
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
-          this.routines_blocks.push(block);
+          //this.routines_blocks.push(block);
         });
+
+        console.log("Done")
+        console.log(this.routines_blocks);
 
       },
       (error) => {
@@ -136,20 +159,43 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
 
-    ////
-    this.rs.get_routine_text_preview()
-    .subscribe(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
-
     this.generateItems();
-
   }
+
+  // This function is to create images when accordeon changes
+
+  /*accordionGroupChange(ev: any){
+    const collapsedItems = this.values.filter((value) => value !== ev.detail.value);
+    const selectedValue = ev.detail.value;
+
+    console.log(
+      `Expanded: ${selectedValue === undefined ? 'None' : ev.detail.value} | Collapsed: ${collapsedItems.join(', ')}`
+    );
+
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    if(this.routines_blocks.length > 0 && this.only_once){
+      let i = 0;
+      console.log("Start")
+      this.routines_blocks.forEach(element => {
+        console.log(element);
+        var name = "block_"+i;
+        console.log(name)
+        var node = document.getElementById(name);
+        domtoimage.toPng(node)
+          .then(function (dataUrl) { 
+              this.routine_images.push(dataUrl);
+              //console.log(img)
+              //document.body.appendChild(img);
+          })
+          .catch(function (error) {
+              console.error('oops, something went wrong!', error);
+          });
+        i+=1;
+      });
+      this.only_once = false;
+    }
+  };*/
 
   private generateItems() {
 
@@ -172,6 +218,44 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
   handleScrollEnd() {
     console.log('scroll end');
+  }
+
+  onDragStart(event: DragEvent, block: Block, index:number): void {
+    //event.preventDefault();
+    //this.new_block.emitData(event, block);
+    //console.log("DragStart");
+    //var img = new Image();
+    //var drag_icon = document.createElement("div")
+    //var text = document.createElement("text")
+    //text.innerText = "This"
+    //drag_icon.appendChild(text)
+    //drag_icon.className = "drag-icon";
+    //drag_icon.style.position = "absolute";
+    //drag_icon.style.top = "-100px";
+    //drag_icon.style.right = "0px";
+    //var name = "block_"+index;
+    //var node = document.getElementById(name);
+
+    //console.log(node)
+
+    var img = new Image();
+    const drag = event.dataTransfer;
+    console.log("Before:", img)
+
+    /*domtoimage.toPng(node)
+        .then(function (dataUrl) { 
+            img.src = dataUrl;
+            //console.log(img)
+            //document.body.appendChild(img);
+        })
+        .catch(function (error) {
+            console.error('oops, something went wrong!', error);
+        });*/
+    //drag.setData('text/uri-list', src);
+    console.log(this.routine_images)
+    img.src = this.routine_images[index]
+    console.log("After", img.src)
+    drag.setDragImage(img, 0, 0);
   }
 
   onDragEnd(event: DragEvent, block: Block): void {
@@ -238,5 +322,4 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
   }
-
 }
