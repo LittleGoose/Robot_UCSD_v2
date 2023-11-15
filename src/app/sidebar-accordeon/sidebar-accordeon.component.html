@@ -133,7 +133,7 @@
       <!--Inside of the routines accordeon-->
       <div slot="content">
           <ion-list class="my-componente2">
-            <div *ngFor="let item of routines_blocks; index as i" (dblclick)="onDoubleClick($event, i)"
+            <div *ngFor="let item of routines_blocks; index as i" (dblclick)="onDoubleClick($event, i,item)"
             draggable="true"
             (dragend)="onDragEnd($event, item)"
             title="{{ item.description }}"

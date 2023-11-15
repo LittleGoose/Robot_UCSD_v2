@@ -8,7 +8,6 @@ import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
 import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
-import { TabsComponent } from '../tabs/tabs.component';
 import {OverlayEventDetail} from '@ionic/core'; 
 import { PopUpNameDuplicateComponent } from '../pop-up-name-duplicate/pop-up-name-duplicate.component';
 
@@ -46,6 +45,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
   isToastOpenClass = false;
   isToastOpenRoutine = false;
+  isToastOpenName = false;
   
   GetChildData(data){  
     console.log(data);  
@@ -368,6 +368,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
     } else if (this.current_block.name == this.current_routine.name){
       // You cant add the current routine to the main routine (or inception)
+
       return false;
 
     } else {
@@ -480,6 +481,10 @@ export class BlockComponentComponent implements AfterViewInit {
 
   setOpenRoutine(isOpen: boolean) {
     this.isToastOpenRoutine = isOpen;
+  }
+
+  setOpenName(isOpen: boolean) {
+    this.isToastOpenName = isOpen;
   }
 }
 

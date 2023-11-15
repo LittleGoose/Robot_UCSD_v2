@@ -23,9 +23,9 @@ export class PopUpService {
   retrieve_past_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
   retrieve_current_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
   save_current_routine: EventEmitter<string> = new EventEmitter<string>();
-
+  delete_tab: EventEmitter<number> = new EventEmitter<number>();
   replaceRoutineEvent: EventEmitter<Number> = new EventEmitter<Number>();
-
+  store_current_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
 
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
@@ -103,7 +103,7 @@ export class PopUpService {
     await modal.present();
   }
 
-  async openModal_Clear(dataExtra?: string) {
+  async openModal_Clear(dataExtra?: string, tab_borrar?:number) {
 
     console.log("data extra:" + `${dataExtra}`)
     const modal = await this.modalController.create({
@@ -115,7 +115,11 @@ export class PopUpService {
 
     modal.onDidDismiss().then((result) => {
       if (result.role === 'Yes') {
-        this.clearRoutine.emit(dataExtra)
+        this.clearRoutine.emit(dataExtra);
+        if(tab_borrar != undefined){
+          console.log("Emit de tab", tab_borrar);
+          this.delete_tab.emit(tab_borrar);
+        }
       }
       
     });
@@ -144,6 +148,8 @@ export class PopUpService {
       this.retrieve_current_routine.emit(this.current_routine);
     } else if(action == "save_routine"){
       this.save_current_routine.emit("save");
+    } else if(action == "change_tab"){
+      this.store_current_routine.emit(this.current_routine);
     }
 
   }

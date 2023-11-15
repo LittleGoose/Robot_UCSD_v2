@@ -27,12 +27,12 @@ export class SidebarAccordeonComponent implements OnDestroy {
   //}
 
   onModifyClick(): void {
-    this.tabService.addTabToContainer();
+    this.tabService.addTabToContainer(this.pop_over_block);
   }
   // Funcion de doble click 
-  onDoubleClick(event: MouseEvent, index: number) {
+  onDoubleClick(event: MouseEvent, index: number, item:Block) {
     //console.log('Doble clic en el ítem número ' + index);
-    this.tabService.addTabToContainer();
+    this.tabService.addTabToContainer(item);
   }
   
   @ViewChild(IonContent) content: IonContent;

@@ -1,13 +1,14 @@
 import { Injectable , EventEmitter} from '@angular/core';
+import { Block } from './models/blocks.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TabServiceService {
-  public tabAdded: EventEmitter<void> = new EventEmitter<void>();
+  public tabAdded: EventEmitter<Block> = new EventEmitter<Block>();
 
   constructor() { }
-  addTabToContainer() {
-    this.tabAdded.emit();
+  addTabToContainer(item: Block) {
+    this.tabAdded.emit(item);
   }
 }

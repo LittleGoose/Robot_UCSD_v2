@@ -84,4 +84,11 @@
     [duration]="2000"
     (didDismiss)="setOpenRoutine(false)"
   ></ion-toast>
+
+  <ion-toast
+    [isOpen]="isToastOpenName"
+    message="Can't add routine block to the same routine."
+    [duration]="2000"
+    (didDismiss)="setOpenName(false)"
+  ></ion-toast>
 </ion-content>
