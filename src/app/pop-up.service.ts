@@ -7,6 +7,7 @@ import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
 import { Block, Routines_Blocks } from './models/blocks.model';
 import { SendData } from './new-block.service';
 import { RestService } from './rest.service';
+import { PopUpNameDuplicateComponent } from './pop-up-name-duplicate/pop-up-name-duplicate.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,16 @@ export class PopUpService {
   retrieve_past_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
   retrieve_current_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
   save_current_routine: EventEmitter<string> = new EventEmitter<string>();
+
+  replaceRoutineEvent: EventEmitter<Number> = new EventEmitter<Number>();
+
+
   send_data: SendData = new SendData();
   send_data_routine: SendDataRoutine = new SendDataRoutine();
 
   current_routine: Routines = new Routines();
 
-  constructor(private modalController: ModalController, ) {} //private rs: RestService
+  constructor(private modalController: ModalController) {} //private rs: RestService
 
   save_button(send_data: SendDataRoutine, routine?: Routines){
     if(routine){
@@ -35,7 +40,6 @@ export class PopUpService {
       this.send_data_routine.routine.name = send_data.name;
       this.send_data_routine.type_def = "Show_Routine";
       this.saveRoutineEvent.emit(this.send_data_routine);
-
     } else {
       this.send_data_routine.name = send_data.name;
       this.send_data_routine.type_def = send_data.type_def;
@@ -43,6 +47,24 @@ export class PopUpService {
     }
     
   }
+
+  async openDuplicateModal(routine_name){
+
+    const modal = await this.modalController.create({
+      component: PopUpNameDuplicateComponent,
+      componentProps: {
+        routine_name : routine_name
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data === 1) {
+        this.replaceRoutineEvent.emit(result.data);
+      }
+    });
+
+    await modal.present();
+    }
 
   async openModal(block: Send_block) {
 
@@ -69,7 +91,7 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role !== 'cancel') {
+      if (result.role !== 'cancel' && result.role !== 'backdrop') {
         const start_data = new SendDataRoutine();
         start_data.name = result.role
         start_data.type_def = "Send_Name_Please"
