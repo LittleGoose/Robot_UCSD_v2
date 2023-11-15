@@ -132,15 +132,13 @@
       </ion-item>
       <!--Inside of the routines accordeon-->
       <div slot="content">
-        <ion-list class="my-componente2"> <!--(dragstart)="onDragStart($event, item, i)"-->
-          <ion-item-group *ngFor="let item of routines_blocks; index as i" (dblclick)="onDoubleClick($event, i)" 
+          <ion-list class="my-componente2">
+            <div *ngFor="let item of routines_blocks; index as i" (dblclick)="onDoubleClick($event, i)"
             draggable="true"
-            (dragstart)="onDragStart($event, item, i)"
             (dragend)="onDragEnd($event, item)"
             title="{{ item.description }}"
             class="list_puzzle"
-            (contextmenu)="openPopover(item.color, $event, item)"
-            id="block_{{i}}">
+            (contextmenu)="openPopover(item.color, $event, item)">
             <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-top': '-2px', 'margin-left':'10px'}"></ion-icon>
               <div class="square medium">
                 <div id="text"
@@ -152,8 +150,8 @@
               <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+item.color+')', 'float':'left', 'margin-left':'-2px', 'margin-top':'-1px'}"></ion-icon>
               <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '30px!important', 'fill': 'var(--ion-color-'+item.color+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 40px + 4px)', 'stroke':'none', 'margin-bottom':'20px'}"></ion-icon>
               <br>
-            </ion-item-group>
-        </ion-list>
+            </div>
+          </ion-list>
       </div>
     </ion-accordion>
   </ion-accordion-group>
