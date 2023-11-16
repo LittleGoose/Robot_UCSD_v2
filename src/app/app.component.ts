@@ -112,7 +112,10 @@ export class AppComponent implements OnInit {
           this.rs.get_recent_routine()
           .subscribe(
             (response) => {
-                response.forEach(element => {
+                response[0].forEach(name => {
+                  current_routine.name = name
+                });
+                response[1].forEach(element => {
                   current_routine.array_block.push([]);
                   element.forEach(block_item => {
                     let block = new Send_block();
@@ -125,12 +128,14 @@ export class AppComponent implements OnInit {
                   });
                 });
                 console.log(response); // Missing bring back name of the routine
+                this.tabDataList[0].tabName = current_routine.name;  
+                console.log("Name", this.tabDataList[0].tabName, current_routine.name)
             },(error) => {
                 console.log("No Data Found" + error);
             }
           )
-          
-          this.popUpService.push_routine(current_routine);          
+          console.log("CurrentRoutine", current_routine);
+          this.popUpService.push_routine(current_routine);        
           //this.check_cells_positions();
         }
     });
