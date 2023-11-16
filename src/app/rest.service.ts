@@ -37,8 +37,8 @@ export class RestService {
     return this.http.get(this.download_db_url + `/${name}`, {responseType: 'blob'});
   }
 
-  get_recent_routine(): Observable<[any]>{
-    return this.http.get<[any]>(this.recent_db_url);
+  get_recent_routine(){
+    return this.http.get<Array<Array<any>>>(this.recent_db_url);
   }
 
   get_routine_text_preview(){

@@ -56,23 +56,23 @@ def fetch_from_db():
 
         data.append(body_gestures_entries)
 
-        verbal_entries = []
-        for entry in verbal.find():
-            verbal_entries.append({"id": str(
-                entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
-
-        data.append(verbal_entries)
-
         sounds_entries = []
         for entry in sounds.find():
-            sounds_entries.append({"id": str(entry["_id"]), "label": entry["element_name"],
-                                           "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
+            sounds_entries.append({"id": str(
+                entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
         data.append(sounds_entries)
 
+        verbal_entries = []
+        for entry in verbal.find():
+            verbal_entries.append({"id": str(entry["_id"]), "label": entry["element_name"],
+                                           "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
+
+        data.append(verbal_entries)
+
         # Fetch documents from the routines collections in the local database
         # to send to the sidebar angular component
-        routine = []
+        routines_entries = []
         for entry in routines.find():
             routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
                                     "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
@@ -167,22 +167,27 @@ def download_routine(name):
 def get_most_recent_routine():
     try:
         # Retrieve most recent routine
+        data = []
         struct = [] # Array of arrays containing the structure of the behavior blocks on the routine
 
-        # Find most recent routine in database
+        # Find most recent routine in database and decode it
         recent = routines.find_one(sort=[('$natural', -1)])
-        name = recent["label"]
-        recent = bson.decode(recent["file"])
         
-        struct.append = [name]
+        name = recent["label"]
+        data.append([name])
+
+        recent = bson.decode(recent["file"])
+
         # Append the arrays of behavior blocks,
         # each array corresponding to the number of line 
         # they were originally placed in
         for k, v in recent.items():
             struct.append(v)
+        
+        data.append(struct)
 
         # Return response in JSON format
-        return jsonify(struct)
+        return jsonify(data)
     except Exception as e:
         # Handle exception
         return jsonify({"Status" : "An error ocurred: " + str(e)})

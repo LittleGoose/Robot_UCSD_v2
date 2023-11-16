@@ -105,7 +105,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.rs.read_db()
     .subscribe(
       (response) => {
-
         this.facial_expresions = response[0];
 
         this.facial_expresions.forEach(element => {
