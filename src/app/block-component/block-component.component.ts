@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver, Input } from '@angular/core';
-import { IonButton, IonContent, PopoverController } from '@ionic/angular';
+import { Component, ViewChild, ElementRef, AfterViewInit, ViewChildren, QueryList,  ViewContainerRef } from '@angular/core';
+import { IonButton, IonContent } from '@ionic/angular';
 import { Block } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
 import { PopUpService } from '../pop-up.service';
@@ -105,29 +105,28 @@ export class BlockComponentComponent implements AfterViewInit {
     })
 
     this.popUpService.retrieve_past_routine.subscribe((data) => {
-      this.current_routine = data;
-      this.check_cells_positions();
-      this.popUpService.retrieve_routine("store", this.current_routine); //Change to store when retrieving past routine
-      console.log("Past routine retrieved")
+      this.current_routine = data; // Updates the actual rutine
+      this.check_cells_positions(); // Updates cell positions in the array
+      this.popUpService.retrieve_routine("store", this.current_routine); 
+      //Change to store when retrieving past routine
     })
 
     this.popUpService.save_current_routine.subscribe((data) =>
+    // Save routine
     {
       this.popUpService.retrieve_routine("store", this.current_routine);
     })
 
     this.popUpService.retrieve_current_routine.subscribe((data) =>{
+      // Retrieve routine when switching views
       this.current_routine = data;
     })
   }
 
 
   async ngOnInit() {
-    this.popUpService.retrieve_routine("get");
-  }
-
-  test(event: any){
-    console.log("test");
+    this.popUpService.retrieve_routine("get"); 
+    // When returning to blocks_view return the rutine you where working with
   }
 
   openPopUp(block: Send_block, event?: MouseEvent,) {

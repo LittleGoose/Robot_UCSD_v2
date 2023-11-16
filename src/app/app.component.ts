@@ -135,7 +135,8 @@ export class AppComponent implements OnInit {
             }
           )
           console.log("CurrentRoutine", current_routine);
-          this.popUpService.push_routine(current_routine);        
+          this.popUpService.push_routine(current_routine);
+          this.routines[0] = current_routine;        
         }
     });
 
@@ -228,10 +229,10 @@ export class AppComponent implements OnInit {
   }
   
   Switch_View(){
+    // Function that alternates between yaml/block view
     this.popUpService.retrieve_routine("save_routine");
-    this.popUpService.retrieve_routine("get");    
+    this.popUpService.retrieve_routine("get");
     this.block_view = !this.block_view;
-    console.log(this.routine.array_block);
 
     this.rs.get_routine_text_preview()
         .subscribe(
