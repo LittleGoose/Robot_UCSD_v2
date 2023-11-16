@@ -129,23 +129,15 @@ export class BlockComponentComponent implements AfterViewInit {
     // When returning to blocks_view return the rutine you where working with
   }
 
-  openPopUp(block: Send_block, event?: MouseEvent,) {
-    if(event != undefined){
-      if (event.detail === 2) {
-        this.current_block = block;
-        if(this.current_block.class == "speech" && this.current_block.name != "Talk"){
-          // Sounds not showing pop-up
-        } else {
-          this.popUpService.openModal(block);
-        }
-      }
-    } else {
-      if ( block.class != 'routine'){
+  openPopUp(block: Send_block, event?: MouseEvent,) { 
+    // Parameters pop-up
+    if (event == undefined || event.detail === 2){
+      if ( block.class != 'routine'){ // Rutines open new tab not po-up
         if(block.class == "speech" && block.name == "Talk"){
-          this.popUpService.openModal(block);
+          this.popUpService.openModal(block); // Only talk blocks open pop-up in speech
         } else {
           if (block.class != "routine" && block.class != "speech"){
-            this.popUpService.openModal(block);
+            this.popUpService.openModal(block); // Every other type of block
           }
         }
       }
