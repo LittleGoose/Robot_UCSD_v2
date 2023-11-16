@@ -67,16 +67,7 @@ export class BlockComponentComponent implements AfterViewInit {
     
     this.popUpService.saveRoutineEvent.subscribe((data) => {
       // When the save pop up is accepted it send the name from the pop-up to the curren routine
-      if(data.type_def === "Send_Name_Please"){
-        let send_routine = new Routines();
-        send_routine.id = this.current_routine.id;
-        send_routine.name = data.name
-        send_routine.description = this.current_routine.description
-        send_routine.array_block = this.current_routine.array_block
-        this.current_routine.name = data.name;
-        this.popUpService.save_button(data, send_routine); // Sends the routine to the popUpService
-      
-      } else if(data.type_def === "Show_Routine"){ 
+      if(data.type_def === "Show_Routine"){ 
         // It already send the routine so now it's sending it to the db
         // Sending it to database
         this.rs.upload_routine(data.routine, "0").subscribe(
@@ -98,6 +89,7 @@ export class BlockComponentComponent implements AfterViewInit {
                 }
               })
             }
+            popUpService.result_ready(data.routine);
           },
           (error) => {
             console.log(error);
@@ -106,10 +98,10 @@ export class BlockComponentComponent implements AfterViewInit {
       }
     });
 
-    this.popUpService.NameRoutine.subscribe((data) => { // When clicking save (initial button) this is called
-      if(data == "ask"){
-        this.popUpService.ask_name("respond", this.current_routine);
-      }
+    this.popUpService.NameRoutine.subscribe((data) => { 
+      // When clicking save (initial button) this is called
+      // Send the current routine
+      this.popUpService.ask_name("respond", this.current_routine);
     })
 
     this.newBlockService.recentRoutine.subscribe((data) => {          

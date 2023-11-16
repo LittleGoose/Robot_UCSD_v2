@@ -236,6 +236,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   openLastRoutine(event: any){
+    // Call for last routine in the db and push on block-component
     let current_routine = new Routines();
     this.rs.get_recent_routine()
     .subscribe(

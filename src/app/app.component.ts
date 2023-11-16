@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
         console.log(this.opened_tab);
       });
 
-      this.popUpService.saveRoutineEvent.subscribe((routine) => {
+      this.popUpService.results_ready.subscribe((routine) => {
         this.tabDataList[this.opened_tab].tabName = routine.name;
       })
   }
