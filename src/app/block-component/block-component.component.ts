@@ -368,7 +368,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
     } else if (this.current_block.name == this.current_routine.name){
       // You cant add the current routine to the main routine (or inception)
-
+      this.setOpenName(true);
       return false;
 
     } else {
