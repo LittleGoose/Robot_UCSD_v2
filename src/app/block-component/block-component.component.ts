@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver, Input } from '@angular/core';
-import { IonButton, IonContent, PopoverController } from '@ionic/angular';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver, Input ,  EventEmitter, Output } from '@angular/core';
+import { IonButton, IonContent, PopoverController} from '@ionic/angular';
 import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
 import { PopUpService } from '../pop-up.service';
@@ -10,6 +10,7 @@ import { RestService } from '../rest.service';
 import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
 import { TabsComponent } from '../tabs/tabs.component';
 import {OverlayEventDetail} from '@ionic/core'; 
+import { TabServiceService } from '../tab-service.service';
 
 @Component({
   selector: 'app-block-component',
@@ -24,6 +25,7 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChild('blockRef', { read: ElementRef }) buttonRef: ElementRef;
   @ViewChild('grid', { read: ElementRef }) gridRef: ElementRef;
   @ViewChild('botonesContainer', { read: ViewContainerRef }) botonesContainer: ViewContainerRef;
+  @Output() agregarTabEvent = new EventEmitter<void>();
 
   current_routine: Routines = new Routines();
   block1: Send_block = new Send_block();
@@ -51,7 +53,7 @@ export class BlockComponentComponent implements AfterViewInit {
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
     private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
-    private popoverController: PopoverController, private componentFactoryResolver: ComponentFactoryResolver) {
+    private popoverController: PopoverController, private componentFactoryResolver: ComponentFactoryResolver, private tabService: TabServiceService) {
 
     this.current_routine.array_block = [];
     //this.current_routine.name = "Test_routine";
@@ -169,13 +171,13 @@ export class BlockComponentComponent implements AfterViewInit {
     console.log("test");
   }
 
-  openPopUp(block: Send_block, event?: MouseEvent,) {
+  openPopUp(block: Send_block, event?: MouseEvent) {
     if(event != undefined){
       if (event.detail === 2) {
         this.current_block = block;
         if(this.current_block.class == "speech" && this.current_block.name != "Talk"){
           // Sounds not showing pop-up
-        } else {
+        } else if (this.current_block.class !== 'routine') {
           this.popUpService.openModal(block);
         }
       }
@@ -183,13 +185,24 @@ export class BlockComponentComponent implements AfterViewInit {
       if ( block.class != 'routine'){
         if(block.class == "speech" && block.name == "Talk"){
           this.popUpService.openModal(block);
-        } else {
-          if (block.class != "routine" && block.class != "speech"){
+        } 
+        else {
+          if (block.class !== "routine" && block.class != "speech"){
             this.popUpService.openModal(block);
           }
         }
       }
     }
+  }
+
+  // FUNCION PARA ABRIR UN TAB CON DOBLE CLICK
+  onDoubleClick(event: MouseEvent, index: number,block: Send_block ) {
+    //console.log('Doble clic en el ítem número ' + index);
+   if(block.class === 'routine')
+   {
+    this.tabService.addTabToContainer();
+   }
+    
   }
 
   saveNewParameter(block: Send_block) {

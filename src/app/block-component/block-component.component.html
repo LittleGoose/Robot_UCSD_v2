@@ -22,7 +22,7 @@
       <ion-text>{{i}}</ion-text>
     </ion-col>
     <ion-col size="auto" class=grid-cell id="block"
-      *ngFor="let block of row; let j = index">
+      *ngFor="let block of row; let j = index" (dblclick)="onDoubleClick($event, j, block)">
       <ion-item-group class="group_obj" draggable="true"
       (dragend)="dragFuncion($event, undefined, block, true)" *ngIf="j==0" (click)="openPopUp(block, $event)">
         <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-top': '-14px', 'margin-left':'9px'}"></ion-icon>
