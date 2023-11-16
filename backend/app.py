@@ -86,12 +86,13 @@ def fetch_from_db():
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
 
-@app.route("/save_routine//<replace>", methods=["POST"])
+@app.route("/save_routine/<replace>", methods=["POST"])
 def save_routine(replace):
     # Receive POST request from ionic app containing the
     # JSON data of a routine
     if request.method == 'POST':
         routine = loads(request.data)
+        print(replace)
         try:
             # Look for the given name for the routine in the localdatabase, if not found, insert routine
             # as a new document
@@ -143,11 +144,11 @@ def save_routine(replace):
             return jsonify({"Status" : "An error ocurred: " + str(e)})
 
 
-@app.route("/download_routine/<name>", methods=["GET"])
-def download_routine(name):
+@app.route("/download_routine/<id>", methods=["GET"])
+def download_routine(id):
     try:
         # Find the routine document the user wants to download 
-        routine = routines.find_one({"label": name})
+        routine = routines.find_one({"_id": ObjectId(id)})
 
         # Get the BSON file from the document and decode it
         routine = bson.decode(routine["file"])
@@ -194,13 +195,13 @@ def get_most_recent_routine():
 
 
 
-@app.route("/delete_routine/<name>", methods=["DELETE"])
-def delete_routine(name):
+@app.route("/delete_routine/<id>", methods=["DELETE"])
+def delete_routine(id):
     try:
         # Find by name the routine the user wants to delete
         # and delete it
-        if (routines.find_one({"label": name})) is not None:
-            routines.delete_one({"label": name})
+        if (routines.find_one({"_id": ObjectId(id)})) is not None:
+            routines.delete_one({"_id": ObjectId(id)})
 
              # Return response in JSON format
             return jsonify({"Status" : "Delete completed"})

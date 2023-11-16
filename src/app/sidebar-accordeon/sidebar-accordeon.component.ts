@@ -292,7 +292,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
   delete_routine(ev: Event){
     // Call to REST service to delete a routine from the Routines database.
     // Pass the routine's name in order to locate it in the database.
-    this.rs.delete_routine(this.pop_over_block["label"]) //TODO considerar hacer busquedas por id y no por nombre
+    console.log(this.pop_over_block);
+    this.rs.delete_routine(this.pop_over_block["id"])
     .subscribe(
       (response) => {
         console.log(response);
@@ -317,7 +318,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   download_routine(ev: Event){
     // Call to REST service to download the YAML file of a routine from the Routines database.
     // Pass the routine's name in order to locate it in the database.
-    this.rs.download_routine(this.pop_over_block["label"]) //TODO considerar hacer busquedas por id y no por nombre
+    this.rs.download_routine(this.pop_over_block["id"])
     .subscribe(
       (response) => {
         const blob = new Blob([response], { type: 'text/yaml' });

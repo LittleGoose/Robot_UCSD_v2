@@ -85,16 +85,16 @@ export class BlockComponentComponent implements AfterViewInit {
         this.popUpService.save_button(data, send_routine); 
       
       } else if(data.type_def === "Show_Routine"){
-        // Sending it to database
+        // Call REST service to upload routine to database
         this.rs.upload_routine(data.routine, "0").subscribe(
           (response) => {
             console.log(response);
-            if(response["Code"] == 1){
+            if(response["Code"] == 1){ // If routine name is found to be a duplicate, alert user
               this.popUpService.openDuplicateModal(data.name);
               this.popUpService.replaceRoutineEvent.subscribe((respone) => {
-                if(respone == 1){
+                if(respone == 1){ // If user decides to overwrite duplicate, update the routine
                   console.log(respone);
-                  this.rs.upload_routine(data.routine, "1").subscribe(
+                  this.rs.upload_routine(data.routine, "1").subscribe( 
                     (respone) => {
                       console.log(respone);
                     },
@@ -123,10 +123,22 @@ export class BlockComponentComponent implements AfterViewInit {
       if(this.current_routine.array_block.length != 0){
         this.current_routine.array_block = [];
       }
+        // Call to REST service to fetch most recently modified routine from the Routines database
         this.rs.get_recent_routine()
             .subscribe(
               (response) => {
-                  response.forEach(element => {
+                  // The response is an array of arrays.
+
+                  // The first array corresponds to the routine's name in order 
+                  // to open the routine in a tab with its name.
+                  response[0].forEach(name => {
+                    this.current_routine.name = name
+                  });
+                  
+                  // The second array corresponds to the routine's components.
+                  // Build the blocks that make up the routine by iterating 
+                  // through the array. 
+                  response[1].forEach(element => {
                     this.current_routine.array_block.push([]);
                     element.forEach(block_item => {
                       let block = new Send_block();

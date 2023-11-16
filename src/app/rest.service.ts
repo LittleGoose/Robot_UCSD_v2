@@ -35,8 +35,8 @@ export class RestService {
   }
 
   // API endoint to delete a routine from the Routines database
-  delete_routine(name): Observable<any>{
-    return this.http.delete<any>(this.delete_db_url + `/${name}`);
+  delete_routine(id): Observable<any>{
+    return this.http.delete<any>(this.delete_db_url + `/${id}`);
   }
 
   // API endoint to download a routine from the Routines database
