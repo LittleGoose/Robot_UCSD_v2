@@ -7,10 +7,6 @@ $colors: (
   Orange: #e9982f
 );
 
-.padding_every{
-  padding: 1%;
-}
-
 .start-button {
   background-color: transparent; /* Hace que el fondo del botón sea transparente */
   color: var(--ion-color-primary); /* Aplica el color azul definido en variables.scss */
@@ -38,6 +34,7 @@ $colors: (
   //border: 1px solid green;
 }
 
+// Table of blocks
 .grid-cell {
   //padding: -10px; /* Add padding for spacing */
   //width: 100%;
@@ -64,19 +61,7 @@ $colors: (
   //border: 1px solid;
 }
 
-.image{
-  height:15px; 
-  width:30px; 
-  float:left;
-}
-
-.square{
-  padding: 10px;
-  margin-top: 10px;
-  width: fit-content;
-  color: black;
-}
-
+// Colors / classes for the puzzle pieces
 .red{
   background: var(--ion-color-danger);
   padding: 10px;
@@ -139,8 +124,4 @@ $colors: (
   width: fit-content;
   color: black;
   margin-bottom:-6px;
-}
-
-.my-button{
-  border-bottom: none;
 }

@@ -1,15 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver, Input } from '@angular/core';
 import { IonButton, IonContent, PopoverController } from '@ionic/angular';
-import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
+import { Block } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
 import { PopUpService } from '../pop-up.service';
-import { PopUpComponent } from '../pop-up/pop-up.component';
 import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
-import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
-import {OverlayEventDetail} from '@ionic/core'; 
-import { PopUpNameDuplicateComponent } from '../pop-up-name-duplicate/pop-up-name-duplicate.component';
 
 @Component({
   selector: 'app-block-component',
@@ -25,11 +21,7 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChild('grid', { read: ElementRef }) gridRef: ElementRef;
   @ViewChild('botonesContainer', { read: ViewContainerRef }) botonesContainer: ViewContainerRef;
 
-  current_routine: Routines = new Routines();
-  block1: Send_block = new Send_block();
-  block2: Send_block = new Send_block();
-  block3: Send_block = new Send_block();
-  block4: Send_block = new Send_block();
+  current_routine: Routines = new Routines(); // Super important, where the visible routine is stored
 
   current_block: Send_block = new Send_block();
 
@@ -52,11 +44,9 @@ export class BlockComponentComponent implements AfterViewInit {
   } 
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
-    private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
-    private popoverController: PopoverController, private componentFactoryResolver: ComponentFactoryResolver) {
+    private ionContent: IonContent, private rs: RestService) {
 
-    this.current_routine.array_block = [];
-    //this.current_routine.name = "Test_routine";
+    this.current_routine.array_block = []; // Create a new blanck routine
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
       // Call your component's function or perform necessary actions
@@ -64,13 +54,14 @@ export class BlockComponentComponent implements AfterViewInit {
     });
 
     this.popUpService.clearRoutine.subscribe((data) => {
+      // If clear routine is accepted just create a new routine
       this.current_routine = new Routines();
     });
     
     this.newBlockService.newBlockAdded.subscribe((data) => {
       const dropped = this.dragFuncion(data.event, data.block); // Make sure it's actually dropped in a valid place
       if(dropped){
-        this.openPopUp(this.current_block);
+        this.openPopUp(this.current_block); // When dropped open the corresponding pop-up
       }
     });
     
