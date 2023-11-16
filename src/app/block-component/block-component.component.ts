@@ -49,8 +49,8 @@ export class BlockComponentComponent implements AfterViewInit {
     this.current_routine.array_block = []; // Create a new blanck routine
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
-      // Call your component's function or perform necessary actions
-      this.saveNewParameter(newBlock);
+      // Call your component's function or perform necessary actions when accepted
+      this.current_block = newBlock; // New_block with new parameters
     });
 
     this.popUpService.clearRoutine.subscribe((data) => {
@@ -144,19 +144,11 @@ export class BlockComponentComponent implements AfterViewInit {
     }
   }
 
-  saveNewParameter(block: Send_block) {
-    this.current_block = block;
-    console.log(this.current_block);
-    //console.log(this.block2);
-  }
-
   reset_edges(){
     if (this.startElement && this.endElement) {
-      // Use Renderer2 to get the coordinates of the elements
-      const startRect = this.startElement.nativeElement.getBoundingClientRect();
-      this.startRect = startRect;
-      const endRect = this.endElement.nativeElement.getBoundingClientRect();
-      this.endRect = endRect;
+      // Get the references for the start and end boxes
+      this.startRect = this.startElement.nativeElement.getBoundingClientRect();
+      this.endRect = this.endElement.nativeElement.getBoundingClientRect();
 
       const gridElement = this.gridRef.nativeElement;
       gridElement.addEventListener('scroll', this.onScroll.bind(this));

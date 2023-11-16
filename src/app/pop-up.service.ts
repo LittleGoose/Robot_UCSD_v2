@@ -53,7 +53,7 @@ export class PopUpService {
     await modal.present();
     }
 
-  async openModal(block: Send_block) {
+  async openModal(block: Send_block) { // Parameters for every type of block
 
     const modal = await this.modalController.create({
       component: PopUpComponent,
@@ -63,7 +63,7 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role === 'dataSaved') {
+      if (result.role === 'dataSaved') { // Click on save in the pop-up
         this.blockUpdated.emit(result.data);
       }
     });
