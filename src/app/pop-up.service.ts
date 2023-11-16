@@ -40,7 +40,7 @@ export class PopUpService {
       this.send_data_routine.routine.name = send_data.name;
       this.send_data_routine.type_def = "Show_Routine";
       this.saveRoutineEvent.emit(this.send_data_routine);
-    } else {
+    } else { // Receives instruction
       this.send_data_routine.name = send_data.name;
       this.send_data_routine.type_def = send_data.type_def;
       this.saveRoutineEvent.emit(this.send_data_routine);
@@ -84,14 +84,17 @@ export class PopUpService {
     await modal.present();
   }
 
-  async openModal_Save(name_routine?:string) {
+  async openModal_Save(name_routine?:string) { 
 
-    const modal = await this.modalController.create({
-      component: PopUpSaveComponent
+    const modal = await this.modalController.create({ // Create save pop-up
+      component: PopUpSaveComponent,
+      componentProps: {
+        name: name_routine // Sends name in case there is one
+      }
     });
 
-    modal.onDidDismiss().then((result) => {
-      if (result.role !== 'cancel' && result.role !== 'backdrop') {
+    modal.onDidDismiss().then((result) => { // Once is closed
+      if (result.role !== 'cancel' && result.role !== 'backdrop') { // If accepted
         const start_data = new SendDataRoutine();
         start_data.name = result.role
         start_data.type_def = "Send_Name_Please"
@@ -129,9 +132,9 @@ export class PopUpService {
 
   ask_name(type:string, routine?:Routines){
     if(type == "ask"){
-      this.NameRoutine.emit(type);
+      this.NameRoutine.emit(type); // Ask name to show on the pop-up
     } else {
-      this.openModal_Save(routine.name);
+      this.openModal_Save(routine.name); // Opens the modal
     }
   }
 

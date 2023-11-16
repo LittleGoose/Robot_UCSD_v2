@@ -175,7 +175,7 @@ export class AppComponent implements OnInit {
     this.new_block.sendScroll(event);
   }
 
-  saveRoutine(){
+  saveRoutine(){ // Button for save
     this.popUpService.ask_name("ask");
   }
 
