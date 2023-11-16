@@ -136,7 +136,6 @@ export class AppComponent implements OnInit {
           )
           console.log("CurrentRoutine", current_routine);
           this.popUpService.push_routine(current_routine);        
-          //this.check_cells_positions();
         }
     });
 
