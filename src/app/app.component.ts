@@ -98,14 +98,21 @@ export class AppComponent implements OnInit {
     .then((detail: OverlayEventDetail) => {
         if(detail.data == "yes"){
           
+          // Call to REST service to fetch the most recently modified routine from the Routines database
           this.rs.get_recent_routine()
           .subscribe(
             (response) => {
-              console.log(response);
+                // The response is an array of arrays.
+
+                // The first array corresponds to the routine's name in order 
+                // to open the routine in a tab with its name.
                 response[0].forEach(name => {
                   current_routine.name = name
                 });
-
+                
+                // The second array corresponds to the routine's components.
+                // Build the blocks that make up the routine by iterating 
+                // through the array. 
                 response[1].forEach(element => {
                   current_routine.array_block.push([]);
                   element.forEach(block_item => {
@@ -268,18 +275,23 @@ export class AppComponent implements OnInit {
     this.block_view = !this.block_view;
     console.log(this.routine.array_block);
 
+    // Call to REST service that indicates the user wants
+    // a preview of the current routine in YAML format.
     this.rs.get_routine_text_preview()
         .subscribe(
           (response) => {
-            if(document.getElementById("myText")){
+            if(document.getElementById("yamlText")){
               let display_data = {} as any;
     
+              // Iterate through the current routine's blocks
+              // and add them to a dictionary.
               for(let i=0; i< this.routine.array_block.length; i++){
-                let Segment = "Line_" + (i+1);
-                display_data[Segment] = this.routine.array_block[i];
+                let Line = "Line_" + (i+1);
+                display_data[Line] = this.routine.array_block[i];
               }
     
-              document.getElementById("myText").innerHTML = yaml.dump(display_data);;
+              // Display the dictionary in a YAML formatted string.
+              document.getElementById("yamlText").innerHTML = yaml.dump(display_data);;
             }
           },
           (error) => {
