@@ -1,27 +1,35 @@
-# RobotApp
+# RobotApp - User Manual - Localhost
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Make sure the device has AngularCLI installed. This instructions can be followed to install this version. 
+COARS
+MongoDB
 
-## Code scaffolding
+## Conecting to the database
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+The app has 2 distinct areas, the sidebar where all of the available blocks are displayed, and the routine building area (Figure 1).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**Insert Image**
 
-## Running unit tests
+### Sidebar
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The sidebar is an accordeon-type collection of blocks which are distributed in 3 groups:
+* Non-Verbal: which include all of the actions that can be performed by the robot
+  *  Body Gestures: Movements performed by the body of the robot
+  *  Facial Expressions: Animations that can be presented in the screen of the robot
+* Verbal: Which include all of the possible sounds that the robot can say through the speaker
+* Actions: Previous curated routines
 
-## Running end-to-end tests
+If you have doubts about a particular block, you can hover over any block and a small description is shown. And when right-clicking on an action block, a menu of options will display:
+* Delete: Erases that routine from the current view and database
+* Download: Will download the yaml file of that particular routine
+* Modify: Will open a new tab with that rutine displayed
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Rutine window
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Building a routine
