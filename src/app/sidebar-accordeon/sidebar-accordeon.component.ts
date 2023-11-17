@@ -60,12 +60,14 @@ export class SidebarAccordeonComponent implements OnDestroy {
     this.talk = new Speech("", "Talk", "Talk block", "A1", "");
 
     this.new_block.newTab.subscribe((response) =>{
-      //this.routines_blocks = [];
       let incoming_routines: Routines_Blocks[] = [];
+
+      // Call to REST service to fetch all documents from the Routines database
       this.rs.get_routines().subscribe(
         (response) =>{
+          // The response is an array that contains arrays that represent the
+          // documents from the Routines database
           this.routines = response[0];
-
           this.routines.forEach(element => {
             const block = new Routines_Blocks(element.id, element.label, element.description);
             block.color = "medium";
@@ -105,10 +107,14 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
   ngOnInit() {
 
+    // Call to REST service to fetch all documents from both databases
     this.rs.read_db()
     .subscribe(
       (response) => {
+        // The response is an array of arrays.
+        // Each array corresponds to all the documents fetched from the databases
 
+        // First array corresponds to the facial expressions documents
         this.facial_expresions = response[0];
 
         this.facial_expresions.forEach(element => {
@@ -117,6 +123,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.facial_expresions_blocks.push(block);
         });
 
+        // Second array corresponds to the body gestures documents
         this.body_gestures = response[1];
 
         this.body_gestures.forEach(element => {
@@ -125,6 +132,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.body_gestures_blocks.push(block);
         });
 
+        // TODO Cambiar nombre a arrays para que haga match con los arrays de python
+        // Third array corresponds to the sounds documents
         this.tone_of_voice = response[2];
 
         this.tone_of_voice.forEach(element => {
@@ -133,6 +142,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.tone_of_voice_blocks.push(block);
         });
         
+        // Fourth array corresponds to the verbal documents
         this.speech = response[3];
 
         this.speech.forEach(element => {
@@ -146,16 +156,12 @@ export class SidebarAccordeonComponent implements OnDestroy {
           }
         });
 
+        // Fifth array corresponds to the routines documents
         this.routines = response[4];
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
-          //this.routines_blocks.push(block);
         });
-
-        console.log("Done")
-        console.log(this.routines_blocks);
-
       },
       (error) => {
         console.log("No Data Found" + error);
@@ -275,10 +281,10 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   delete_routine(ev: Event){
-    // Delete routine
-    console.log("Delete");
+    // Call to REST service to delete a routine from the Routines database.
+    // Pass the routine's name in order to locate it in the database.
     console.log(this.pop_over_block);
-    this.rs.delete_routine(this.pop_over_block["label"])
+    this.rs.delete_routine(this.pop_over_block["id"])
     .subscribe(
       (response) => {
         console.log(response);
@@ -301,8 +307,9 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   download_routine(ev: Event){
-    // Download routne
-    this.rs.download_routine(this.pop_over_block["label"])
+    // Call to REST service to download the YAML file of a routine from the Routines database.
+    // Pass the routine's name in order to locate it in the database.
+    this.rs.download_routine(this.pop_over_block["id"])
     .subscribe(
       (response) => {
         const blob = new Blob([response], { type: 'text/yaml' });

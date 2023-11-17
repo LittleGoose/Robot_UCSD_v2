@@ -70,15 +70,16 @@ export class BlockComponentComponent implements AfterViewInit {
       if(data.type_def === "Show_Routine"){ 
         // It already send the routine so now it's sending it to the db
         // Sending it to database
+        // Call REST service to upload routine to database
         this.rs.upload_routine(data.routine, "0").subscribe(
           (response) => {
             console.log(response);
-            if(response["Code"] == 1){
+            if(response["Code"] == 1){ // If routine name is found to be a duplicate, alert user
               this.popUpService.openDuplicateModal(data.name);
               this.popUpService.replaceRoutineEvent.subscribe((respone) => {
-                if(respone == 1){
+                if(respone == 1){ // If user decides to overwrite duplicate, update the routine
                   console.log(respone);
-                  this.rs.upload_routine(data.routine, "1").subscribe(
+                  this.rs.upload_routine(data.routine, "1").subscribe( 
                     (respone) => {
                       console.log(respone);
                     },
