@@ -13,6 +13,7 @@ import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
 // import domtoimage from 'dom-to-image';
 import { TabServiceService } from '../tab-service.service';
+import { Routines, Send_block } from '../models/routines.model';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -27,12 +28,12 @@ export class SidebarAccordeonComponent implements OnDestroy {
   //}
 
   onModifyClick(): void {
-    this.tabService.addTabToContainer();
+    this.tabService.addTabToContainer(this.pop_over_block);
   }
   // Funcion de doble click 
-  onDoubleClick(event: MouseEvent, index: number) {
+  onDoubleClick(event: MouseEvent, index: number, item:Block) {
     //console.log('Doble clic en el ítem número ' + index);
-    this.tabService.addTabToContainer();
+    this.tabService.addTabToContainer(item);
   }
   
   @ViewChild(IonContent) content: IonContent;
@@ -47,7 +48,9 @@ export class SidebarAccordeonComponent implements OnDestroy {
   scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService, private tabService: TabServiceService) {
+  constructor(private scrollService: ScrollService, private rs: RestService, 
+    private new_block: NewBlockService, private pop_up: PopUpService, 
+    private tabService: TabServiceService) {
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
@@ -226,44 +229,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
     console.log('scroll end');
   }
 
-  onDragStart(event: DragEvent, block: Block, index:number): void {
-    //event.preventDefault();
-    //this.new_block.emitData(event, block);
-    //console.log("DragStart");
-    //var img = new Image();
-    //var drag_icon = document.createElement("div")
-    //var text = document.createElement("text")
-    //text.innerText = "This"
-    //drag_icon.appendChild(text)
-    //drag_icon.className = "drag-icon";
-    //drag_icon.style.position = "absolute";
-    //drag_icon.style.top = "-100px";
-    //drag_icon.style.right = "0px";
-    //var name = "block_"+index;
-    //var node = document.getElementById(name);
-
-    //console.log(node)
-
-    var img = new Image();
-    const drag = event.dataTransfer;
-    console.log("Before:", img)
-
-    /*domtoimage.toPng(node)
-        .then(function (dataUrl) { 
-            img.src = dataUrl;
-            //console.log(img)
-            //document.body.appendChild(img);
-        })
-        .catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });*/
-    //drag.setData('text/uri-list', src);
-    console.log(this.routine_images)
-    img.src = this.routine_images[index]
-    console.log("After", img.src)
-    drag.setDragImage(img, 0, 0);
-  }
-
   onDragEnd(event: DragEvent, block: Block): void {
     event.preventDefault();
     this.new_block.emitData(event, block);
@@ -277,7 +242,33 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   openLastRoutine(event: any){
-    this.new_block.sendRecentRoutine();
+    // Call for last routine in the db and push on block-component
+    let current_routine = new Routines();
+    this.rs.get_recent_routine()
+    .subscribe(
+      (response) => {
+          response[0].forEach(name => {
+            current_routine.name = name
+          });
+          response[1].forEach(element => {
+            current_routine.array_block.push([]);
+            element.forEach(block_item => {
+              let block = new Send_block();
+              block.class = block_item.class;
+              block.name = block_item.name;
+              block.level = block_item.level;
+              block.talk = block_item.talk;
+              block.clear = block_item.clear;
+              current_routine.array_block[current_routine.array_block.length-1].push(block);
+            });
+          });
+          console.log(response); // Missing bring back name of the routine  
+      },(error) => {
+          console.log("No Data Found" + error);
+      }
+    )
+    console.log("CurrentRoutine", current_routine);
+    this.pop_up.push_routine(current_routine);        
   }
 
   async openPopover(color: string, e:MouseEvent, item: Block) {

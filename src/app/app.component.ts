@@ -15,8 +15,7 @@ import { BlockComponentComponent } from './block-component/block-component.compo
 import { PopUpLoadPreviousRoutineComponent } from './pop-up-load-previous-routine/pop-up-load-previous-routine.component';
 
 import { OnInit } from '@angular/core';
-import { Facial_Expression, Routines_Blocks } from './models/blocks.model';
-import { TabsComponent } from './tabs/tabs.component';
+import { Block, Facial_Expression, Routines_Blocks } from './models/blocks.model';
 import {  ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { Routines, Send_block } from './models/routines.model';
 import { TabData } from './models/tabsdata';
@@ -41,11 +40,14 @@ import * as yaml from '../../node_modules/js-yaml/dist/js-yaml';
 
 export class AppComponent implements OnInit {
   @Output() agregarTab: EventEmitter<void> = new EventEmitter<void>();
+  @Output() removeTabEvent = new EventEmitter<void>();
   @ViewChild('botonesContainer', { read: ViewContainerRef  }) botonesContainer: ViewContainerRef;
 
   block_view: boolean = true;
   text: String;
   routine: Routines;
+  opened_tab: number = 0;
+  routines: Array<Routines> = [];
 
     // Aqui termina las funciones para hacer el scroll
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver,
@@ -57,30 +59,39 @@ export class AppComponent implements OnInit {
           this.routine = data;
         });
 
-        this.tabService.tabAdded.subscribe(() => {
-          this.agregarTabAlContainer();
+        this.tabService.tabAdded.subscribe((data) => {
+          this.agregarTabAlContainer(data);
         });
     
       console.log("on constructor app");
 
       this.popUpService.clearRoutine.subscribe((idTabACerrar) => {
-        console.log("cerrando tab, data: " + `${idTabACerrar}`)
-        //var totalTabs = this.tabDataList.length;
+      });
 
-        for(let index = 0; index < this.tabDataList.length; index++)
-        {
-          //var tabActual = this.tabDataList[index];
-          if (this.tabDataList[index].tabId == idTabACerrar)
-          {
-              this.cerrarTab(this.tabDataList[index].tabComponent);
-              break;
-          }
-        }
+      this.popUpService.delete_tab.subscribe((idTabACerrar) => {
+        console.log("CERRANDO TAB", idTabACerrar)
+        this.tabDataList.splice(idTabACerrar, 1);
+        this.routines.splice(idTabACerrar, 1);
         if (this.tabDataList.length === 0)
         {
           this.agregarTabAlContainer();
         }
+        this.opened_tab = 0;
+        this.popUpService.push_routine(this.routines[0]);
       });
+
+      this.popUpService.store_current_routine.subscribe((routine) => {
+        let new_Routine = new Routines(); // Change for opened
+        this.routines.push(new_Routine);
+        this.popUpService.push_routine(new_Routine); // Change for the incoming routine
+        this.routines[this.opened_tab] = routine;
+        this.opened_tab = this.routines.length - 1;
+        console.log(this.opened_tab);
+      });
+
+      this.popUpService.results_ready.subscribe((routine) => {
+        this.tabDataList[this.opened_tab].tabName = routine.name;
+      })
   }
   
   async ngOnInit() {
@@ -125,14 +136,13 @@ export class AppComponent implements OnInit {
                     current_routine.array_block[current_routine.array_block.length-1].push(block);
                   });
                 });
-                this.tabDataList[0].tabName = current_routine.name;  
+                this.tabDataList[0].tabName = current_routine.name; // Missing bring back name of the routine
             },(error) => {
                 console.log("No Data Found" + error);
             }
           )
           this.popUpService.push_routine(current_routine);
-          
-          //this.check_cells_positions();
+          this.routines[0] = current_routine;        
         }
     });
 
@@ -171,7 +181,7 @@ export class AppComponent implements OnInit {
     this.new_block.sendScroll(event);
   }
 
-  saveRoutine(){
+  saveRoutine(){ // Button for save
     this.popUpService.ask_name("ask");
   }
 
@@ -182,98 +192,53 @@ export class AppComponent implements OnInit {
   mostrarBloque = false;
   id_contador = 0; // Variable para rastrear la cantidad de botones
   tabDataList: TabData[] = [];
-  tabsComponentList: TabsComponent[] = [];
 
-
-  agregarTabAlContainer() {
+  agregarTabAlContainer(item?:Block) {
       //Creando informacion del tab
       var id_actual = this.id_contador;
       var tabId = "tabid_" + id_actual.toString();
-      var tabTitle = "New Routine";
+      var tabTitle = "";
+      if(item){
+        tabTitle = item.label;
+      } else {
+        tabTitle = "New Routine"
+      }
       let now = new Date();
       let horaCreacion = `${now.getHours()}` + ":" + `${now.getMinutes()}` + ":" + `${now.getSeconds()}`;
       var dataInfo = "Tab creado a las: " + `${horaCreacion}`; // Puedes establecer la información según tus necesidades
-          
-      var nuevoTab = this.crearTab(tabTitle, dataInfo, tabId);
       //nuevoTab.updateTabTitle(buttonLabel);
-      this.tabsComponentList.push(nuevoTab);
-      var lastIndex = this.tabsComponentList.length - 1;
-      this.tabsComponentList[lastIndex].updateTabTitle(tabTitle);
-      nuevoTab.removeTabEvent.subscribe(() => {
-        //FIXME: Primero esperar a que el usuario responda "YES" para luego cerrar el tab
-        this.popUpService.openModal_Clear(tabId);  
-        //this.cerrarTab(nuevoTab);
-      });
-      
+      //this.tabsComponentList.push(nuevoTab);
+      this.crearTab(tabTitle, dataInfo, tabId)
+      var lastIndex = this.tabDataList.length - 1;
+      //this.tabDataList[lastIndex].tabName=tabTitle);
+      this.tabDataList[lastIndex].tabName = tabTitle;
       // Escucha eventos o realiza otras acciones según sea necesario.
       this.mostrarBloque = true ;
 
       // Incrementa la cantidad de botones
-      this.id_contador++;
 
       // Almacena mostrarBloque en el almacenamiento local
       localStorage.setItem('mostrarBloque', 'true');
 
       this.new_block.newTabClicked();
+
+      this.popUpService.retrieve_routine("get");
+      this.popUpService.retrieve_routine("change_tab");
   }
 
 
   crearTab(tabName: string, extraInfo: string, tabId: string) {
     //Se crea el boton
-    var buttonComponent = TabsComponent;
-    var componentFactory = this.componentFactoryResolver.resolveComponentFactory(buttonComponent);
-    var componentRef = componentFactory.create(this.botonesContainer.parentInjector);
-    // Agrega el botón al contenedor.
-    this.botonesContainer.insert(componentRef.hostView);
-    var tab = componentRef.instance as TabsComponent;
-    //Guardando datos para acceder a ellos despues
-    var datosTab = new TabData(componentRef.hostView, tab, tabName, extraInfo, tabId);
+    var datosTab = new TabData(tabName, extraInfo, tabId);
     this.tabDataList.push(datosTab);
-    return tab;
-  }
-
-  cerrarTab(tabComponent: TabsComponent) {
-    // Maneja el cierre del componente personalizado    
-    const index = this.tabsComponentList.indexOf(tabComponent);
-    if (index !== -1) {
-      this.tabsComponentList.splice(index, 1);
-      // También puedes destruir el componente si es necesario.
-    }
-    else
-    {
-      console.log("tab no encontrado")
-    }
-
-    const size = this.tabDataList.length;
-    let positon =0;
-    let tabEncontrado = false;
-    while(positon < size && !tabEncontrado) //tabEncontrado == false, if(!tabEncontrado)
-    {
-        //Si el tab existe en la lista de tabDataList
-        if (this.tabDataList[positon].tabComponent === tabComponent)
-        {
-          console.log("Tab a borrar -> ID(" + `${this.tabDataList[positon].tabId}` + "), nombre("+ `${this.tabDataList[positon].tabName}` + ")");
-          const hostView = this.tabDataList[positon].hostView;
-          const indexHost = this.botonesContainer.indexOf(hostView);
-          if (indexHost !== -1){
-            this.botonesContainer.remove(indexHost) //NO BORRAR 
-            tabEncontrado = true;
-          }
-        }
-        if(!tabEncontrado)
-          positon++;
-    }
-
-    if (tabEncontrado){
-      this.tabDataList.splice(positon, 1);
-    }
+    //return tab;
   }
   
   Switch_View(){
+    // Function that alternates between yaml/block view
     this.popUpService.retrieve_routine("save_routine");
-    this.popUpService.retrieve_routine("get");    
+    this.popUpService.retrieve_routine("get");
     this.block_view = !this.block_view;
-    console.log(this.routine.array_block);
 
     // Call to REST service that indicates the user wants
     // a preview of the current routine in YAML format.
@@ -298,7 +263,16 @@ export class AppComponent implements OnInit {
             console.log(error);
           }
         )  
-
-
   } 
+
+  eliminarBoton(idTabACerrar: number) {
+    console.log("tab clickeado")
+    this.popUpService.openModal_Clear("", idTabACerrar);
+    console.log("cerrando tab, data: " + `${idTabACerrar}`)
+  }
+
+  tabClicked(event: Event, i:number){
+    this.opened_tab = i;
+    this.popUpService.push_routine(this.routines[i]);
+  }
 }

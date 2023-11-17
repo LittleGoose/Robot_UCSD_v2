@@ -15,7 +15,15 @@
       <ion-content contentId="right-content" class="third">
         <ion-grid>
           <ion-row>
-            <ion-col class="col"><div #botonesContainer class="botones-container"></div></ion-col>
+            <ion-col class="col"><div class="botones-container" *ngFor="let tab of tabDataList; let i = index">
+              <ion-button class="my-button" size="small" color="light" *ngIf="i != opened_tab" (click)="tabClicked($event, i)">
+                <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label> 
+             </ion-button>
+             <ion-item class="my-button" size="small" color="dark" *ngIf="i == opened_tab">
+                <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label> 
+                <ion-icon (click)="eliminarBoton(i)" class="my-icon-close" slot="end"name="close-circle-outline" ></ion-icon>
+              </ion-item>             
+            </div></ion-col>
             <ion-col class="ion-text-right" size="auto"><ion-button (click)="Switch_View()">Switch To<br>YAML View</ion-button></ion-col>
           </ion-row>          
         </ion-grid>
