@@ -1,6 +1,6 @@
 import { ViewRef } from "@angular/core";
 
-export class TabData {
+export class TabData { //Tabs model? I'm not sure it's necessary
     tabName: string;
     dataInfo: string;
     hostView: ViewRef;

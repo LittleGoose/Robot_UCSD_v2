@@ -1,4 +1,4 @@
-export class Block {
+export class Block { // In sidebar
 
   id: string;
   label: string;

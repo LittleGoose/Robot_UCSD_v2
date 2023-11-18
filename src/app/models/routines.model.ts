@@ -1,4 +1,4 @@
-export class Send_block {
+export class Send_block { // In rutine
     name: string = "";
     class: string = "";
     level: number = 0;
@@ -37,7 +37,7 @@ export class Send_block {
     }
 };
 
-export class Routines {
+export class Routines { // Full collection of Send_Blocks 
 
     id: string = "0";
     name: string = "";
