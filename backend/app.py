@@ -251,6 +251,20 @@ def fetch_routine_from_db(name):
     except Exception as e:
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
+
+@app.route("/modify_routine/<id>", methods=["GET"])
+def get_most_recent_routine():
+    try:
+        struct = []
+        recent = routines.find_one(ObjectId)
+        recent_routine = bson.decode(recent["file"])
+        for k, v in recent_routine.items():
+            struct.append(v)
+        print(struct)
+        return jsonify(struct)
+    except Exception as e:
+        return jsonify({"Status": False})
+
 # @app.route("/start_ros_nodes", methods=["GET"])
 # def start_ros_nodes():
 #     html_string = """
