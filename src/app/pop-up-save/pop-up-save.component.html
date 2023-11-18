@@ -1,22 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="titleicon" style="display:inline-block"> Save </ion-title>
-    <img slot="end" class="cross_button" src="../../assets/icon/cross_2.png" style="display:inline-block" (click)="cancel()"/>
+    <ion-title class="titleicon"> Save </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <img class="cross_button" width="40" height="40" src="https://img.icons8.com/ultraviolet/40/cancel.png" alt="cancel"/>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="center-content">
-  <!-- Sección adicional para 'speech' -->
   <ion-text class="center-text">
-   Name of Routine: 
+    Name of Routine: 
   </ion-text>
 
-      <!-- Campo de entrada de texto -->
-      <ion-input class="center-input" placeholder="Name Routine" [(ngModel)]="this.name_routine"></ion-input>
+  <ion-input class="center-input" placeholder="Name Routine" [(ngModel)]="name_routine"></ion-input>
 
-  <!-- Contenedor para los botones centrados horizontalmente en el margen -->
   <div class="center-buttons">
-    <ion-button class="small-button" (click)="save()">Save Routine</ion-button>
-    
+    <ion-button class="small-button save-button" (click)="save()">
+      <img width="50" height="50" src="https://img.icons8.com/ios/50/save--v1.png" alt="save"/>
+      saved
+    </ion-button>
   </div>
-</ion-content>
+  

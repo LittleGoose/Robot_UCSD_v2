@@ -1,0 +1,105 @@
+
+.custom-header {
+    ion-toolbar {
+      --background: #630fee; /* Color morado (ajusta según tus necesidades) */
+      color: #fff; /* Color de texto blanco */
+    }
+  }
+
+  .center-buttons {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos alrededor */
+    align-items: center;
+    margin-top: 12px; /* Ajusta según sea necesario */
+    background-color: #add8e6; /* Fondo con el color deseado */
+  }
+
+ /* Estilo para la imagen dentro del botón replace */
+ .replace-button img {
+    width: 40px; /* Ancho de la imagen (ajusta según tus necesidades) */
+    height: 40px; /* Altura de la imagen (ajusta según tus necesidades) */
+    filter: brightness(0) invert(1); /* Cambiar el color a blanco */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+  }
+
+
+  
+ /* Estilos para los botones circulares */
+.small-button {
+    font-size: 0.9rem; /* Ejemplo: Tamaño de fuente del botón pequeño */
+    margin-bottom: 8px; /* Espaciado inferior entre botones */
+    width: 80px; /* Ancho del botón circular */
+    height: 50px; /* Altura del botón circular */
+    border-radius: 60%; /* Hace que el botón sea circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+  .center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px; /* Ajusta según sea necesario */
+    --background: #add8e6; /* Cambia este valor al color que desees */
+  }
+  .cancel-button {
+    margin-left: 8px;
+  }
+  
+  .center-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black; /* Cambia el color del texto a negro */
+  }
+
+
+
+
+  /* Estilo para la imagen dentro del botón cancel */
+.cancel-button img {
+    width: 40px; /* Ancho de la imagen (ajusta según tus necesidades) */
+    height: 40px; /* Altura de la imagen (ajusta según tus necesidades) */
+    filter: brightness(0) invert(1); /* Cambiar el color a blanco */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+  }
+  
+  .cancel-button,
+  .replace-button {
+    font-size: 0.9rem;
+    margin-right: 8px; /* Ajusta los márgenes entre los botones */
+    width: 80px;
+    height: 50px;
+    border-radius: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .title-icon {
+    
+    font-size: 1.5rem; /* Ejemplo: Tamaño de fuente del título */
+  }
+
+  .replace-button {
+    margin-right: 0; /* Ajuste para que no haya margen derecho en el botón "Replace" */
+  }
+  
+  .center-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px; /* Ajusta según sea necesario */
+    background-color: #add8e6; /* Fondo con el color deseado */
+  }
+  .cancel-button:last-child {
+    margin-right: 0;
+    
+  }
+
