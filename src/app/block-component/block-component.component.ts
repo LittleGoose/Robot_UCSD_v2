@@ -77,7 +77,7 @@ export class BlockComponentComponent implements AfterViewInit {
           (response) => {
             console.log(response);
             if(response["Code"] == 1){ // If routine name is found to be a duplicate, alert user
-              this.popUpService.openDuplicateModal(data.name);
+              this.popUpService.openDuplicateModal(data.routine.name);
               this.popUpService.replaceRoutineEvent.subscribe((respone) => {
                 if(respone == 1){ // If user decides to overwrite duplicate, update the routine
                   console.log(respone);
@@ -238,20 +238,23 @@ export class BlockComponentComponent implements AfterViewInit {
     },500);
   }
 
-  onScroll(event){
+  onScroll(event){ // Adapts scroll on block component to update where the blocks are dropped
+    // P.e. if scroll is moved, then the cells positions are updated to represent this change
     this.scrollPosition = event.detail.scrollTop;
 
     // Use scrollPosition as needed
-    console.log('Scroll position:', this.scrollPosition);
     this.check_cells_positions();
   }
 
+  // Drag and drop the blocks on the block-component
   dragFuncion(event: DragEvent, block?: Block, send_block?: Send_block, rearenge?: boolean) : boolean{
 
     // Where was the block you grabbed ?
     const position = { row: -1, column: -1 };
 
+    // rearenge: If drag from a block already in block-component
     if(rearenge){
+      // Find where it was previous to the move
       for (let rowIndex = 0; rowIndex < this.current_routine.array_block.length; rowIndex++) {
         const currentRow = this.current_routine.array_block[rowIndex];
         for (let columnIndex = 0; columnIndex < currentRow.length; columnIndex++) {
@@ -263,13 +266,13 @@ export class BlockComponentComponent implements AfterViewInit {
       }
     }
     
-    const data = new SendData();
-    if(block != undefined){
+    const data = new SendData(); // SendData = event + block
+    if(block != undefined){ // If block is undefined then it was a previous block (block is moved not dropped)
       data.block = block;
     }
     data.event = event;
 
-    this.current_block = new Send_block();
+    this.current_block = new Send_block(); // Blocked dropped or moved
     if(block != undefined){
       this.current_block.name = data.block.label;
     }
@@ -277,9 +280,8 @@ export class BlockComponentComponent implements AfterViewInit {
 
     if(block == undefined){ // If block is undefined then it was a previous block
       this.current_block = send_block;
-      //console.log("Change position");
     } else { // You are grabbing from the second sidebar
-      switch(data.block.constructor.name){
+      switch(data.block.constructor.name){ //Set the class
         case "Facial_Expression":
           this.current_block.class = "facial_expression";
           break;
@@ -300,22 +302,22 @@ export class BlockComponentComponent implements AfterViewInit {
 
     data.event.preventDefault(); // Prevent the default behavior
 
-    this.check_cells_positions();
+    this.check_cells_positions(); // Make sure to update the cells posistions
 
     let index_row = 0;
     let index_col = 0;
 
     // Iterate through the coordinates and add unique x values to the Set
 
-    const divide = 10;
+    const divide = 10; // hyperparameter that defined the padding of the are to be dropped
 
     this.reset_edges();
 
     if(data.event.pageY < this.startRect.top || data.event.pageY > this.endRect.bottom || data.event.pageX < this.startRect.left){
       
       // Drag is Outside of bounds
-      if(rearenge){
-        this.delete_previous(position, rearenge);
+      if(rearenge){ // Drag a block outside the area bound
+        this.delete_previous(position, rearenge); // Delete it
       }
 
       return false;
@@ -327,7 +329,8 @@ export class BlockComponentComponent implements AfterViewInit {
 
     } else {
       if(this.cellPositions.length == 0 && this.current_routine.array_block.length == 0){
-        this.current_routine.array_block[0] = [this.current_block];
+        // There's no blocks currently
+        this.current_routine.array_block[0] = [this.current_block]; // Just add it
         return true;
       } else { // It has more than 1 block
         let blocks = 0
@@ -378,14 +381,12 @@ export class BlockComponentComponent implements AfterViewInit {
                   index_col++;
                 }
               }
-              //console.log("First")
-              this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block);
-              this.delete_previous(position, rearenge, index_row, index_col);
+              this.current_routine.array_block[index_row].splice(index_col, 0, this.current_block); // Add it to previous row
+              this.delete_previous(position, rearenge, index_row, index_col); // Remove previous if necessary
               return true;
             } else {
-              //console.log("Second")
-              this.current_routine.array_block.splice(index_row, 0, [this.current_block]);
-              this.delete_previous(position, rearenge, index_row, index_col);
+              this.current_routine.array_block.splice(index_row, 0, [this.current_block]); // Add new row 
+              this.delete_previous(position, rearenge, index_row, index_col); // Delete the previous one
               return true;
             }
             break;
@@ -410,6 +411,7 @@ export class BlockComponentComponent implements AfterViewInit {
     }
   }
 
+  // Delete block when it's moved in rutine
   delete_previous(position:{row:number, column:number}, rearenge?: boolean, index_col?:number, index_row?:number){
     if(rearenge){
       if(index_col != undefined){
@@ -428,6 +430,8 @@ export class BlockComponentComponent implements AfterViewInit {
       this.blocks -= 1;
     }
   }
+
+  // Toast alerts
 
   setOpenClass(isOpen: boolean) {
     this.isToastOpenClass = isOpen;
