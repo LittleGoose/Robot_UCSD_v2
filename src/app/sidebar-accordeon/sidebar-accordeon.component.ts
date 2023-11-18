@@ -11,7 +11,9 @@ import { Body_Gestures, Facial_Expression, Speech, Tone_Voice, Routines_Blocks, 
 import { NewBlockService } from '../new-block.service'
 import { PopUpService } from '../pop-up.service';
 import { saveAs } from 'file-saver';
+// import domtoimage from 'dom-to-image';
 import { TabServiceService } from '../tab-service.service';
+import { Routines, Send_block } from '../models/routines.model';
 
 @Component({
   selector: 'app-sidebar-accordeon',
@@ -26,24 +28,29 @@ export class SidebarAccordeonComponent implements OnDestroy {
   //}
 
   onModifyClick(): void {
-    this.tabService.addTabToContainer();
+    this.tabService.addTabToContainer(this.pop_over_block);
   }
   // Funcion de doble click 
-  onDoubleClick(event: MouseEvent, index: number) {
+  onDoubleClick(event: MouseEvent, index: number, item:Block) {
     //console.log('Doble clic en el ítem número ' + index);
-    this.tabService.addTabToContainer();
+    this.tabService.addTabToContainer(item);
   }
   
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('full', { static: false }) full: IonContent;
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
   @ViewChild('popover') popover;
   @ViewChild('popoversecond') popoversecond;
   private scrollSubscription: Subscription;
+  
   talk: Speech;
+  scroll_position: number;
   
   //Esta parte es para hacer que funcione el scroll en dos componentes 
-  constructor(private scrollService: ScrollService, private rs: RestService, private new_block: NewBlockService, private pop_up: PopUpService, private tabService: TabServiceService) {
+  constructor(private scrollService: ScrollService, private rs: RestService, 
+    private new_block: NewBlockService, private pop_up: PopUpService, 
+    private tabService: TabServiceService) {
 
     this.scrollSubscription = this.scrollService.getScrollObservable().subscribe(({positionX, positionY }) => 
     {
@@ -52,13 +59,33 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
     this.talk = new Speech("", "Talk", "Talk block", "A1", "");
 
+    this.new_block.newTab.subscribe((response) =>{
+      let incoming_routines: Routines_Blocks[] = [];
+
+      // Call to REST service to fetch all documents from the Routines database
+      this.rs.get_routines().subscribe(
+        (response) =>{
+          // The response is an array that contains arrays that represent the
+          // documents from the Routines database
+          this.routines = response[0];
+          this.routines.forEach(element => {
+            const block = new Routines_Blocks(element.id, element.label, element.description);
+            block.color = "medium";
+            incoming_routines.push(block);
+          });
+
+          if(this.routines_blocks.length != incoming_routines.length){
+            this.routines_blocks = incoming_routines;
+          }
+        });        
+      });
+
   }
 
   ngOnDestroy() {
       this.scrollSubscription.unsubscribe(); // Importante desuscribirse al destruir el componente
   }
 
- 
   facial_expresions: Facial_Expression[] = [];
   body_gestures: Body_Gestures[] = [];
   tone_of_voice: Tone_Voice[] = [];
@@ -75,12 +102,20 @@ export class SidebarAccordeonComponent implements OnDestroy {
   isOpenTwo= false;
   pop_over_block: Block;
 
+  routine_images: string[] = [];
+
+  only_once = true;
+
   ngOnInit() {
 
+    // Call to REST service to fetch all documents from both databases
     this.rs.read_db()
     .subscribe(
       (response) => {
+        // The response is an array of arrays.
+        // Each array corresponds to all the documents fetched from the databases
 
+        // First array corresponds to the facial expressions documents
         this.facial_expresions = response[0];
 
         this.facial_expresions.forEach(element => {
@@ -89,6 +124,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.facial_expresions_blocks.push(block);
         });
 
+        // Second array corresponds to the body gestures documents
         this.body_gestures = response[1];
 
         this.body_gestures.forEach(element => {
@@ -97,6 +133,8 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.body_gestures_blocks.push(block);
         });
 
+        // TODO Cambiar nombre a arrays para que haga match con los arrays de python
+        // Third array corresponds to the sounds documents
         this.tone_of_voice = response[2];
 
         this.tone_of_voice.forEach(element => {
@@ -105,6 +143,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
           this.tone_of_voice_blocks.push(block);
         });
         
+        // Fourth array corresponds to the verbal documents
         this.speech = response[3];
 
         this.speech.forEach(element => {
@@ -118,13 +157,12 @@ export class SidebarAccordeonComponent implements OnDestroy {
           }
         });
 
+        // Fifth array corresponds to the routines documents
         this.routines = response[4];
         this.routines.forEach(element => {
           const block = new Routines_Blocks(element.id, element.label, element.description);
           block.color = "medium";
-          this.routines_blocks.push(block);
         });
-
       },
       (error) => {
         console.log("No Data Found" + error);
@@ -133,6 +171,41 @@ export class SidebarAccordeonComponent implements OnDestroy {
 
     this.generateItems();
   }
+
+  // This function is to create images when accordeon changes
+
+  /*accordionGroupChange(ev: any){
+    const collapsedItems = this.values.filter((value) => value !== ev.detail.value);
+    const selectedValue = ev.detail.value;
+
+    console.log(
+      `Expanded: ${selectedValue === undefined ? 'None' : ev.detail.value} | Collapsed: ${collapsedItems.join(', ')}`
+    );
+
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    if(this.routines_blocks.length > 0 && this.only_once){
+      let i = 0;
+      console.log("Start")
+      this.routines_blocks.forEach(element => {
+        console.log(element);
+        var name = "block_"+i;
+        console.log(name)
+        var node = document.getElementById(name);
+        domtoimage.toPng(node)
+          .then(function (dataUrl) { 
+              this.routine_images.push(dataUrl);
+              //console.log(img)
+              //document.body.appendChild(img);
+          })
+          .catch(function (error) {
+              console.error('oops, something went wrong!', error);
+          });
+        i+=1;
+      });
+      this.only_once = false;
+    }
+  };*/
 
   private generateItems() {
 
@@ -150,7 +223,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    console.log('scroll', ev.detail);
+    this.scroll_position = ev.detail.scrollTop
   }
 
   handleScrollEnd() {
@@ -158,6 +231,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   onDragEnd(event: DragEvent, block: Block): void {
+    event.preventDefault();
     this.new_block.emitData(event, block);
   }
 
@@ -169,7 +243,33 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   openLastRoutine(event: any){
-    this.new_block.sendRecentRoutine();
+    // Call for last routine in the db and push on block-component
+    let current_routine = new Routines();
+    this.rs.get_recent_routine()
+    .subscribe(
+      (response) => {
+          response[0].forEach(name => {
+            current_routine.name = name
+          });
+          response[1].forEach(element => {
+            current_routine.array_block.push([]);
+            element.forEach(block_item => {
+              let block = new Send_block();
+              block.class = block_item.class;
+              block.name = block_item.name;
+              block.level = block_item.level;
+              block.talk = block_item.talk;
+              block.clear = block_item.clear;
+              current_routine.array_block[current_routine.array_block.length-1].push(block);
+            });
+          });
+          console.log(response); // Missing bring back name of the routine  
+      },(error) => {
+          console.log("No Data Found" + error);
+      }
+    )
+    console.log("CurrentRoutine", current_routine);
+    this.pop_up.push_routine(current_routine);        
   }
 
   async openPopover(color: string, e:MouseEvent, item: Block) {
@@ -195,10 +295,10 @@ export class SidebarAccordeonComponent implements OnDestroy {
   }
 
   delete_routine(ev: Event){
-    // Delete routine
-    console.log("Delete");
+    // Call to REST service to delete a routine from the Routines database.
+    // Pass the routine's name in order to locate it in the database.
     console.log(this.pop_over_block);
-    this.rs.delete_routine(this.pop_over_block["label"])
+    this.rs.delete_routine(this.pop_over_block["id"])
     .subscribe(
       (response) => {
         console.log(response);
@@ -207,11 +307,23 @@ export class SidebarAccordeonComponent implements OnDestroy {
         console.log(error);
       }
     )
+
+    let i = 0;
+    for(let item in this.routines_blocks){
+      if(this.routines_blocks[item].label == this.pop_over_block.label){
+        this.routines_blocks.splice(i, 1);
+      }
+      i++;
+    }
+
+    this.isOpen = false;
+
   }
 
   download_routine(ev: Event){
-    // Download routne
-    this.rs.download_routine(this.pop_over_block["label"])
+    // Call to REST service to download the YAML file of a routine from the Routines database.
+    // Pass the routine's name in order to locate it in the database.
+    this.rs.download_routine(this.pop_over_block["id"])
     .subscribe(
       (response) => {
         const blob = new Blob([response], { type: 'text/yaml' });
@@ -222,8 +334,4 @@ export class SidebarAccordeonComponent implements OnDestroy {
       }
     )
   }
-
-  
-  
-
 }

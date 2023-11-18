@@ -10,6 +10,8 @@ import os
 from dotenv import load_dotenv
 from io import BytesIO
 
+# import talker
+
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
@@ -21,7 +23,6 @@ app.config['JSON_SORT_KEYS'] = False
 load_dotenv()
 user = os.getenv("MONGO_USR")
 password = os.getenv("password")
-print(password)
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 
 db = client["ROBOT-UCSD"]  # Access/creation of data base
@@ -40,7 +41,7 @@ def root():
 
 # Fetch entries from all tables to send to sidebar angular component
 # Return entries in a json format
-@app.route("/fetch_tables_from_db", methods=["GET"])
+@app.route("/fetch_collections_from_db", methods=["GET"])
 def fetch_from_db():
     try:
         data = []
@@ -89,14 +90,15 @@ def fetch_from_db():
 # CREATE
 # Receive a the routine object to enconde in binary
 # Add to entry and upload to database
-@app.route("/save_routine", methods=["POST"])
-def save_routine():
+@app.route("/save_routine//<replace>", methods=["POST"])
+def save_routine(replace):
     if request.method == 'POST':
         routine = loads(request.data)
         print(routine)
         print(routine["routine"]["name"])
 
         try:
+            
             if (routines.find_one({"label": routine["routine"]["name"]})) is None:
                 db_routine = {}
                 db_routine["user"] = "TESTUSER"
@@ -111,9 +113,26 @@ def save_routine():
                 db_routine["file"] = bson.encode(file)
 
                 routines.insert_one(db_routine)
-                return jsonify({"Status" : "Insert completed"})
-            else:
-                return jsonify({"Status" : f"Routine {routine['routine_name']} already exists"})
+                return jsonify({"Status" : "Insert completed", "Code" : 0})
+        
+            elif (routines.find_one({"label": routine["routine"]["name"]})) is not None and replace == "1": 
+                db_routine = {}
+                db_routine["user"] = "TESTUSER"
+                db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
+                db_routine["label"] = routine["routine"]["name"]
+
+                file = {}
+
+                for i in range(0, len(routine["routine"]["array_block"])):
+                    file["Segment" + str(i+1)] = routine["routine"]["array_block"][i]
+
+                db_routine["file"] = bson.encode(file)
+
+                routines.insert_one(db_routine)
+                return jsonify({"Status" : "Insert completed", "Code" : 0})
+            
+            elif (routines.find_one({"label": routine["routine"]["name"]})) is not None:
+                return jsonify({"Status" : "Routine already exists", "Code" : 1})
         except Exception as e:
             return jsonify({"Status" : "An error ocurred: " + str(e)})
 
@@ -138,13 +157,21 @@ def download_routine(name):
 @app.route("/recent_routine", methods=["GET"])
 def get_most_recent_routine():
     try:
+        data = []
+
         struct = []
         recent = routines.find_one(sort=[('$natural', -1)])
+        name = recent["label"]
+
+        data.append([name])
+
         recent_routine = bson.decode(recent["file"])
         for k, v in recent_routine.items():
             struct.append(v)
         print(struct)
-        return jsonify(struct)
+        data.append(struct)
+
+        return jsonify(data)
     except Exception as e:
         return jsonify({"Status": False})
 
@@ -180,6 +207,52 @@ def delete_routine(name):
             return jsonify({"Status" : "No such routine found"})
     except Exception as e:
         return jsonify({"Status" : "An error ocurred: " + str(e)})
+
+@app.route("/load_current_routine_txt", methods=["GET"])
+def load_current_routine_txt():
+    try:
+        return jsonify({"Status": "Complete"})
+    except Exception as e:
+        return jsonify({"Status": e})
+
+# Fetch entries from all tables to send to sidebar angular component
+# Return entries in a json format
+@app.route("/fetch_routines_from_db", methods=["GET"])
+def fetch_routines_from_db():
+    try:
+        routines = db["routines"]  # Creation/Access of table Routines
+
+        data = []
+
+        routines_entries = []
+        for entry in routines.find():
+            routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
+                                    "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
+
+        data.append(routines_entries)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"Status" : "An error ocurred: " + str(e)})
+
+# @app.route("/start_ros_nodes", methods=["GET"])
+# def start_ros_nodes():
+#     html_string = """
+#     <!DOCTYPE html>
+#     <html lang="en">
+#     <head>
+#         <meta charset="UTF-8">
+#         <title>FlaskApp</title>
+#     </head>
+#     <body>
+#         <h1>Hello World!</h1>
+#         <h2>Welcome to FlaskApp!</h2>
+#     </body>
+#     </html>
+#     """
+#     while True:
+#         talker.main()
+#         render_template(html_string)
+
 
 
 if __name__ == "__main__":

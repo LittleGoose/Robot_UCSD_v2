@@ -1,13 +1,12 @@
 <ion-content [scrollEvents]="true"
   (ionScroll)="onScroll($event)">
 
-
   <ion-grid class="ion-text-center ion-align-items-center" #grid>
     
     <ion-row>
       <ion-col>
         <div class="start-button">
-          <ion-title #start>START</ion-title>
+          <ion-title #start>START</ion-title> <!--Start button-->
         </div>
       </ion-col>
     </ion-row>
@@ -16,26 +15,35 @@
   
   <ion-grid class="ion-text-left" id="grid">
   
+  <!--Blocks are represented as an array-->
   <ion-row *ngFor="let row of current_routine.array_block; let i = index" #blockRef>
     <ion-col class="padding" id="padding"></ion-col>
     <ion-col class="center" id="num">
-      <ion-text>{{i}}</ion-text>
+      <ion-text>{{i}}</ion-text> <!--Line number-->
     </ion-col>
+    
+    <!--For each block in that line of blocks-->
     <ion-col size="auto" class=grid-cell id="block"
       *ngFor="let block of row; let j = index" (dblclick)="onDoubleClick($event, j, block)">
       <ion-item-group class="group_obj" draggable="true"
       (dragend)="dragFuncion($event, undefined, block, true)" *ngIf="j==0" (click)="openPopUp(block, $event)">
+        <!--First semi-circle on top but without the circle to the right-->
         <ion-icon src="../../assets/semi_cropped.svg" [ngStyle]="{'height':'15px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-top': '-14px', 'margin-left':'9px'}"></ion-icon>
         <div [ngClass]="{'red': block.get_color() === 'danger', 'yellow' : block.get_color() === 'warning', 'green' : block.get_color() === 'success', 'medium' : block.get_color() === 'medium' }">
           <div id="text"
           size="small">
-          <ion-label>{{ block.name }}</ion-label>
+          <ion-label>{{ block.name }}</ion-label> <!--Actual square-->
           </div>
         </div>
+        <!--Square-->
         <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '34px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'width':'10px', 'stroke':'none', 'float':'left'}"></ion-icon>
+        <!--Inverse semicircle-->
         <ion-icon src="../../assets/anti_semi(1).svg" [ngStyle]="{'height':'14px', 'width':'30px', 'fill': 'var(--ion-color-'+block.get_color()+')', 'float':'left', 'margin-left':'-2px'}"></ion-icon>
+        <!--Square-->
         <ion-icon src="../../assets/square-filled-geometric-shape-svgrepo-com.svg" [ngStyle]="{'height': '1px!important', 'fill': 'var(--ion-color-'+block.get_color()+')', 'margin-top':'-6px', 'margin-left':'-2px', 'width':'calc(100% - 40px + 4px)', 'stroke':'none', 'float':'left'}"></ion-icon>
       </ion-item-group>
+      
+      <!--If it's not the first then you add at the beggining the semicircle and the block of the previous color-->
       <ion-item-group class="group_obj" draggable="true"
       (dragend)="dragFuncion($event, undefined, block, true)" *ngIf="j!=0" (click)="openPopUp(block, $event)">
         <ion-grid [ngStyle]="{'margin-left':'-15px', 'padding':'0', 'margin-right':'-5px', 'padding-top':'5px', 'margin-bottom':'-3px'}">
@@ -62,6 +70,7 @@
   
   <ion-grid class="ion-text-center ion-align-items-center" #end>
   
+  <!--End button-->
   <ion-row>
     <ion-col>
       <div class="start-button">
@@ -69,6 +78,8 @@
       </div>
     </ion-col>
   </ion-row>
+
+  <!--The different toasts that pop on not available options-->
   
   </ion-grid>
   <ion-toast
@@ -83,5 +94,12 @@
     message="Routines blocks have to be alone at any time."
     [duration]="2000"
     (didDismiss)="setOpenRoutine(false)"
+  ></ion-toast>
+
+  <ion-toast
+    [isOpen]="isToastOpenName"
+    message="Can't add routine block to the same routine."
+    [duration]="2000"
+    (didDismiss)="setOpenName(false)"
   ></ion-toast>
 </ion-content>

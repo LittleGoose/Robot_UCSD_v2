@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver, Input ,  EventEmitter, Output } from '@angular/core';
-import { IonButton, IonContent, PopoverController} from '@ionic/angular';
-import { Block, Facial_Expression, Body_Gestures, Tone_Voice, Speech, Routines_Blocks } from '../models/blocks.model';
+import { Component, ViewChild, ElementRef, AfterViewInit, ViewChildren, QueryList,  ViewContainerRef, EventEmitter, Output } from '@angular/core';
+import { IonButton, IonContent } from '@ionic/angular';
+import { Block } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
 import { PopUpService } from '../pop-up.service';
-import { PopUpComponent } from '../pop-up/pop-up.component';
 import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
-import { PopUpLoadPreviousRoutineComponent } from '../pop-up-load-previous-routine/pop-up-load-previous-routine.component';
-import { TabsComponent } from '../tabs/tabs.component';
-import {OverlayEventDetail} from '@ionic/core'; 
 import { TabServiceService } from '../tab-service.service';
 
 @Component({
@@ -27,11 +23,7 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChild('botonesContainer', { read: ViewContainerRef }) botonesContainer: ViewContainerRef;
   @Output() agregarTabEvent = new EventEmitter<void>();
 
-  current_routine: Routines = new Routines();
-  block1: Send_block = new Send_block();
-  block2: Send_block = new Send_block();
-  block3: Send_block = new Send_block();
-  block4: Send_block = new Send_block();
+  current_routine: Routines = new Routines(); // Super important, where the visible routine is stored
 
   current_block: Send_block = new Send_block();
 
@@ -39,6 +31,7 @@ export class BlockComponentComponent implements AfterViewInit {
   dif: number = 0;
 
   cellPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
+  allPositions: { center_x: number; center_y: number, length: number, height: number}[] = [];
   scrollPosition = 0;
 
   startRect = new DOMRect;
@@ -46,49 +39,60 @@ export class BlockComponentComponent implements AfterViewInit {
 
   isToastOpenClass = false;
   isToastOpenRoutine = false;
+  isToastOpenName = false;
   
   GetChildData(data){  
     console.log(data);  
   } 
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
-    private ionContent: IonContent, private renderer: Renderer2, private rs: RestService, 
-    private popoverController: PopoverController, private componentFactoryResolver: ComponentFactoryResolver, private tabService: TabServiceService) {
+    private ionContent: IonContent, private rs: RestService) {
 
-    this.current_routine.array_block = [];
-    //this.current_routine.name = "Test_routine";
+    this.current_routine.array_block = []; // Create a new blanck routine
 
     this.popUpService.blockUpdated.subscribe((newBlock: Send_block) => {
-      // Call your component's function or perform necessary actions
-      this.saveNewParameter(newBlock);
+      // Call your component's function or perform necessary actions when accepted
+      this.current_block = newBlock; // New_block with new parameters
     });
 
     this.popUpService.clearRoutine.subscribe((data) => {
+      // If clear routine is accepted just create a new routine
       this.current_routine = new Routines();
     });
     
     this.newBlockService.newBlockAdded.subscribe((data) => {
       const dropped = this.dragFuncion(data.event, data.block); // Make sure it's actually dropped in a valid place
       if(dropped){
-        this.openPopUp(this.current_block);
+        this.openPopUp(this.current_block); // When dropped open the corresponding pop-up
       }
     });
     
     this.popUpService.saveRoutineEvent.subscribe((data) => {
-      if(data.type_def === "Send_Name_Please"){
-        let send_routine = new Routines();
-        send_routine.id = this.current_routine.id;
-        send_routine.name = data.name
-        send_routine.description = this.current_routine.description
-        send_routine.array_block = this.current_routine.array_block
-        this.current_routine.name = data.name;
-        this.popUpService.save_button(data, send_routine); 
-      
-      } else if(data.type_def === "Show_Routine"){ //ximena implementar save console.log(this.current_routine.array_block);
+      // When the save pop up is accepted it send the name from the pop-up to the curren routine
+      if(data.type_def === "Show_Routine"){ 
+        // It already send the routine so now it's sending it to the db
         // Sending it to database
-        this.rs.upload_routine(data.routine).subscribe(
+        // Call REST service to upload routine to database
+        this.rs.upload_routine(data.routine, "0").subscribe(
           (response) => {
             console.log(response);
+            if(response["Code"] == 1){ // If routine name is found to be a duplicate, alert user
+              this.popUpService.openDuplicateModal(data.name);
+              this.popUpService.replaceRoutineEvent.subscribe((respone) => {
+                if(respone == 1){ // If user decides to overwrite duplicate, update the routine
+                  console.log(respone);
+                  this.rs.upload_routine(data.routine, "1").subscribe( 
+                    (respone) => {
+                      console.log(respone);
+                    },
+                    (error) => {
+                      console.log(error);
+                    }
+                  )
+                }
+              })
+            }
+            popUpService.result_ready(data.routine); // Send name to app for the tab
           },
           (error) => {
             console.log(error);
@@ -97,98 +101,46 @@ export class BlockComponentComponent implements AfterViewInit {
       }
     });
 
-    this.popUpService.NameRoutine.subscribe((data) => { // When clicking save this is called
-      if(data == "ask"){
-        this.popUpService.ask_name("respond", this.current_routine);
-      }
+    this.popUpService.NameRoutine.subscribe((data) => { 
+      // When clicking save (initial button) this is called
+      // Send the current routine
+      this.popUpService.ask_name("respond", this.current_routine);
     })
 
-    this.newBlockService.recentRoutine.subscribe((data) => {          
-      if(this.current_routine.array_block.length != 0){
-        this.current_routine.array_block = [];
-      }
-        this.rs.get_recent_routine()
-            .subscribe(
-              (response) => {
-                  response.forEach(element => {
-                    this.current_routine.array_block.push([]);
-                    element.forEach(block_item => {
-                      let block = new Send_block();
-                      block.class = block_item.class;
-                      block.name = block_item.name;
-                      block.level = block_item.level;
-                      block.talk = block_item.talk;
-                      block.clear = block_item.clear;
-                      this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
-                    });
-                  });
-              },(error) => {
-                  console.log("No Data Found" + error);
-              }
-            )
-      }
-    )
+    this.popUpService.retrieve_past_routine.subscribe((data) => {
+      this.current_routine = data; // Updates the actual rutine
+      this.check_cells_positions(); // Updates cell positions in the array
+      this.popUpService.retrieve_routine("store", this.current_routine); 
+      //Change to store when retrieving past routine
+    })
+
+    this.popUpService.save_current_routine.subscribe((data) =>
+    // Save routine
+    {
+      this.popUpService.retrieve_routine("store", this.current_routine);
+    })
+
+    this.popUpService.retrieve_current_routine.subscribe((data) =>{
+      // Retrieve routine when switching views
+      this.current_routine = data;
+    })
   }
 
 
   async ngOnInit() {
-    // Abre el popover personalizado tan pronto como la página se inicie
-    const popover = await this.popoverController.create({
-      component: PopUpLoadPreviousRoutineComponent, // Reemplaza con tu página de popover personalizado
-      // Coloca las propiedades de posición y otros ajustes según tus necesidades
-    });
-
-    await popover.present();
-    await popover.onDidDismiss()
-    .then((detail: OverlayEventDetail) => {
-        if(detail.data == "yes"){
-          
-          this.rs.get_recent_routine()
-          .subscribe(
-            (response) => {
-                response.forEach(element => {
-                  this.current_routine.array_block.push([]);
-                  element.forEach(block_item => {
-                    let block = new Send_block();
-                    block.class = block_item.class;
-                    block.name = block_item.name;
-                    block.level = block_item.level;
-                    block.talk = block_item.talk;
-                    block.clear = block_item.clear;
-                    this.current_routine.array_block[this.current_routine.array_block.length-1].push(block);
-                  });
-                });
-            },(error) => {
-                console.log("No Data Found" + error);
-            }
-          )
-        }
-    });
-
+    this.popUpService.retrieve_routine("get"); 
+    // When returning to blocks_view return the rutine you where working with
   }
-
-  test(event: any){
-    console.log("test");
-  }
-
-  openPopUp(block: Send_block, event?: MouseEvent) {
-    if(event != undefined){
-      if (event.detail === 2) {
-        this.current_block = block;
-        if(this.current_block.class == "speech" && this.current_block.name != "Talk"){
-          // Sounds not showing pop-up
-        } else if (this.current_block.class !== 'routine') {
-          this.popUpService.openModal(block);
-        }
-      }
-    } else {
-      if ( block.class != 'routine'){
+  
+  openPopUp(block: Send_block, event?: MouseEvent,) { 
+    // Parameters pop-up
+    if (event == undefined || event.detail === 2){
+      if ( block.class != 'routine'){ // Rutines open new tab not po-up
         if(block.class == "speech" && block.name == "Talk"){
-          this.popUpService.openModal(block);
-        } 
-        else {
-          if (block.class !== "routine" && block.class != "speech"){
-            this.popUpService.openModal(block);
+          this.popUpService.openModal(block); // Only talk blocks open pop-up in speech
+        } else {
+          if (block.class != "routine" && block.class != "speech"){
+            this.popUpService.openModal(block); // Every other type of block
           }
         }
       }
@@ -202,22 +154,13 @@ export class BlockComponentComponent implements AfterViewInit {
    {
     this.tabService.addTabToContainer();
    }
-    
   }
-
-  saveNewParameter(block: Send_block) {
-    this.current_block = block;
-    console.log(this.current_block);
-    //console.log(this.block2);
-  }
-
+  
   reset_edges(){
     if (this.startElement && this.endElement) {
-      // Use Renderer2 to get the coordinates of the elements
-      const startRect = this.startElement.nativeElement.getBoundingClientRect();
-      this.startRect = startRect;
-      const endRect = this.endElement.nativeElement.getBoundingClientRect();
-      this.endRect = endRect;
+      // Get the references for the start and end boxes
+      this.startRect = this.startElement.nativeElement.getBoundingClientRect();
+      this.endRect = this.endElement.nativeElement.getBoundingClientRect();
 
       const gridElement = this.gridRef.nativeElement;
       gridElement.addEventListener('scroll', this.onScroll.bind(this));
@@ -246,6 +189,7 @@ export class BlockComponentComponent implements AfterViewInit {
     const grid = document.getElementById('grid');
 
     this.cellPositions = [];
+    this.allPositions = [];
 
     if (grid) {
       // Get all cell elements within the grid
@@ -268,6 +212,19 @@ export class BlockComponentComponent implements AfterViewInit {
 
           // Add the cell's position to the array
           this.cellPositions.push(cellPosition);
+        } else if(cell.id == "block"){
+          // Calculate the cell's position relative to the grid container
+          const rect = cell.getBoundingClientRect();
+          this.dif = rect.width;
+          const cellPosition: { center_x: number; center_y: number, length: number, height:number } = {
+            center_x: rect.left + rect.width / 2,
+            center_y: rect.top + rect.height / 2,
+            length: rect.width,
+            height: rect.height,
+          };
+
+          // Add the cell's position to the array
+          this.allPositions.push(cellPosition);
         }
       });
 
@@ -364,10 +321,11 @@ export class BlockComponentComponent implements AfterViewInit {
 
     } else if (this.current_block.name == this.current_routine.name){
       // You cant add the current routine to the main routine (or inception)
+      this.setOpenName(true);
       return false;
 
     } else {
-      if(this.cellPositions.length == 0){
+      if(this.cellPositions.length == 0 && this.current_routine.array_block.length == 0){
         this.current_routine.array_block[0] = [this.current_block];
         return true;
       } else { // It has more than 1 block
@@ -397,6 +355,8 @@ export class BlockComponentComponent implements AfterViewInit {
                     } else { // Current block cant be added
                       if(this.current_routine.array_block[index_row][i].class == "routine"){
                         this.setOpenRoutine(true)
+                      } else {
+                        this.setOpenClass(true);
                       }
                       break_var = 1;
                       break;
@@ -406,12 +366,11 @@ export class BlockComponentComponent implements AfterViewInit {
               }
 
               if(break_var == 1){
-                this.setOpenClass(true);
                 break;
               }
 
-              for (const coord of this.cellPositions) { // Calculate where in the row it should be added
-                if (coord.center_y == num.center_y){
+              for (let coord of this.allPositions) { // Calculate where in the row it should be added
+                if (coord.center_y < num.center_y + 1 && coord.center_y > num.center_y - 1){
                   if(coord.center_x > data.event.pageX){
                     break;
                   }
@@ -475,6 +434,10 @@ export class BlockComponentComponent implements AfterViewInit {
 
   setOpenRoutine(isOpen: boolean) {
     this.isToastOpenRoutine = isOpen;
+  }
+
+  setOpenName(isOpen: boolean) {
+    this.isToastOpenName = isOpen;
   }
 }
 
