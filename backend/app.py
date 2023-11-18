@@ -10,37 +10,41 @@ import os
 from dotenv import load_dotenv
 from io import BytesIO
 
-# The app serves as the publisher for the ROS nodes communication
 # import talker
 
-# Main app
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-# Connect to mongo client
-client = MongoClient("127.0.0.1", 27017)
-local_db = client["ROBOT_UCSD_LOCAL"]  # Access to data base containing the routines created locally
-admin_db = client["ROBOT_UCSD_ADMIN"]  # Access to data base containing behavior blocks data
+# Connect to mongo client (local level)
+# client = MongoClient("127.0.0.1", 27017)
+# db = client["ROBOT_UCSD"]  # Access/creation of data base
 
-body_gestures = admin_db["body_gestures"]  # Access to Body Gestures collection
-facial_expressions = admin_db["facial_expressions"] # Access to Facial Expressions collection
-verbal = admin_db["verbal"] # Access to Verbal collection
-sounds = admin_db["sounds"]  # Access to Sounds collection
+# Connect to mongo client (Atlas - Cloud)
+load_dotenv()
+user = os.getenv("MONGO_USR")
+password = os.getenv("password")
 
-routines = local_db["routines"]  # Access of Routines collections
+client = MongoClient(f"mongodb+srv://{user}:{password}@robot-ucsd.oqmkaj6.mongodb.net", tls=True, tlsAllowInvalidCertificates=True) 
+db = client["ROBOT-UCSD"]  # Access/creation of data base
+
+facial_expressions = db["facial_expressions"] # Creation/Access of table Expressions
+body_gestures = db["body_gestures"]  # Creation/Access of table Movements
+tones_of_voice = db["tones_of_voice"] # Creation/Access of table Tones of Voice
+speech_elements = db["speech_elements"]  # Creation/Access of table Speech
+routines = db["routines"]  # Creation/Access of table Routines
 
 # Main app
 @app.route("/", methods=["GET"])
 def root():
-    return "Welcome to Robot UCSD app."
+    return "MAIN FLASK ROUTE"
 
 
+# Fetch entries from all tables to send to sidebar angular component
+# Return entries in a json format
 @app.route("/fetch_collections_from_db", methods=["GET"])
 def fetch_from_db():
     try:
-        # Fetch documents from all collections in the admin database
-        # to send to the sidebar angular component
-        data = [] # Array to store the arrays containing the contents of each collection (array of arrays)
+        data = []
 
         facial_expressions_entries = []
         for entry in facial_expressions.find():
@@ -56,202 +60,198 @@ def fetch_from_db():
 
         data.append(body_gestures_entries)
 
-        sounds_entries = []
-        for entry in sounds.find():
-            sounds_entries.append({"id": str(
+        tones_of_voice_entries = []
+        for entry in tones_of_voice.find():
+            tones_of_voice_entries.append({"id": str(
                 entry["_id"]), "label": entry["tone_name"], "description": entry["description"], "id_in_robot": entry["id_in_robot"]})
 
-        data.append(sounds_entries)
+        data.append(tones_of_voice_entries)
 
-        verbal_entries = []
-        for entry in verbal.find():
-            verbal_entries.append({"id": str(entry["_id"]), "label": entry["element_name"],
+        speech_elements_entries = []
+        for entry in speech_elements.find():
+            speech_elements_entries.append({"id": str(entry["_id"]), "label": entry["element_name"],
                                            "description": entry["description"], "id_in_robot": entry["id_in_robot"], "utterance": entry["utterance"]})
 
-        data.append(verbal_entries)
+        data.append(speech_elements_entries)
 
-        # Fetch documents from the routines collections in the local database
-        # to send to the sidebar angular component
+        #TODO Preguntar como pasar el file (BSON/JSON decodificado es lo que se utiliza actualmente)
         routines_entries = []
         for entry in routines.find():
             routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
                                     "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
 
         data.append(routines_entries)
-
-        # Return array in JSON format
         return jsonify(data)
     except Exception as e:
-        # Handle exception
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
 
-@app.route("/save_routine/<replace>", methods=["POST"])
+
+# CREATE
+# Receive a the routine object to enconde in binary
+# Add to entry and upload to database
+@app.route("/save_routine//<replace>", methods=["POST"])
 def save_routine(replace):
-    # Receive POST request from ionic app containing the
-    # JSON data of a routine
     if request.method == 'POST':
         routine = loads(request.data)
-        print(replace)
+        print(routine)
+        print(routine["routine"]["name"])
+
         try:
-            # Look for the given name for the routine in the localdatabase, if not found, insert routine
-            # as a new document
+            
             if (routines.find_one({"label": routine["routine"]["name"]})) is None:
                 db_routine = {}
-
                 db_routine["user"] = "TESTUSER"
+                db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
                 db_routine["label"] = routine["routine"]["name"]
 
                 file = {}
 
                 for i in range(0, len(routine["routine"]["array_block"])):
-                    file["Line_" + str(i+1)] = routine["routine"]["array_block"][i]
+                    file["Segment" + str(i+1)] = routine["routine"]["array_block"][i]
 
                 db_routine["file"] = bson.encode(file)
-                db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
 
                 routines.insert_one(db_routine)
-
-                # Return response in JSON format
                 return jsonify({"Status" : "Insert completed", "Code" : 0})
         
-            # If routine name is found and the user indicates that they want to update the existing 
-            # routine, replace it with the updated fields
             elif (routines.find_one({"label": routine["routine"]["name"]})) is not None and replace == "1": 
-                query = {"label" : routine["routine"]["name"]}
-                new_data = {} 
+                db_routine = {}
+                db_routine["user"] = "TESTUSER"
+                db_routine["last_modified"] = datetime.now(tz=dt.timezone.utc)
+                db_routine["label"] = routine["routine"]["name"]
 
                 file = {}
 
                 for i in range(0, len(routine["routine"]["array_block"])):
-                    file["Line_" + str(i+1)] = routine["routine"]["array_block"][i]
-                
-                new_data["file"] = bson.encode(file)
-                new_data["last_modified"] = datetime.now(tz=dt.timezone.utc)
+                    file["Segment" + str(i+1)] = routine["routine"]["array_block"][i]
 
-                routines.update_one(query, {"$set" : new_data})
+                db_routine["file"] = bson.encode(file)
 
-                # Return response in JSON format
-                return jsonify({"Status" : "Replace completed", "Code" : 0})
+                routines.insert_one(db_routine)
+                return jsonify({"Status" : "Insert completed", "Code" : 0})
             
-            # If routine name is found, alert the user a routine with the given name already
-            # exists
             elif (routines.find_one({"label": routine["routine"]["name"]})) is not None:
-                # Return response in JSON format
                 return jsonify({"Status" : "Routine already exists", "Code" : 1})
         except Exception as e:
-            # Handle exception
             return jsonify({"Status" : "An error ocurred: " + str(e)})
 
 
-@app.route("/download_routine/<id>", methods=["GET"])
-def download_routine(id):
+# READ
+# Download routine from angular app
+@app.route("/download_routine/<name>", methods=["GET"])
+def download_routine(name):
     try:
-        # Find the routine document the user wants to download 
-        routine = routines.find_one({"_id": ObjectId(id)})
-
-        # Get the BSON file from the document and decode it
-        routine = bson.decode(routine["file"])
-
-        # Transform file to YAML format
+        routine = routines.find_one({"label": name})
+        routine = routine["file"]
+        routine = bson.decode(routine)
         routine = yaml.dump(routine)
-
-        # Return encoded YAML string
         return routine.encode()
     except Exception as e:
-        # Handle exception
-        return jsonify({"Status" : "An error ocurred: " + str(e)})
+        print("An error ocurred: ", e)
+        return jsonify({"Status" : "False"})
 
-
+# MOST RECENT
+# Retrieve most recent routine
 # regresar como array de arrays (asi como lo manda ionic)
 @app.route("/recent_routine", methods=["GET"])
 def get_most_recent_routine():
     try:
-        # Retrieve most recent routine
         data = []
-        struct = [] # Array of arrays containing the structure of the behavior blocks on the routine
 
-        # Find most recent routine in database and decode it
+        struct = []
         recent = routines.find_one(sort=[('$natural', -1)])
-        
         name = recent["label"]
+
         data.append([name])
 
-        recent = bson.decode(recent["file"])
-
-        # Append the arrays of behavior blocks,
-        # each array corresponding to the number of line 
-        # they were originally placed in
-        for k, v in recent.items():
+        recent_routine = bson.decode(recent["file"])
+        for k, v in recent_routine.items():
             struct.append(v)
-        
+        print(struct)
         data.append(struct)
 
-        # Return response in JSON format
         return jsonify(data)
     except Exception as e:
-        # Handle exception
-        return jsonify({"Status" : "An error ocurred: " + str(e)})
+        return jsonify({"Status": False})
 
 
+# UPDATE/REPLACE
+# Update routine entry in db using its name and receiving new
+# routine object
+@app.route("/update_routine/<name>", methods=["POST"])
+def update_routine(name):
+    if request.method == 'POST':
+        routine = loads(request.data)
+        routine = routine["routine"]
+        print(routine)
+        try:
+            filter = {"label": name}
+            new_values = {"$set": {"file": routine, "last_modified": datetime.datetime.now(
+                tz=datetime.timezone.utc)}}
+            routines.update_one(filter, new_values)
+            return jsonify({"Status" : "Update completed"})
+        except Exception as e:
+            return jsonify({"Status" : "An error ocurred: " + str(e)})
 
-@app.route("/delete_routine/<id>", methods=["DELETE"])
-def delete_routine(id):
+
+# DELETE
+# Delete routine entry from db using its name
+@app.route("/delete_routine/<name>", methods=["DELETE"])
+def delete_routine(name):
     try:
-        # Find by name the routine the user wants to delete
-        # and delete it
-        if (routines.find_one({"_id": ObjectId(id)})) is not None:
-            routines.delete_one({"_id": ObjectId(id)})
-
-             # Return response in JSON format
+        if (routines.find_one({"label": name})) is not None:
+            routines.delete_one({"label": name})
             return jsonify({"Status" : "Delete completed"})
         else:
-            # If the given routine name isnt found in the database
-             # Return response in JSON format
             return jsonify({"Status" : "No such routine found"})
     except Exception as e:
-        # Handle exception
         return jsonify({"Status" : "An error ocurred: " + str(e)})
-
 
 @app.route("/load_current_routine_txt", methods=["GET"])
 def load_current_routine_txt():
     try:
-        # Request to give YAML preview of current routine
-        # was received correctly
-        # Return response in JSON format 
         return jsonify({"Status": "Complete"})
     except Exception as e:
-        # Handle exception
         return jsonify({"Status": e})
 
-
+# Fetch entries from all tables to send to sidebar angular component
+# Return entries in a json format
 @app.route("/fetch_routines_from_db", methods=["GET"])
 def fetch_routines_from_db():
     try:
-        # Refresh of Routines collections
-        routines = local_db["routines"]
-        data = [] # Array to store all contents in the collection
+        routines = db["routines"]  # Creation/Access of table Routines
 
-        # Get all documents found in the collection
-        # Provide front end with only ID and label
+        data = []
+
         routines_entries = []
         for entry in routines.find():
-            routines_entries.append({"id": str(entry["_id"]), "label": entry["label"]})
-        data.append(routines_entries)
+            routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
+                                    "last_modified": entry["last_modified"], "file": bson.decode(entry["file"])})
 
-        # Return array in JSON format
+        data.append(routines_entries)
         return jsonify(data)
     except Exception as e:
-        #Handle exception
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 
-# @app.route("/start_ros_talker", methods=["GET"])
+# @app.route("/start_ros_nodes", methods=["GET"])
 # def start_ros_nodes():
-#     # Start the script that executes the ROS
-#     # node that sends data to the ROS listener node 
+#     html_string = """
+#     <!DOCTYPE html>
+#     <html lang="en">
+#     <head>
+#         <meta charset="UTF-8">
+#         <title>FlaskApp</title>
+#     </head>
+#     <body>
+#         <h1>Hello World!</h1>
+#         <h2>Welcome to FlaskApp!</h2>
+#     </body>
+#     </html>
+#     """
 #     while True:
 #         talker.main()
+#         render_template(html_string)
 
 
 
