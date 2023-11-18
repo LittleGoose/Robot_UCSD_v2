@@ -46,7 +46,7 @@ export class BlockComponentComponent implements AfterViewInit {
   } 
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
-    private ionContent: IonContent, private rs: RestService) {
+    private ionContent: IonContent, private rs: RestService, private tabService: TabServiceService) {
 
     this.current_routine.array_block = []; // Create a new blanck routine
 
@@ -148,11 +148,12 @@ export class BlockComponentComponent implements AfterViewInit {
   }
 
   // FUNCION PARA ABRIR UN TAB CON DOBLE CLICK
-  onDoubleClick(event: MouseEvent, index: number,block: Send_block ) {
+  onDoubleClick(event: MouseEvent, index: number, send_block: Send_block ) {
     //console.log('Doble clic en el ítem número ' + index);
-   if(block.class === 'routine')
+   if(send_block.class === 'routine')
    {
-    this.tabService.addTabToContainer();
+    let block = new Block('0', send_block.name, "")
+    this.tabService.addTabToContainer(block);
    }
   }
   
