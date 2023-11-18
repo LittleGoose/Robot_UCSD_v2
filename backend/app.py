@@ -74,7 +74,6 @@ def fetch_from_db():
 
         data.append(speech_elements_entries)
 
-        #TODO Preguntar como pasar el file (BSON/JSON decodificado es lo que se utiliza actualmente)
         routines_entries = []
         for entry in routines.find():
             routines_entries.append({"id": str(entry["_id"]), "label": entry["label"], "user": entry["user"],
@@ -90,7 +89,7 @@ def fetch_from_db():
 # CREATE
 # Receive a the routine object to enconde in binary
 # Add to entry and upload to database
-@app.route("/save_routine//<replace>", methods=["POST"])
+@app.route("/save_routine/<replace>", methods=["POST"])
 def save_routine(replace):
     if request.method == 'POST':
         routine = loads(request.data)
@@ -231,6 +230,24 @@ def fetch_routines_from_db():
 
         data.append(routines_entries)
         return jsonify(data)
+    except Exception as e:
+        return jsonify({"Status" : "An error ocurred: " + str(e)})
+    
+@app.route("/fetch_routine_from_db/<name>", methods=["GET"])
+def fetch_routine_from_db(name):
+    try:
+        routines = db["routines"]  # Creation/Access of table Routines
+        routine = routines.find_one({"label": name})
+        routine = bson.decode(routine["file"])
+        
+        struct = []
+
+        for k, v in routine.items():
+            struct.append(v)
+            
+        print(struct)
+
+        return jsonify(struct)
     except Exception as e:
         return jsonify({"Status" : "An error ocurred: " + str(e)})
 

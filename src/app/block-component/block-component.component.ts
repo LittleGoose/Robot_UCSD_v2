@@ -152,8 +152,27 @@ export class BlockComponentComponent implements AfterViewInit {
     //console.log('Doble clic en el ítem número ' + index);
    if(send_block.class === 'routine')
    {
+    console.log("eseeeeeee")
     let block = new Block('0', send_block.name, "")
     this.tabService.addTabToContainer(block);
+    this.rs.get_routine(send_block.name).subscribe( 
+      (response) => {
+        response.forEach(element => {
+          element.forEach(block_item => {
+            let block = new Send_block();
+            block.class = block_item.class;
+            block.name = block_item.name;
+            block.level = block_item.level;
+            block.talk = block_item.talk;
+            block.clear = block_item.clear;
+            this.current_routine.array_block.push(element);
+          });
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
    }
   }
   
