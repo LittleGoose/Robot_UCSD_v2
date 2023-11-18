@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { PopUpService } from '../pop-up.service';
 import { Send_block } from '../models/routines.model';
 import { NewBlockService } from '../new-block.service';
@@ -10,15 +10,14 @@ import { NewBlockService } from '../new-block.service';
   styleUrls: ['./pop-up-save.component.scss'],
 })
 export class PopUpSaveComponent {
-
   @Input() name: string;
   selectedValue: number;
   talk: string;
   name_routine: string;
 
-  constructor(private modalController: ModalController, private popUpService: PopUpService){ }
+  constructor(private modalController: ModalController, private popUpService: PopUpService) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.name_routine = this.name;
   }
 
@@ -26,8 +25,7 @@ export class PopUpSaveComponent {
     this.modalController.dismiss(null, 'cancel');
   }
 
-  save(){
+  save() {
     this.modalController.dismiss(null, this.name_routine);
   }
-
 }

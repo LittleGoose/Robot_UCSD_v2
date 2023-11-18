@@ -1,21 +1,28 @@
-<ion-header>
-
+<ion-header class="custom-header">
+  <ion-toolbar class="custom-toolbar">
+    
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="center-content">
-  <!-- Sección adicional para 'speech' -->
+  <!-- Contenido aquí -->
   <ion-text class="center-text">
-   “{{routine_name}}” already exists. Do you want to replace it?
+    “{{routine_name}}” already exists. Do you want to replace it?
   </ion-text>
   <br>
   <ion-text class="center-text">
-  Replacing it will overwrite its current contents.
+    Replacing it will overwrite its current contents.
   </ion-text>
 
-  <!-- Contenedor para los botones centrados horizontalmente en el margen -->
+  <!-- Contenedor para los botones en la misma fila horizontal -->
   <div class="center-buttons">
-    <ion-button class="small-button" (click)="cancel()">Cancel</ion-button>
-    <ion-button class="small-button" (click)="replace()">Replace</ion-button>
+    <ion-button class="replace-button small-button" (click)="replace()" color="success">
+      <img width="30" height="30" src="https://img.icons8.com/ios-filled/50/checkmark--v1.png" alt="checkmark--v1"/>
+    </ion-button>
+    
+    <ion-button class="cancel-button small-button" (click)="cancel()" color="danger">
+      <img width="40" height="40" src="https://img.icons8.com/sf-black/64/multiply.png" alt="multiply"/>
+    </ion-button>
   </div>
-
 </ion-content>
+
