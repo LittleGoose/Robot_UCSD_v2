@@ -41,7 +41,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   @ViewChild('listenerbig', { static: false }) listenerBig: IonAccordionGroup;
   @ViewChild('listenersmall', { static: false }) listenerSmall: IonAccordionGroup;
   @ViewChild('popover') popover;
-  
+  @ViewChild('popoversecond') popoversecond;
   private scrollSubscription: Subscription;
   
   talk: Speech;
@@ -99,6 +99,7 @@ export class SidebarAccordeonComponent implements OnDestroy {
   routines_blocks: Routines_Blocks[] = [];
 
   isOpen = false;
+  isOpenTwo= false;
   pop_over_block: Block;
 
   routine_images: string[] = [];
@@ -277,7 +278,20 @@ export class SidebarAccordeonComponent implements OnDestroy {
       this.popover.event = e;
       this.isOpen = true;
       this.pop_over_block = item;
-    }
+    } 
+  }
+
+  async openPopoverSecond(color: string, e:MouseEvent, item: Block) {
+    e.preventDefault();
+    if (color === 'warning') {
+      this.popoversecond.event = e;
+      this.isOpenTwo = true;
+      this.pop_over_block = item;
+
+      this.popoversecond.onDidDismiss().then(() => {
+        this.isOpenTwo = false;
+      });
+    } 
   }
 
   delete_routine(ev: Event){

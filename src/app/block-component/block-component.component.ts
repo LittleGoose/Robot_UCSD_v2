@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, ViewChildren, QueryList,  ViewContainerRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ViewChildren, QueryList,  ViewContainerRef, EventEmitter, Output } from '@angular/core';
 import { IonButton, IonContent } from '@ionic/angular';
 import { Block } from '../models/blocks.model';
 import { Routines, Send_block } from '../models/routines.model';
@@ -6,6 +6,7 @@ import { PopUpService } from '../pop-up.service';
 import { NewBlockService } from '../new-block.service';
 import { SendData } from '../new-block.service';
 import { RestService } from '../rest.service';
+import { TabServiceService } from '../tab-service.service';
 
 @Component({
   selector: 'app-block-component',
@@ -20,6 +21,7 @@ export class BlockComponentComponent implements AfterViewInit {
   @ViewChild('blockRef', { read: ElementRef }) buttonRef: ElementRef;
   @ViewChild('grid', { read: ElementRef }) gridRef: ElementRef;
   @ViewChild('botonesContainer', { read: ViewContainerRef }) botonesContainer: ViewContainerRef;
+  @Output() agregarTabEvent = new EventEmitter<void>();
 
   current_routine: Routines = new Routines(); // Super important, where the visible routine is stored
 
@@ -44,7 +46,7 @@ export class BlockComponentComponent implements AfterViewInit {
   } 
 
   constructor(private popUpService: PopUpService, private newBlockService: NewBlockService, 
-    private ionContent: IonContent, private rs: RestService) {
+    private ionContent: IonContent, private rs: RestService, private tabService: TabServiceService) {
 
     this.current_routine.array_block = []; // Create a new blanck routine
 
@@ -129,7 +131,7 @@ export class BlockComponentComponent implements AfterViewInit {
     this.popUpService.retrieve_routine("get"); 
     // When returning to blocks_view return the rutine you where working with
   }
-
+  
   openPopUp(block: Send_block, event?: MouseEvent,) { 
     // Parameters pop-up
     if (event == undefined || event.detail === 2){
@@ -145,6 +147,16 @@ export class BlockComponentComponent implements AfterViewInit {
     }
   }
 
+  // FUNCION PARA ABRIR UN TAB CON DOBLE CLICK
+  onDoubleClick(event: MouseEvent, index: number, send_block: Send_block ) {
+    //console.log('Doble clic en el ítem número ' + index);
+   if(send_block.class === 'routine')
+   {
+    let block = new Block('0', send_block.name, "")
+    this.tabService.addTabToContainer(block);
+   }
+  }
+  
   reset_edges(){
     if (this.startElement && this.endElement) {
       // Get the references for the start and end boxes
