@@ -19,7 +19,7 @@
   <ion-row *ngFor="let row of current_routine.array_block; let i = index" #blockRef>
     <ion-col class="padding" id="padding"></ion-col>
     <ion-col class="center" id="num">
-      <ion-text>{{i}}</ion-text> <!--Line number-->
+      <ion-text>{{i + 1}}</ion-text> <!--Line number-->
     </ion-col>
     
     <!--For each block in that line of blocks-->
