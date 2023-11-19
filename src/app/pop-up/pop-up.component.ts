@@ -16,6 +16,7 @@ export class PopUpComponent {
   selectedValue: number;
   talk: string;
   clear: string;
+  tone_voice: string;
 
   constructor(private modalController: ModalController, private popUpService: PopUpService){ }
 
@@ -23,7 +24,7 @@ export class PopUpComponent {
     this.selectedValue = this.block.level;
     this.talk = this.block.talk;
     this.clear = this.block.clear;
-    
+    this.tone_voice = this.block.tone_voice;
    }
 
   cancel() {
@@ -66,6 +67,7 @@ export class PopUpComponent {
       }
       case 'speech': {
         this.block.talk = this.talk;
+        this.block.tone_voice = this.tone_voice;
         break;
       }
       case 'clear':

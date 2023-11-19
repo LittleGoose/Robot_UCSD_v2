@@ -3,7 +3,8 @@ export class Send_block { // In rutine
     class: string = "";
     level: number = 0;
     talk: string = "";
-    clear: string= "";s
+    clear: string= "";
+    tone_voice: string;
   
     get_color(){
         

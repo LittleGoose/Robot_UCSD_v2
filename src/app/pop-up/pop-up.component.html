@@ -1,11 +1,11 @@
-<ion-header>
+<ion-header> <!--For the characteristics component-->
   <ion-toolbar>
     <ion-title class="titleicon" style="display:inline-block"> Update Parameter </ion-title>
     <img slot="end" class="cross_button" src="../../assets/icon/cross.png" style="display:inline-block" (click)="cancel()"/>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="pop-up-content" [ngSwitch]="block.class">
+<ion-content class="pop-up-content" [ngSwitch]="block.class"> <!--Changing the types depending on the class-->
     <div class="ion-text-center" *ngSwitchCase="'facial_expression'">
       <ion-text>¿What level would you like “{{block.name}}”?</ion-text>
       <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="0" [max]="2" [pin]="true" [pinFormatter]="pinFormatter" [(ngModel)]="selectedValue"></ion-range>
@@ -20,15 +20,9 @@
     <div class="ion-text-center" *ngSwitchCase="'speech'">
       <ion-text>¿What would you like your robot to say?</ion-text>
       <ion-input placeholder="Text Here" [(ngModel)]="talk"></ion-input>
-    </div>
-    
-    <div *ngSwitchDefault>
-      ERROR
-    </div>
-
-      <ion-list class="my_select" *ngSwitchCase="'speech'">
+      <ion-list class="my_select">
         <ion-item>
-          <ion-select aria-label="fruit" placeholder="Tone of voice">
+          <ion-select aria-label="fruit" placeholder="Tone of voice" [(ngModel)]="tone_voice">
             <ion-select-option value="Angry">Angry</ion-select-option>
             <ion-select-option value="Happy">Happy</ion-select-option>
             <ion-select-option value="Sad">Sad</ion-select-option>
@@ -36,6 +30,11 @@
           </ion-select>
         </ion-item>
       </ion-list>
+    </div>
+    
+    <div *ngSwitchDefault>
+      ERROR
+    </div>
    
     <ion-button class="button_save" colors="success" (click)="save()">Save Changes</ion-button>
 
