@@ -243,15 +243,14 @@ export class SidebarAccordeonComponent implements OnDestroy {
     )
 
     let i = 0;
-    for(let item in this.routines_blocks){
+    for(let item in this.routines_blocks){ // Delete the routine from the sideabar
       if(this.routines_blocks[item].label == this.pop_over_block.label){
-        this.routines_blocks.splice(i, 1);
+        this.routines_blocks.splice(i, 1); // Splice = Pop in i posisition
       }
       i++;
     }
 
     this.isOpen = false;
-
   }
 
   download_routine(ev: Event){
