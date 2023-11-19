@@ -22,9 +22,32 @@ import { Routines, Send_block } from '../models/routines.model';
 export class SidebarAccordeonComponent implements OnDestroy {
   @Output() agregarTabEvent = new EventEmitter<void>();
 
-  onModifyClick(): void { // When clicking on modfy open new tab and load the routine
+  onModifyClick(event: Event): void { // When clicking on modfy open new tab and load the routine
     // MISSING ADDING THE ROUTINE HERE
-    this.tabService.addTabToContainer(this.pop_over_block);
+    this.rs.get_routine(this.pop_over_block.label).subscribe( 
+      (response) => {
+        let routine = new Routines(); // Transform the routine
+        routine.name = this.pop_over_block.label; // Get the name of the new tab
+        let i = 0;
+        response.forEach(element => { // Add blocks to the routine
+          routine.array_block.push([])
+          element.forEach(block_item => {
+            let block_i = new Send_block();
+            block_i.class = block_item.class;
+            block_i.name = block_item.name;
+            block_i.level = block_item.level;
+            block_i.talk = block_item.talk;
+            block_i.clear = block_item.clear;
+            routine.array_block[i].push(block_i);
+            i+=1;
+          });
+        });
+        this.tabService.addTabToContainer(this.pop_over_block, routine); // Add new container and push new_routine
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
   
   @ViewChild(IonContent) content: IonContent;
