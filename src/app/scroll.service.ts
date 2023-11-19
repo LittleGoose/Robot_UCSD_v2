@@ -13,16 +13,7 @@ export class ScrollService {
 
   constructor() { }
 
-  sendInformation(positionX: number, positionY: number) {
-    this.scrollEvent.emit({ positionX, positionY });
-  }
-  getScrollObservable(): Observable<{positionX: number, positionY: number }> {
+  getScrollObservable(): Observable<{positionX: number, positionY: number }> { // Update scroll for block-view
     return this.scrollEvent.asObservable();
   }
-
- 
-
-  //scrollToPosition(content: IonContent, positionX: number, positionY: number) {
-    //content.scrollToPoint(positionX, positionY, 500); // 500 ms de duración, ajusta según sea necesario
-  //}
 }

@@ -4,9 +4,7 @@ import { PopUpComponent } from './pop-up/pop-up.component';
 import { PopUpSaveComponent } from './pop-up-save/pop-up-save.component';
 import { Routines, Send_block } from './models/routines.model';
 import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
-import { Block, Routines_Blocks } from './models/blocks.model';
 import { SendData } from './new-block.service';
-import { RestService } from './rest.service';
 import { PopUpNameDuplicateComponent } from './pop-up-name-duplicate/pop-up-name-duplicate.component';
 
 @Injectable({
@@ -35,7 +33,8 @@ export class PopUpService {
 
   constructor(private modalController: ModalController) {} //private rs: RestService
 
-  async openDuplicateModal(routine_name){
+  async openDuplicateModal(routine_name){ 
+    // Pop-up when repeated name has been found
 
     const modal = await this.modalController.create({
       component: PopUpNameDuplicateComponent,
@@ -45,9 +44,9 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.data === 1) {
+      if (result.data === 1) { // We wan't to overwrite
         this.replaceRoutineEvent.emit(result.data);
-      }
+      } // Else, nothing happens, just continue editing
     });
 
     await modal.present();
@@ -92,9 +91,8 @@ export class PopUpService {
     await modal.present();
   }
 
-  async openModal_Clear(dataExtra?: string, tab_borrar?:number) {
+  async openModal_Clear(dataExtra?: string, tab_borrar?:number) { // Clear routine
 
-    console.log("data extra:" + `${dataExtra}`)
     const modal = await this.modalController.create({
       component: PopUpClearComponent,
       componentProps: {
@@ -103,10 +101,9 @@ export class PopUpService {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.role === 'Yes') {
-        this.clearRoutine.emit(dataExtra);
+      if (result.role === 'Yes') { // You want to clear
+        this.clearRoutine.emit(dataExtra); // Just delete the current tab
         if(tab_borrar != undefined){
-          console.log("Emit de tab", tab_borrar);
           this.delete_tab.emit(tab_borrar);
         }
       }
@@ -116,7 +113,7 @@ export class PopUpService {
     await modal.present();
   }
 
-  ask_name(type:string, routine?:Routines){
+  ask_name(type:string, routine?:Routines){ // For save pop-up
     if(type == "ask"){
       this.NameRoutine.emit(); // Ask name to show on the pop-up
     } else {
@@ -125,11 +122,11 @@ export class PopUpService {
   }
 
   push_routine(routine: Routines){
-    // Only when starting the app
+    // Push a routine in block-view
     this.retrieve_past_routine.emit(routine);
   }
 
-  retrieve_routine(action:string, routine?: Routines){
+  retrieve_routine(action:string, routine?: Routines){ // Retrieve routine from current view and perform action
     if(action=="store"){
       // When changing the view
       this.current_routine = routine;    
@@ -147,7 +144,7 @@ export class PopUpService {
     }
   }
 
-  result_ready(rutine: Routines){
+  result_ready(rutine: Routines){ // When routine is saved and tab is updated
     this.results_ready.emit(rutine);
   }
 }

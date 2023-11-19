@@ -1,7 +1,6 @@
 import { Injectable , EventEmitter} from '@angular/core';
 import { Block } from './models/blocks.model';
 import { Routines } from './models/routines.model';
-import { PopUpService } from './pop-up.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +8,9 @@ import { PopUpService } from './pop-up.service';
 export class TabServiceService {
   public tabAdded: EventEmitter<Block_Routine> = new EventEmitter<Block_Routine>();
 
-  constructor(private popUpService: PopUpService) { }
-  addTabToContainer(item: Block, routine?: Routines) {
+  constructor() { }
+  addTabToContainer(item: Block, routine?: Routines) { 
+    // Adding a new tab, if opened with routine then open the routine as well
     let block_routine = new Block_Routine;
     block_routine.block = item;
     if(routine != undefined){

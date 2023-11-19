@@ -16,17 +16,18 @@ export class NewBlockService {
 
   constructor() {}
 
-  emitData(event: DragEvent, block: Block) {
+  emitData(event: DragEvent, block: Block) { 
+    // When dropping new block from sidebar
     this.send_data.event = event;
     this.send_data.block = block;
     this.newBlockAdded.emit(this.send_data);
   }
 
-  sendScroll(event: Event){
+  sendScroll(event: Event){ // On-scroll in app
     this.scrollEvent.emit(event);
   }
 
-  newTabClicked(){
+  newTabClicked(){ // New tab is opened
     this.newTab.emit();
   }
 
