@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PopUpService } from '../pop-up.service';
-import { Send_block } from '../models/routines.model';
-import { NewBlockService } from '../new-block.service';
 
 @Component({
   selector: 'app-pop-up-save',
@@ -11,8 +9,6 @@ import { NewBlockService } from '../new-block.service';
 })
 export class PopUpSaveComponent {
   @Input() name: string;
-  selectedValue: number;
-  talk: string;
   name_routine: string;
 
   constructor(private modalController: ModalController, private popUpService: PopUpService) {}
@@ -21,7 +17,7 @@ export class PopUpSaveComponent {
     this.name_routine = this.name;
   }
 
-  cancel() {
+  cancel() { // Yes or no
     this.modalController.dismiss(null, 'cancel');
   }
 

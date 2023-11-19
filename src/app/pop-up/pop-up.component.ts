@@ -12,7 +12,7 @@ import { Send_block } from '../models/routines.model';
 })
 export class PopUpComponent {
 
-  @Input() block: Send_block;
+  @Input() block: Send_block; // Open a specific block with specific characteristics
   selectedValue: number;
   talk: string;
   clear: string;
@@ -20,7 +20,7 @@ export class PopUpComponent {
 
   constructor(private modalController: ModalController, private popUpService: PopUpService){ }
 
-  ngOnInit(): void { 
+  ngOnInit(): void { // Initialize the pop-up with those characteristics
     this.selectedValue = this.block.level;
     this.talk = this.block.talk;
     this.clear = this.block.clear;
@@ -31,7 +31,7 @@ export class PopUpComponent {
     this.modalController.dismiss(null, 'cancel');
   }
 
-  pinFormatter(value: number) {
+  pinFormatter(value: number) { // Level is modified
 
     let level : string = "";
 
@@ -55,7 +55,7 @@ export class PopUpComponent {
     return level;
   }
 
-  save(){
+  save(){ // Only updating values when clicking the save button
     switch(this.block.class){
       case 'facial_expression': {
         this.block.level = this.selectedValue;
@@ -77,8 +77,7 @@ export class PopUpComponent {
         }
        
     }
-    //this.popUpService.save_param(this.block);
-    this.modalController.dismiss(this.block, 'dataSaved');
+    this.modalController.dismiss(this.block, 'dataSaved'); // Update the new block in block-component
   }
 
 }

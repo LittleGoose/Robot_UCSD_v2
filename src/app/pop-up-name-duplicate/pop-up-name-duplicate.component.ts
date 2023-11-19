@@ -1,8 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
-import { PopUpService } from '../pop-up.service';
-
-
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pop-up-name-duplicate',
@@ -11,14 +8,14 @@ import { PopUpService } from '../pop-up.service';
 })
 export class PopUpNameDuplicateComponent  implements OnInit {
 
-  @Input() routine_name: String;
+  @Input() routine_name: String; // Name of the routine that's being duplicated
 
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
   }
 
-  cancel(){
+  cancel(){  // Return yes or no
     this.modalController.dismiss(0);
   }
 

@@ -1,9 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PopoverController  } from '@ionic/angular';
-import { RestService } from '../rest.service';
 import { NewBlockService } from '../new-block.service';
-import { Routines } from '../models/routines.model';
-import { BlockComponentComponent } from '../block-component/block-component.component';
 
 
 @Component({
@@ -19,7 +16,7 @@ export class PopUpLoadPreviousRoutineComponent implements OnInit {
 
   ngOnInit() {}
 
-  buttonPressed(str?: string) {
+  buttonPressed(str?: string) { // Yes or no 
     if(str == "yes"){
       this.popoverController.dismiss("yes");
     }else{

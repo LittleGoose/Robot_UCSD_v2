@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { PopUpService } from '../pop-up.service';
-import { Send_block } from '../models/routines.model';
 
 @Component({
   selector: 'app-pop-up-clear',
@@ -18,18 +17,13 @@ export class PopUpClearComponent {
     this.modalController.dismiss(null, 'cancel');
   }
 
-  butomYes()
+  butomYes() // Return yes or no to pop-up service
   {
-    //this.popUpService.saveRoutine.emit("Routine Saved");
-    //this.popUpService.clearRoutine.emit("Clear Routine");
     this.modalController.dismiss(null, 'Yes');
   }
   butomNo()
   {
     this.modalController.dismiss(null, 'cancel');
-  }
-  butomSave(){
-    
   }
 
 }
