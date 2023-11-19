@@ -1,25 +1,17 @@
 <ion-app>
   <ion-split-pane class="parte_1" contentId="main-content">
-    <!-- AQUI COMIENZA EL PRIMER SIDEBAR 
-      <ion-content  contentId="left-content" class="first">
-        <app-sidebar-first></app-sidebar-first>
-      </ion-content>-->
-      <!-- AQUI COMIENZA EL SEGUNDO SIDEBAR 
-      <ion-content contentId="center-content" class="second">
-        <app-sidebar-second></app-sidebar-second>
-      </ion-content> -->
-      <!-- AQUI COMIENZA EL AREA DE RUTINA -->
       <ion-content contentId="left-content" class="first" color="light">
-        <app-sidebar-accordeon ></app-sidebar-accordeon>
+        <app-sidebar-accordeon ></app-sidebar-accordeon> <!--Sidebar-->
       </ion-content>
       <ion-content contentId="right-content" class="third">
-        <ion-grid>
+        <ion-grid> <!--Grid for the tabs + button-->
           <ion-row>
-            <ion-col class="col"><div class="botones-container" *ngFor="let tab of tabDataList; let i = index">
-              <ion-button class="my-button" size="small" color="light" *ngIf="i != opened_tab" (click)="tabClicked($event, i)">
-                <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label> 
+            <!--Actual tabs-->
+            <ion-col class="col"><div class="botones-container" *ngFor="let tab of tabDataList; let i = index"> <!--Unopened tabs are not highlighted-->
+              <ion-button class="my-button" size="small" color="light" *ngIf="i != opened_tab" (click)="tabClicked($event, i)"> 
+                <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label>
              </ion-button>
-             <ion-item class="my-button" size="small" color="dark" *ngIf="i == opened_tab">
+             <ion-item class="my-button" size="small" color="dark" *ngIf="i == opened_tab"> <!--Opened tab is highlighted-->
                 <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label> 
                 <ion-icon (click)="eliminarBoton(i)" class="my-icon-close" slot="end"name="close-circle-outline" ></ion-icon>
               </ion-item>             
@@ -27,16 +19,12 @@
             <ion-col class="ion-text-right" size="auto"><ion-button (click)="Switch_View()">Switch To<br>YAML View</ion-button></ion-col>
           </ion-row>          
         </ion-grid>
-        <app-block-component *ngIf="block_view"></app-block-component>
-
+        <app-block-component *ngIf="block_view"></app-block-component> <!--Show blocks if is this-->
         <pre style="padding: 15px;" *ngIf="!block_view" id="yamlText"></pre>
       </ion-content>
     </ion-split-pane>
   
+  <!--Buttons are on top of the actual view-->
   <ion-button size="large" color="medium" class="clear" (click)="onNewPressed()">NEW</ion-button>
   <ion-button size="large" color="success" class="save" (click)="saveRoutine()">SAVE</ion-button>
-  <!-- <ion-button size="large" color="secondary" class= "tabs" (click)="agregarTabAlContainer()">New Tab</ion-button> -->
 </ion-app>
-
-
-<!--  (agregarTabEvent)="agregarTabAlContainer()"      -->

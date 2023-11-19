@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component,  Output, EventEmitter} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonicModule, PopoverController, TextValueAccessor } from '@ionic/angular';
+import { IonicModule, PopoverController} from '@ionic/angular';
 import { RoutineAreaModule } from './routine-area/routine-area.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { ScrollDetail } from '@ionic/angular';
@@ -13,14 +13,13 @@ import { RestService } from './rest.service';
 import { NewBlockService } from './new-block.service';
 import { BlockComponentComponent } from './block-component/block-component.component';
 import { PopUpLoadPreviousRoutineComponent } from './pop-up-load-previous-routine/pop-up-load-previous-routine.component';
-
 import { OnInit } from '@angular/core';
-import { Block, Facial_Expression, Routines_Blocks } from './models/blocks.model';
-import {  ViewChild, ElementRef, AfterViewInit, Renderer2, ViewChildren, QueryList,  ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Block} from './models/blocks.model';
+import { ViewChild,  ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { Routines, Send_block } from './models/routines.model';
 import { TabData } from './models/tabsdata';
 import { TabServiceService } from './tab-service.service';
-import {OverlayEventDetail} from '@ionic/core'; 
+import { OverlayEventDetail} from '@ionic/core'; 
 import * as yaml from '../../node_modules/js-yaml/dist/js-yaml';
 
 
@@ -43,32 +42,29 @@ export class AppComponent implements OnInit {
   @Output() removeTabEvent = new EventEmitter<void>();
   @ViewChild('botonesContainer', { read: ViewContainerRef  }) botonesContainer: ViewContainerRef;
 
-  block_view: boolean = true;
-  text: String;
+  block_view: boolean = true; // Switching between block view and yaml view
   routine: Routines;
-  opened_tab: number = 0;
-  routines: Array<Routines> = [];
+  opened_tab: number = 0; // id of the current opened tab
+  routines: Array<Routines> = []; // All of the routines in the tabs
 
-    // Aqui termina las funciones para hacer el scroll
   constructor(private new_block: NewBlockService, private popUpService: PopUpService, private componentFactoryResolver: ComponentFactoryResolver,
     private popoverController: PopoverController, private rs: RestService, private tabService: TabServiceService) {
-      this.popUpService.retrieve_current_routine.subscribe(
+      this.popUpService.retrieve_current_routine.subscribe( // When 'get' routine is called
         (data) =>{
-          // this.current_routine = data;
-          // console.log(data);
           this.routine = data;
         });
 
-        this.tabService.tabAdded.subscribe((data) => {
-          this.agregarTabAlContainer(data.block, data.routine);
+        this.tabService.tabAdded.subscribe((data) => { // When tab is added
+          this.agregarTabAlContainer(data.block, data.routine); // Add new tab and routine if applicable (specially when double clicking in a routine)
         });
-    
-      console.log("on constructor app");
 
       this.popUpService.clearRoutine.subscribe((idTabACerrar) => {
+        if(this.routines.length == 1){ // If close the only tab, then push new empty rutine
+          this.popUpService.push_routine(new Routines());
+        }
       });
 
-      this.popUpService.delete_tab.subscribe((idTabACerrar) => {
+      this.popUpService.delete_tab.subscribe((idTabACerrar) => { // Close a tab
         console.log("CERRANDO TAB", idTabACerrar)
         this.tabDataList.splice(idTabACerrar, 1);
         this.routines.splice(idTabACerrar, 1);
@@ -76,7 +72,7 @@ export class AppComponent implements OnInit {
         {
           this.agregarTabAlContainer();
         }
-        this.opened_tab = 0;
+        this.opened_tab = 0; // Open the first tab
         this.popUpService.push_routine(this.routines[0]);
       });
 
@@ -92,7 +88,8 @@ export class AppComponent implements OnInit {
         console.log("Opened tab", this.opened_tab);
       });
 
-      this.popUpService.results_ready.subscribe((routine) => {
+      this.popUpService.results_ready.subscribe((routine) => { 
+        // Once the results on saved are ready, change the tab name for the new routine name
         this.tabDataList[this.opened_tab].tabName = routine.name;
       })
   }
@@ -104,8 +101,7 @@ export class AppComponent implements OnInit {
       // Coloca las propiedades de posición y otros ajustes según tus necesidades
     });
 
-    let current_routine: Routines = new Routines();
-    // this.popUpService.retrieve_routine("save_routine");
+    let current_routine: Routines = new Routines(); // Start a new routine
 
     await popover.present();
     await popover.onDidDismiss()
@@ -188,7 +184,7 @@ export class AppComponent implements OnInit {
     this.popUpService.ask_name("ask");
   }
 
-  onNewPressed(){
+  onNewPressed(){ // New tab
     this.agregarTabAlContainer();
   }
 
@@ -209,16 +205,11 @@ export class AppComponent implements OnInit {
       let now = new Date();
       let horaCreacion = `${now.getHours()}` + ":" + `${now.getMinutes()}` + ":" + `${now.getSeconds()}`;
       var dataInfo = "Tab creado a las: " + `${horaCreacion}`; // Puedes establecer la información según tus necesidades
-      //nuevoTab.updateTabTitle(buttonLabel);
-      //this.tabsComponentList.push(nuevoTab);
       this.crearTab(tabTitle, dataInfo, tabId)
       var lastIndex = this.tabDataList.length - 1;
-      //this.tabDataList[lastIndex].tabName=tabTitle);
       this.tabDataList[lastIndex].tabName = tabTitle;
       // Escucha eventos o realiza otras acciones según sea necesario.
       this.mostrarBloque = true ;
-
-      // Incrementa la cantidad de botones
 
       // Almacena mostrarBloque en el almacenamiento local
       localStorage.setItem('mostrarBloque', 'true');
@@ -269,14 +260,11 @@ export class AppComponent implements OnInit {
   } 
 
   eliminarBoton(idTabACerrar: number) {
-    console.log("tab clickeado")
-    this.popUpService.openModal_Clear("", idTabACerrar);
-    console.log("cerrando tab, data: " + `${idTabACerrar}`)
+    this.popUpService.openModal_Clear("", idTabACerrar); // Close the current tab
   }
 
-  tabClicked(event: Event, i:number){
+  tabClicked(event: Event, i:number){ // Change between tabs
     this.opened_tab = i;
-    console.log(this.routines)
     this.popUpService.push_routine(this.routines[i]);
   }
 }
