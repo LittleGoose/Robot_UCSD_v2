@@ -132,17 +132,43 @@ export class BlockComponentComponent implements AfterViewInit {
     // When returning to blocks_view return the rutine you where working with
   }
   
-  openPopUp(block: Send_block, event?: MouseEvent,) { 
+  openPopUp(send_block: Send_block, event?: MouseEvent,) { 
     // Parameters pop-up
     if (event == undefined || event.detail === 2){
-      if ( block.class != 'routine'){ // Rutines open new tab not po-up
-        if(block.class == "speech" && block.name == "Talk"){
-          this.popUpService.openModal(block); // Only talk blocks open pop-up in speech
+      if ( send_block.class != 'routine'){ // Rutines open new tab not po-up
+        if(send_block.class == "speech" && send_block.name == "Talk"){
+          this.popUpService.openModal(send_block); // Only talk blocks open pop-up in speech
         } else {
-          if (block.class != "routine" && block.class != "speech"){
-            this.popUpService.openModal(block); // Every other type of block
+          if (send_block.class != "routine" && send_block.class != "speech"){
+            this.popUpService.openModal(send_block); // Every other type of block
           }
         }
+      } else { // Double click on a routine block
+        let block = new Block('0', send_block.name, "") 
+        this.rs.get_routine(send_block.name).subscribe( 
+          (response) => {
+            let routine = new Routines(); // Transform the routine
+            routine.name = send_block.name; // Get the name of the new tab
+            let i = 0;
+            response.forEach(element => { // Add blocks to the routine
+              routine.array_block.push([])
+              element.forEach(block_item => {
+                let block_i = new Send_block();
+                block_i.class = block_item.class;
+                block_i.name = block_item.name;
+                block_i.level = block_item.level;
+                block_i.talk = block_item.talk;
+                block_i.clear = block_item.clear;
+                routine.array_block[i].push(block_i);
+                i+=1;
+              });
+            });
+            this.tabService.addTabToContainer(block, routine); // Add new container and push new_routine
+          },
+          (error) => {
+            console.log(error);
+          }
+        )
       }
     }
   }
@@ -151,32 +177,7 @@ export class BlockComponentComponent implements AfterViewInit {
   onDoubleClick(event: MouseEvent, index: number, send_block: Send_block ) {
    if(send_block.class === 'routine') // Make sure double click on a routine
    {
-    let block = new Block('0', send_block.name, "") 
-    this.tabService.addTabToContainer(block); // Add new container
-    this.rs.get_routine(send_block.name).subscribe( 
-      (response) => {
-        let routine = new Routines(); // Transform the routine
-        routine.name = send_block.name; // Get the name
-        let i = 0;
-        response.forEach(element => { // Add blocks to the routine
-          routine.array_block.push([])
-          element.forEach(block_item => {
-            let block = new Send_block();
-            block.class = block_item.class;
-            block.name = block_item.name;
-            block.level = block_item.level;
-            block.talk = block_item.talk;
-            block.clear = block_item.clear;
-            routine.array_block[i].push(block);
-            i+=1;
-          });
-          this.popUpService.push_routine(routine) // Overwrite the current routine
-        });
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
+
    }
   }
   

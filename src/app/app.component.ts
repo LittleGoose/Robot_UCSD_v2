@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         });
 
         this.tabService.tabAdded.subscribe((data) => {
-          this.agregarTabAlContainer(data);
+          this.agregarTabAlContainer(data.block, data.routine);
         });
     
       console.log("on constructor app");
@@ -80,13 +80,16 @@ export class AppComponent implements OnInit {
         this.popUpService.push_routine(this.routines[0]);
       });
 
-      this.popUpService.store_current_routine.subscribe((routine) => {
-        let new_Routine = new Routines(); // Change for opened
+      this.popUpService.store_current_routine.subscribe((routine) => { //FUNCTION THAT CHANGES TAB AND UPDATES ROUTINE
+        let new_Routine = new Routines();
+        if (routine.new_routine != undefined){
+          new_Routine = routine.new_routine; // Change for opened
+        }
         this.routines.push(new_Routine);
         this.popUpService.push_routine(new_Routine); // Change for the incoming routine
-        this.routines[this.opened_tab] = routine;
+        this.routines[this.opened_tab] = routine.current_routine;
         this.opened_tab = this.routines.length - 1;
-        console.log(this.opened_tab);
+        console.log("Opened tab", this.opened_tab);
       });
 
       this.popUpService.results_ready.subscribe((routine) => {
@@ -193,7 +196,7 @@ export class AppComponent implements OnInit {
   id_contador = 0; // Variable para rastrear la cantidad de botones
   tabDataList: TabData[] = [];
 
-  agregarTabAlContainer(item?:Block) {
+  agregarTabAlContainer(item?:Block, routine?:Routines) {
       //Creando informacion del tab
       var id_actual = this.id_contador;
       var tabId = "tabid_" + id_actual.toString();
@@ -223,7 +226,7 @@ export class AppComponent implements OnInit {
       this.new_block.newTabClicked();
 
       this.popUpService.retrieve_routine("get");
-      this.popUpService.retrieve_routine("change_tab");
+      this.popUpService.retrieve_routine("change_tab", routine);
   }
 
 
@@ -273,6 +276,7 @@ export class AppComponent implements OnInit {
 
   tabClicked(event: Event, i:number){
     this.opened_tab = i;
+    console.log(this.routines)
     this.popUpService.push_routine(this.routines[i]);
   }
 }

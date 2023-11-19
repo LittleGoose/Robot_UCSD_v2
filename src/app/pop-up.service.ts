@@ -25,7 +25,7 @@ export class PopUpService {
   save_current_routine: EventEmitter<string> = new EventEmitter<string>();
   delete_tab: EventEmitter<number> = new EventEmitter<number>();
   replaceRoutineEvent: EventEmitter<Number> = new EventEmitter<Number>();
-  store_current_routine: EventEmitter<Routines> = new EventEmitter<Routines>();
+  store_current_routine: EventEmitter<Change_Routine> = new EventEmitter<Change_Routine>();
   results_ready: EventEmitter<Routines> = new EventEmitter<Routines>();
 
   send_data: SendData = new SendData();
@@ -132,15 +132,19 @@ export class PopUpService {
   retrieve_routine(action:string, routine?: Routines){
     if(action=="store"){
       // When changing the view
-      this.current_routine = routine;     
+      this.current_routine = routine;    
     } else if(action == "get"){
       this.retrieve_current_routine.emit(this.current_routine);
     } else if(action == "save_routine"){
       this.save_current_routine.emit("save");
     } else if(action == "change_tab"){
-      this.store_current_routine.emit(this.current_routine);
+      let change_routine = new Change_Routine();
+      change_routine.current_routine = this.current_routine;
+      if(routine != undefined){
+        change_routine.new_routine = routine;
+      }
+      this.store_current_routine.emit(change_routine);
     }
-
   }
 
   result_ready(rutine: Routines){
@@ -152,4 +156,9 @@ export class SendDataRoutine{
   type_def: string;
   routine?: Routines;
   name?: string;
+}
+
+export class Change_Routine{
+  new_routine: Routines;
+  current_routine: Routines;
 }
