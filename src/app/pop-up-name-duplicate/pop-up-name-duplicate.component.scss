@@ -1,17 +1,9 @@
 
-.custom-header {
-    ion-toolbar {
-      --background: #630fee; /* Color morado (ajusta según tus necesidades) */
-      color: #fff; /* Color de texto blanco */
-    }
-  }
-
   .center-buttons {
     display: flex;
     justify-content: space-between; /* Distribuye los elementos alrededor */
     align-items: center;
     margin-top: 12px; /* Ajusta según sea necesario */
-    background-color: #add8e6; /* Fondo con el color deseado */
   }
 
  /* Estilo para la imagen dentro del botón replace */
@@ -41,26 +33,24 @@
     flex-direction: column;
     align-items: center;
     margin-top: 30px; /* Ajusta según sea necesario */
-    --background: #add8e6; /* Cambia este valor al color que desees */
+    --background: var(--ion-color-light); /* Cambia este valor al color que desees */
   }
   .cancel-button {
     margin-left: 8px;
   }
   
   .center-text {
-    display: flex;
+    //display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: 'Helvetica', sans-serif;
-    font-size: 1.2rem;
-    font-weight: bold;
+    //font-family: 'Helvetica', sans-serif;
+    font-size: 1.1rem;
+    //font-weight: bold;
     margin-bottom: 10px;
-    color: black; /* Cambia el color del texto a negro */
+    //color: black; /* Cambia el color del texto a negro */
+    //width: 500px;
   }
-
-
-
 
   /* Estilo para la imagen dentro del botón cancel */
 .cancel-button img {
@@ -92,14 +82,21 @@
   }
   
   .center-buttons {
-    display: flex;
+    //display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 12px; /* Ajusta según sea necesario */
-    background-color: #add8e6; /* Fondo con el color deseado */
+    //background-color: #add8e6; /* Fondo con el color deseado */
   }
   .cancel-button:last-child {
     margin-right: 0;
     
   }
 
+  ion-content{
+    --padding-start: 5%;
+    --padding-top: 5%;
+    --padding-end: 5%;
+    --padding-bottom: 5%;
+    --background: var(--ion-color-light)
+  }

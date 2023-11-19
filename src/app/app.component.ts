@@ -260,7 +260,7 @@ export class AppComponent implements OnInit {
   } 
 
   eliminarBoton(idTabACerrar: number) {
-    this.popUpService.openModal_Clear("", idTabACerrar); // Close the current tab
+    this.popUpService.delete_tab.emit(idTabACerrar); // Close the current tab
   }
 
   tabClicked(event: Event, i:number){ // Change between tabs

@@ -24,3 +24,8 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+.rename-routine{ //change with of duplicate-name routine
+    --width: 50% !important;
+    --height: fit !important;
+};

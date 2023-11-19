@@ -12,11 +12,10 @@ describe('PopUpSaveComponent', () => {
       imports: [IonicModule.forRoot()]
     })
     .compileComponents()
-    .then(() => {
-      fixture = TestBed.createComponent(PopUpSaveComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+    
+    fixture = TestBed.createComponent(PopUpSaveComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   }));
 
   it('should create', () => {

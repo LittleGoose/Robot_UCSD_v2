@@ -1,6 +1,5 @@
 <!--All of the sidebar-->
-
-<ion-content #full [scrollEvents]="true" (ionScroll)="handleScroll($any($event))">
+<ion-content #full [scrollEvents]="true" (ionScroll)="handleScroll($any($event))" color="light">
   <ion-accordion-group [multiple]="true" #listenerbig>
     <ion-accordion value="NonVerbal">
       <ion-item slot="header" color="primary">
@@ -10,7 +9,7 @@
       <ion-item-group slot="content">
         <!--Inside of the verbal accordeon-->
           <ion-accordion value="body-gestures">
-            <ion-item slot="header" color="light">
+            <ion-item slot="header" color="light"> <!--Background color-->
               <ion-icon aria-hidden="true" name="accessibility-outline" slot="start"></ion-icon>
               <ion-label>Body Gestures</ion-label>
             </ion-item>

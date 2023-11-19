@@ -10,7 +10,7 @@ import { NewBlockService } from '../new-block.service';
 })
 export class PopUpLoadPreviousRoutineComponent implements OnInit {
 
-  constructor(private popoverController : PopoverController, private new_block: NewBlockService) { }
+  constructor(private popoverController : PopoverController) { }
 
   componentRef;
 

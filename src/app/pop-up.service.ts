@@ -1,9 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { PopUpSaveComponent } from './pop-up-save/pop-up-save.component';
 import { Routines, Send_block } from './models/routines.model';
-import { PopUpClearComponent } from './pop-up-clear/pop-up-clear.component';
 import { SendData } from './new-block.service';
 import { PopUpNameDuplicateComponent } from './pop-up-name-duplicate/pop-up-name-duplicate.component';
 
@@ -31,16 +30,17 @@ export class PopUpService {
 
   current_routine: Routines = new Routines();
 
-  constructor(private modalController: ModalController) {} //private rs: RestService
+  constructor(private popOverController: PopoverController) {} //private rs: RestService
 
   async openDuplicateModal(routine_name){ 
     // Pop-up when repeated name has been found
 
-    const modal = await this.modalController.create({
+    const modal = await this.popOverController.create({
       component: PopUpNameDuplicateComponent,
       componentProps: {
         routine_name : routine_name
-      }
+      },
+      cssClass:'rename-routine'
     });
 
     modal.onDidDismiss().then((result) => {
@@ -54,7 +54,7 @@ export class PopUpService {
 
   async openModal(block: Send_block) { // Parameters for every type of block
 
-    const modal = await this.modalController.create({
+    const modal = await this.popOverController.create({
       component: PopUpComponent,
       componentProps: {
         block: block // Pass the block as a parameter to the modal
@@ -72,11 +72,12 @@ export class PopUpService {
 
   async openModal_Save(routine:Routines) { 
 
-    const modal = await this.modalController.create({ // Create save pop-up
+    const modal = await this.popOverController.create({ // Create save pop-up
       component: PopUpSaveComponent,
       componentProps: {
         name: routine.name // Sends name in case there is one
-      }
+      },
+      cssClass: 'wide-modal',
     });
 
     modal.onDidDismiss().then((result) => { // Once is closed
@@ -86,28 +87,6 @@ export class PopUpService {
         this.send_data_routine.type_def = "Show_Routine";
         this.saveRoutineEvent.emit(this.send_data_routine); // Save the new routine
       }
-    });
-
-    await modal.present();
-  }
-
-  async openModal_Clear(dataExtra?: string, tab_borrar?:number) { // Clear routine
-
-    const modal = await this.modalController.create({
-      component: PopUpClearComponent,
-      componentProps: {
-        text: "Hello" // Pass the block as a parameter to the modal
-      }
-    });
-
-    modal.onDidDismiss().then((result) => {
-      if (result.role === 'Yes') { // You want to clear
-        this.clearRoutine.emit(dataExtra); // Just delete the current tab
-        if(tab_borrar != undefined){
-          this.delete_tab.emit(tab_borrar);
-        }
-      }
-      
     });
 
     await modal.present();
