@@ -210,13 +210,12 @@ export class SidebarAccordeonComponent implements OnDestroy {
               current_routine.array_block[current_routine.array_block.length-1].push(block);
             });
           });
-          console.log(response); // Missing bring back name of the routine  
+          this.tabService.addTabToContainer(new Block(current_routine.id, current_routine.name, current_routine.description), 
+          current_routine) // Open the new_tab and routine
       },(error) => {
           console.log("No Data Found" + error);
       }
-    )
-    console.log("CurrentRoutine", current_routine);
-    this.pop_up.push_routine(current_routine); //Actually push the routine in block-compoent view       
+    )      
   }
 
   async openPopover(color: string, e:MouseEvent, item: Block) { // Routine options when right clicking
