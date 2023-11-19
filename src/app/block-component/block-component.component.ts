@@ -143,7 +143,7 @@ export class BlockComponentComponent implements AfterViewInit {
             this.popUpService.openModal(send_block); // Every other type of block
           }
         }
-      } else { // Double click on a routine block
+      } else if (event.detail === 2 ){ // Double click on a routine block
         let block = new Block('0', send_block.name, "") 
         this.rs.get_routine(send_block.name).subscribe( 
           (response) => {
