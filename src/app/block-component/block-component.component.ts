@@ -149,15 +149,17 @@ export class BlockComponentComponent implements AfterViewInit {
 
   // FUNCION PARA ABRIR UN TAB CON DOBLE CLICK
   onDoubleClick(event: MouseEvent, index: number, send_block: Send_block ) {
-    //console.log('Doble clic en el ítem número ' + index);
-   if(send_block.class === 'routine')
+   if(send_block.class === 'routine') // Make sure double click on a routine
    {
-    console.log("eseeeeeee")
-    let block = new Block('0', send_block.name, "")
-    this.tabService.addTabToContainer(block);
+    let block = new Block('0', send_block.name, "") 
+    this.tabService.addTabToContainer(block); // Add new container
     this.rs.get_routine(send_block.name).subscribe( 
       (response) => {
-        response.forEach(element => {
+        let routine = new Routines(); // Transform the routine
+        routine.name = send_block.name; // Get the name
+        let i = 0;
+        response.forEach(element => { // Add blocks to the routine
+          routine.array_block.push([])
           element.forEach(block_item => {
             let block = new Send_block();
             block.class = block_item.class;
@@ -165,8 +167,10 @@ export class BlockComponentComponent implements AfterViewInit {
             block.level = block_item.level;
             block.talk = block_item.talk;
             block.clear = block_item.clear;
-            this.current_routine.array_block.push(element);
+            routine.array_block[i].push(block);
+            i+=1;
           });
+          this.popUpService.push_routine(routine) // Overwrite the current routine
         });
       },
       (error) => {
