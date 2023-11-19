@@ -23,7 +23,6 @@ export class SidebarAccordeonComponent implements OnDestroy {
   @Output() agregarTabEvent = new EventEmitter<void>();
 
   onModifyClick(event: Event): void { // When clicking on modfy open new tab and load the routine
-    // MISSING ADDING THE ROUTINE HERE
     this.rs.get_routine(this.pop_over_block.label).subscribe( 
       (response) => {
         let routine = new Routines(); // Transform the routine
