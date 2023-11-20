@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
         {
           this.agregarTabAlContainer();
         }
-        this.opened_tab = 0; // Open the first tab
+        this.opened_tab = this.opened_tab-1; // Open the first tab
         this.popUpService.push_routine(this.routines[0]);
       });
 

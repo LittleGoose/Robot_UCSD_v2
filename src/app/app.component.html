@@ -4,14 +4,14 @@
         <app-sidebar-accordeon></app-sidebar-accordeon> <!--Sidebar-->
       </ion-content>
       <ion-content contentId="right-content" class="third">
-        <ion-grid> <!--Grid for the tabs + button-->
-          <ion-row>
+        <ion-grid class="top-grid"> <!--Grid for the tabs + button-->
+          <ion-row class="whole-row">
             <!--Actual tabs-->
             <ion-col class="col"><div class="botones-container" *ngFor="let tab of tabDataList; let i = index"> <!--Unopened tabs are not highlighted-->
-              <ion-button class="my-button" size="small" color="light" *ngIf="i != opened_tab" (click)="tabClicked($event, i)"> 
-                <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label>
-             </ion-button>
-             <ion-item class="my-button" size="small" color="dark" *ngIf="i == opened_tab"> <!--Opened tab is highlighted-->
+              <ion-button class="my-button ion-text-left" size="small" color="light" *ngIf="i != opened_tab" (click)="tabClicked($event, i)"> 
+                {{tab.tabName}}
+              </ion-button>
+              <ion-item class="my-button-selected" size="small" color="white" *ngIf="i == opened_tab"> <!--Opened tab is highlighted-->
                 <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label> 
                 <ion-icon (click)="eliminarBoton(i)" class="my-icon-close" slot="end"name="close-circle-outline" ></ion-icon>
               </ion-item>             

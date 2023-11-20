@@ -14,6 +14,7 @@ app-sidebar-second {
 .parte_1{
   width: 100%!important; /* Ajusta el ancho según tus necesidades */
   height: 100%; /* Ajusta la altura según tus necesidades */
+  //background-color: #34344fd0;
 }
 
 .first{
@@ -61,8 +62,7 @@ app-sidebar-second {
 
 .small-toolbar{
   height: 20px; /* Ajusta la altura a tu preferencia */
-  --background: #34344fd0; 
-  
+  //--background: #34344fd0;  
 }
 
 .tabs-container {
@@ -83,15 +83,20 @@ app-sidebar-second {
   height: 80px;
   line-height: 80px; 
   list-style: none;
-  padding: 0 10px;
+  //padding: 0 10px;
 }
+
 .my-button{
-  --border-width: 0;
-  border-bottom: none !important;
-  color: black;
-  width: fit-content;
+  border: 2px solid var(--ion-color-white);
+  //border-bottom: none !important;
+  width: 200px; // Tabs width and height
   height: 50px;
-  border-radius: 10px;
+  //border-radius: 10px;
+  //border-color: none !important; 
+  //border-width: 0px !important;
+  --box-shadow: none !important;
+  text-transform: none;
+  float: left;
 }
 
 .my-icon-close {
@@ -104,4 +109,34 @@ app-sidebar-second {
 
 ion-label {
   text-transform:none;
+}
+
+.whole-row{
+  background-color: var(--ion-color-light);
+  margin: 0%;
+  border: 0px;
+}
+
+.top-grid{
+  margin-bottom: -15px;
+  border: 0px;
+  margin-top: -5px;
+  margin-left: -7px;
+  margin-right: -6px;
+}
+
+.my-button-selected{
+  width: 200px; // Tabs width and height
+  height: 50px;
+  margin-top: 4px;
+  box-shadow: none !important;
+  --inner-border-width: 0px 0px 0px 0px;
+  border: 2px solid var(--ion-color-white);
+  //border-radius: 10px;
+  //margin-bottom: -15px;
+}
+
+.botones-container{
+  text-align: center;
+  align-items: center;
 }
