@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IonModal } from '@ionic/angular';
-import { ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { PopUpService } from '../pop-up.service';
 import { Send_block } from '../models/routines.model';
 
@@ -18,7 +17,7 @@ export class PopUpComponent {
   clear: string;
   tone_voice: string;
 
-  constructor(private modalController: ModalController, private popUpService: PopUpService){ }
+  constructor(private popUpController: PopoverController, private popUpService: PopUpService){ }
 
   ngOnInit(): void { // Initialize the pop-up with those characteristics
     this.selectedValue = this.block.level;
@@ -28,7 +27,7 @@ export class PopUpComponent {
    }
 
   cancel() {
-    this.modalController.dismiss(null, 'cancel');
+    this.popUpController.dismiss(null, 'cancel');
   }
 
   pinFormatter(value: number) { // Level is modified
@@ -77,7 +76,7 @@ export class PopUpComponent {
         }
        
     }
-    this.modalController.dismiss(this.block, 'dataSaved'); // Update the new block in block-component
+    this.popUpController.dismiss(this.block, 'dataSaved'); // Update the new block in block-component
   }
 
 }

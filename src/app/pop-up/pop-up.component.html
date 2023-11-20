@@ -1,5 +1,5 @@
 <ion-header> <!--For the characteristics component-->
-  <ion-toolbar>
+  <ion-toolbar [ngClass]="{'toolbar-red':block.class === 'body_gesture', 'toolbar-green':block.class === 'facial_expression', 'toolbar-yellow': block.class === 'speech'}">
     <ion-title class="titleicon" style="display:inline-block"> Update Parameter </ion-title>
     <img slot="end" class="cross_button" src="../../assets/icon/cross.png" style="display:inline-block" (click)="cancel()"/>
   </ion-toolbar>

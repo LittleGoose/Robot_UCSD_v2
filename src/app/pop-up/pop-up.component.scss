@@ -15,7 +15,19 @@
   }
   
   ion-toolbar {
-    --background: green;
+    //--background: green;
+  }
+
+  .toolbar-red{
+    --background: var(--ion-color-danger);
+  }
+
+  .toolbar-green{
+    --background: var(--ion-color-success);
+  }
+  
+  .toolbar-yellow{
+    --background: var(--ion-color-warning);
   }
 
   .cross_button{
@@ -39,20 +51,20 @@
 
   .button_save{
     padding-top: 5%;
-    margin-right: 10px;
-    width: 150px;   // Ajusta según tu preferencia
-    height: 70px; 
-    margin-left: 210px;
-    margin-top: 25%;
+    padding-bottom: 5%;
+    //margin-right: 10px;
+    //width: 150px;   // Ajusta según tu preferencia
+    //height: 70px; 
+    //margin-left: 210px;
+    //margin-top: 25%;
   }
 
   .my_select {
-    margin-right: 180px;
+    //margin-right: 180px;
     width: auto; 
     height: 70px; 
-    margin-left: 180px;
-    margin-top: 5%;
-    font-size: 25px; 
+    //margin-left: 180px;
+    //font-size: 25px; 
 
   }
 
@@ -78,4 +90,8 @@
 
   ion-select::part(text) {
     color: #0c22e4;
+  }
+
+  .pop-up-content{
+    text-align: center;
   }
