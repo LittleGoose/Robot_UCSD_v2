@@ -186,7 +186,10 @@ def get_most_recent_routine():
         struct = [] # Array of arrays containing the structure of the behavior blocks on the routine
 
         # Find most recent routine in database and decode it
-        recent = routines.find_one(sort=[('$natural', -1)])
+        recent = routines.find_one(sort=[('last_modified', -1)])
+
+        # recent = routines.find().sort([('last_modified', -1)]).limit(1)
+
         
         name = recent["label"]
         data.append([name])
