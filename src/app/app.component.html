@@ -9,7 +9,7 @@
             <!--Actual tabs-->
             <ion-col class="col"><div class="botones-container" *ngFor="let tab of tabDataList; let i = index"> <!--Unopened tabs are not highlighted-->
               <ion-button class="my-button ion-text-left" size="small" color="light" *ngIf="i != opened_tab" (click)="tabClicked($event, i)"> 
-                {{tab.tabName}}
+                <ion-label id="tabID_{{i}}" [ngClass]="{'padding-left': '0px', 'float':'left'}">{{tab.tabName}}</ion-label>
               </ion-button>
               <ion-item class="my-button-selected" size="small" color="white" *ngIf="i == opened_tab"> <!--Opened tab is highlighted-->
                 <ion-label id="tabID_{{i}}">{{tab.tabName}}</ion-label> 

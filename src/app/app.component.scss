@@ -88,12 +88,8 @@ app-sidebar-second {
 
 .my-button{
   border: 2px solid var(--ion-color-white);
-  //border-bottom: none !important;
   width: 200px; // Tabs width and height
   height: 50px;
-  //border-radius: 10px;
-  //border-color: none !important; 
-  //border-width: 0px !important;
   --box-shadow: none !important;
   text-transform: none;
   float: left;
@@ -111,13 +107,13 @@ ion-label {
   text-transform:none;
 }
 
-.whole-row{
+.whole-row{ // Row in the grid (everything on top)
   background-color: var(--ion-color-light);
   margin: 0%;
   border: 0px;
 }
 
-.top-grid{
+.top-grid{ // Grid on top
   margin-bottom: -15px;
   border: 0px;
   margin-top: -5px;
@@ -125,18 +121,11 @@ ion-label {
   margin-right: -6px;
 }
 
-.my-button-selected{
+.my-button-selected{ // Selected tab
   width: 200px; // Tabs width and height
   height: 50px;
   margin-top: 4px;
   box-shadow: none !important;
   --inner-border-width: 0px 0px 0px 0px;
   border: 2px solid var(--ion-color-white);
-  //border-radius: 10px;
-  //margin-bottom: -15px;
-}
-
-.botones-container{
-  text-align: center;
-  align-items: center;
 }

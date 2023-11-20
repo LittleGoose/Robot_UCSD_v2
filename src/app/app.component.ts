@@ -70,10 +70,11 @@ export class AppComponent implements OnInit {
         this.routines.splice(idTabACerrar, 1);
         if (this.tabDataList.length === 0)
         {
-          this.agregarTabAlContainer();
+          this.agregarTabAlContainer(); 
+        } else if (this.opened_tab != 0){
+          this.opened_tab = this.opened_tab-1; 
         }
-        this.opened_tab = this.opened_tab-1; // Open the first tab
-        this.popUpService.push_routine(this.routines[0]);
+        this.popUpService.push_routine(this.routines[0]); // Open the first tab
       });
 
       this.popUpService.store_current_routine.subscribe((routine) => { //FUNCTION THAT CHANGES TAB AND UPDATES ROUTINE
