@@ -4,11 +4,49 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Installation
 
-Make sure the device has AngularCLI installed. This instructions can be followed to install this version. 
-COARS
-MongoDB
+### Project
+
+The project is currently hosted on Github in the following link [Robot_UCSD_V2](https://github.com/DarthIV02/Robot_UCSD_v2). Clone the repository in your computer (it is recommended to clone using Github Desktop as it is easier to manage).
+
+### Python
+
+Make sure you have Python installed on your computer. Following this link [Python Download](https://www.python.org/downloads/). Make sure you add Python to the environment variables to be able to run python from comand prompt.
+1) To create a virtual environment run the comand
+python -m venv ./venv
+2) Activate the environment
+venv\Scripts\activate
+3) Install all of the pyhton requirements.
+pip install -r requirements.txt # This can be found inside the main directory
+
+### Running Ionic App
+
+First make sure you have NodeJS (you can download from [here](https://nodejs.org/en/download)). And setup all of the default settings.
+On a console window run the command: npm i @ioncic/angular
+
+### COARS
+
+In whichever browser you are running the application on, (tested on Firefox and Chrome). Install the extension "Allow CORS: Access-Control-Allow-Origin" with the logo seen bellow.
+
+Once installed  make sure you "Toggle: ON" so that the logo is seen with colors and not gray. 
+
+### MongoDB
+
+#### Windows
+
+#### MAC
 
 ## Conecting to the database
+
+1) Open Comand Prompt or any console in your computer
+2) Go to the direction of the project
+3) Go to the backend folder
+4) Create a file .env in backend folder
+5) Add the following code to .env file:
+password = "BFL2N3YtqbA45O9b"
+MONGO_USR = "access"
+7) Run the command to connect to the database
+python backend\app.py
+8) 
 
 ## Usage
 
