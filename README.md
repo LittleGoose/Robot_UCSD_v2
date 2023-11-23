@@ -21,7 +21,10 @@ pip install -r requirements.txt # This can be found inside the main directory
 ### Running Ionic App
 
 First make sure you have NodeJS (you can download from [here](https://nodejs.org/en/download)). And setup all of the default settings.
-On a console window run the command: npm i @ioncic/angular
+On a console window run the command: 
+npm i @ionic/angular --legacy-peer-dev
+npm install --legacy-peer-devs # inside the project folder
+npm install -g ionic
 
 ### COARS
 
