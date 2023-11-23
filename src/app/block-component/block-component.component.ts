@@ -160,8 +160,8 @@ export class BlockComponentComponent implements AfterViewInit {
                 block_i.talk = block_item.talk;
                 block_i.clear = block_item.clear;
                 routine.array_block[i].push(block_i);
-                i+=1;
               });
+              i+=1;
             });
             this.tabService.addTabToContainer(block, routine); // Add new container and push new_routine
           },
