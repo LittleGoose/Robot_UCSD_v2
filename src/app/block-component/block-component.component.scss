@@ -68,6 +68,7 @@ $colors: (
   margin-top: 10px;
   width: fit-content;
   color: black;
+  min-width: 50px !important;
 }
 
 .green{
@@ -76,6 +77,7 @@ $colors: (
   margin-top: 10px;
   width: fit-content;
   color: black;
+  min-width: 50px !important;
 }
 
 .yellow{
@@ -84,6 +86,7 @@ $colors: (
   margin-top: 10px;
   width: fit-content;
   color: black;
+  min-width: 50px !important;
 }
 
 .medium{
@@ -92,6 +95,7 @@ $colors: (
   margin-top: 10px;
   width: fit-content;
   color: black;
+  min-width: 50px !important;
 }
 
 .red_2{
@@ -100,6 +104,7 @@ $colors: (
   width: fit-content;
   color: black;
   margin-bottom:-6px;
+  min-width: 50px;
 }
 
 .green_2{
@@ -121,7 +126,7 @@ $colors: (
 .medium_2{
   background: var(--ion-color-medium);
   padding: 10px;
-  width: fit-content;
   color: black;
   margin-bottom:-6px;
+  width: fit-content;
 }

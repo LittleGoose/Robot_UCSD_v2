@@ -70,7 +70,8 @@ export class AppComponent implements OnInit {
         this.routines.splice(idTabACerrar, 1);
         if (this.tabDataList.length === 0)
         {
-          this.agregarTabAlContainer(); 
+          this.agregarTabAlContainer(); // Add new tab
+          this.routines[0] = new Routines;  // Clean the current screen
         } else if (this.opened_tab != 0){
           this.opened_tab = this.opened_tab-1; 
         }
