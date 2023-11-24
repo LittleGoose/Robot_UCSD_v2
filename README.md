@@ -2,54 +2,51 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
 
-## Installation
+## Setup
 
-### Project
+### Prerequisites
 
-The project is currently hosted on Github in the following link [Robot_UCSD_V2](https://github.com/DarthIV02/Robot_UCSD_v2). Clone the repository in your computer (it is recommended to clone using Github Desktop as it is easier to manage).
+1) Make sure you have Python installed on your computer. Following [this](https://www.python.org/downloads/) link. Make sure you add Python to the environment variables to be able to run python from comand prompt.
+2) NodeJS (you can download from [here](https://nodejs.org/en/download)). And setup all of the default settings.
+3) In whichever browser you are running the application on (tested on Firefox and Chrome). Install the extension "Allow CORS: Access-Control-Allow-Origin" with the logo seen bellow.
 
-### Python
+### Instalation
 
-Make sure you have Python installed on your computer. Following this link [Python Download](https://www.python.org/downloads/). Make sure you add Python to the environment variables to be able to run python from comand prompt.
-1) To create a virtual environment run the comand
-python -m venv ./venv
-2) Activate the environment
-venv\Scripts\activate
-3) Install all of the pyhton requirements.
-pip install -r requirements.txt # This can be found inside the main directory
-
-### Running Ionic App
-
-First make sure you have NodeJS (you can download from [here](https://nodejs.org/en/download)). And setup all of the default settings.
-On a console window run the command: 
+1) The project is currently hosted on Github in the following link [Robot_UCSD_V2](https://github.com/DarthIV02/Robot_UCSD_v2).
+2) Clone the repository in your computer (it is recommended to clone using Github Desktop as it is easier to manage).
+3) Create a virtual environment, for this run the commnand
+   python -m venv ./venv
+4) Activate the environment, for this run the command
+   - Windows: venv\Scripts\activate
+   - MacOS: 
+5) Install all of the python requirements, for this run the command
+   pip install -r requirements.txt # This file can be found inside the main directory
+6) In whichever browser, you want to run the app:
+   - Open the COARS extension and make sure you "Toggle: ON" so that the logo is seen with colors and not gray.
+   - Click on "Open options page". This will open a new tab with all of the settings of COARS, make sure "Access-Control-Allow-Headers" is turned on.
+7) To install all of the dependancies of the Ionic App. Run the following commands>
 npm i @ionic/angular --legacy-peer-dev
 npm install --legacy-peer-devs # inside the project folder
 npm install -g ionic
+8) There are 2 ways to connect to the DB, this can be through cloud database:
+   - Go to the direction of the project
+   - Go to the backend folder
+   - Create a file .env in backend folder
+   - Add the following code to .env file:
+     password = "BFL2N3YtqbA45O9b"
+     MONGO_USR = "access"
+   - Run the command to connect to the database
+     python backend\app.py
+9) Or connect to a local database. For this you need to install MongoDB in your computer.
 
-### COARS
+### Running Ionic App
 
-In whichever browser you are running the application on, (tested on Firefox and Chrome). Install the extension "Allow CORS: Access-Control-Allow-Origin" with the logo seen bellow.
-
-Once installed  make sure you "Toggle: ON" so that the logo is seen with colors and not gray. 
-
-### MongoDB
-
-#### Windows
-
-#### MAC
-
-## Conecting to the database
-
-1) Open Comand Prompt or any console in your computer
-2) Go to the direction of the project
-3) Go to the backend folder
-4) Create a file .env in backend folder
-5) Add the following code to .env file:
-password = "BFL2N3YtqbA45O9b"
-MONGO_USR = "access"
-7) Run the command to connect to the database
-python backend\app.py
-8) 
+On a console window go to the directory where the project is stored. To connect to the DB through the cloud, activate the environment:
+- On Windows:  venv\Scripts\activate
+- On MacOS:
+Connect to the cloud through the python script:
+- python backend\app.py
+Without terminating this script open a new console window and run ionic serve on the project file.
 
 ## Usage
 
