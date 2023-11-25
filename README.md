@@ -10,11 +10,25 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
    - Ensure Python is installed on your computer. You can download it [here](https://www.python.org/downloads/).
    - Add Python to your environment variables to run it from any terminal.
 
-2. **NodeJS Installation:**
+2. **Mongo DB Installation**
+   - Ensure Mongo DB is installed in your machine. You can download it [here](https://www.mongodb.com/docs/manual/administration/install-community/).
+     - The version used during development (as of November 2023) is mongodb-community@7.0
+   - In case installation doesn't include it, install the [MongoDB Shell](https://www.mongodb.com/docs/mongodb-shell/install/).
+
+3. **ROS installation**
+   - Ensure ROS is installed on your machine. You can download ROS2 Iron, which is the ROS version used during the time of development (November 2023), [here](https://docs.ros.org/en/iron/index.html).
+   - For this project, ROS2 Iron was chosen for the following reasons, you can learn more and compare with other versions [here](https://maker.pro/ros/tutorial/robot-operating-system-2-ros-2-introduction-and-getting-started):
+     - ROS2 Iron has not reached EOL (as of time of development: November 2023).
+     - ROS 2 is compatible with Ubuntu, Windows 10 and OS X.
+     - Uses C++ 11 (potentially upgradeable) and Python3.
+    - The OS used in this project for ROS2 installation was Ubuntu 22.04.3 LTS.
+    
+
+5. **NodeJS Installation:**
    - Download and install NodeJS from [this link](https://nodejs.org/en/download).
    - Use default settings during the installation.
 
-3. **Browser Extension:**
+6. **Browser Extension:**
    - Install the "Allow CORS: Access-Control-Allow-Origin" extension in your browser (tested on Firefox and Chrome). Find the extension with the logo below.
 
      ![CORS](./images/CORS.png)
@@ -68,7 +82,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
          python backend\app.py
          ```
      - For Local Database:
-       - Install MongoDB on your computer.
+       - Connect to local deployment, run mongosh without any options:
+         ```
+         mongosh
+         ```
 
 ### Running Ionic App
 
@@ -165,3 +182,13 @@ On the top of the routine window, you can open multiple tabs. You can scroll thr
 A simple demonstration can be seen in the following links:
 - [https://drive.google.com/file/d/1hPsqvAbf1vdRfzkGWEs4vwR1_HJGKgbC/view?usp=drive_link](https://drive.google.com/file/d/1hPsqvAbf1vdRfzkGWEs4vwR1_HJGKgbC/view?usp=drive_link)
 - [https://drive.google.com/file/d/1cBDQVMcxbD46XwsFDyl4aLgQ7TFK67Rx/view?usp=sharing](https://drive.google.com/file/d/1cBDQVMcxbD46XwsFDyl4aLgQ7TFK67Rx/view?usp=sharing)
+
+### ROS: Notes on usage
+- The `talker.py` and `listener.py` python scripts are taken from the documentation’s tutorials section.
+  - In this example we’re not building packages, just running scripts.
+- After following the installation instructions in the documentation, a `talker.py` file was created. In order to be able to execute it, it is necessary to set up the environment by sourcing the file with the following command:
+```
+source /opt/ros/iron/setup.bash
+```
+- Once the environment has been set up, talker.py can be executed within the Flask app through the route `127.0.0.1:5000/start_ros_talker`, the python script proceeds to publish messages.
+- On another terminal tab (replicate same set up with `source /opt/ros/iron/setup.bash`) run the `listener.py` script can be executed and will receive the messages published by `talker.py`
