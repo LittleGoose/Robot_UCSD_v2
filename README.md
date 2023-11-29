@@ -63,7 +63,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
    - Install Ionic App dependencies with the following commands:
      ```
      npm i @ionic/angular --legacy-peer-dev
-     npm install --legacy-peer-devs
+     npm install --legacy-peer-deps
      npm install -g ionic
      ```
 
