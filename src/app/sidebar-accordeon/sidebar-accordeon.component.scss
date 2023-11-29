@@ -10,6 +10,10 @@
   z-index: 1;
 }
 
+ion-header.sidebar ion-avatar ion-img {
+  margin-top: 10px; /* Ajusta este valor según sea necesario */
+}
+
 /* Estilo para el contenido principal de sidebar-second */
 .content {
   position: relative;
@@ -17,7 +21,7 @@
   padding-left: 60px;
 }
 
-ion-header ion-title {
+ion-header.sidebar ion-title.custom-title {
   color: #f2f2f8d0;
   font-family: 'Liberation Sans', sans-serif;
   text-align: right;
